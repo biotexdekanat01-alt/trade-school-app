@@ -1,0 +1,1006 @@
+;!function(){try { var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&((e._debugIds|| (e._debugIds={}))[n]="8de6a84f-996e-31b6-383f-59ca9d4b6521")}catch(e){}}();
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,228290,e=>{e.v({container:"index-module__z1kyYa__container",menu:"index-module__z1kyYa__menu",notificationIndicator:"index-module__z1kyYa__notificationIndicator",popover:"index-module__z1kyYa__popover"})},237671,980224,e=>{"use strict";var t=e.i(276385),i=e.i(389959),n=e.i(532764),r=e.i(351623),o=e.i(344480);e.i(975473);var a=e.i(846545);let l={},s=r.gql`
+    query notificationCount {
+  currentUser {
+    id
+    notificationCount
+  }
+}
+    `,c=r.gql`
+    subscription notificationCountChanges {
+  notificationCount
+}
+    `;function u(){var e;let t,n,{data:r,refetch:u,client:d}=(t={...l,...void 0},o.useQuery(s,t)),m=(0,i.useCallback)(e=>{r?.currentUser&&d.writeQuery({query:s,data:{...r,currentUser:{...r.currentUser,notificationCount:e}}})},[r?.currentUser?.id]);return e={onData:({data:{data:e}})=>{"number"==typeof e?.notificationCount&&m(e.notificationCount)}},n={...l,...e},a.useSubscription(c,n),{count:Math.max(0,r?.currentUser?.notificationCount||0),refetch:u,setUnreadCount:m}}e.s(["default",0,u],980224);var d=e.i(488299),m=e.i(773222),p=e.i(61732),f=e.i(228290);e.s(["NavMenu",0,function(e){let[r,o]=(0,i.useState)(!1),{count:a}=u();return(0,t.jsxs)(p.View,{clsx:f.default.container,children:[(0,t.jsxs)(m.PopoverTrigger,{isOpen:r,onOpenChange:t=>{o(t),e.onOpenChange?.(t)},label:"Menu",placement:"bottom start",clsx:f.default.popover,offset:2,containerPadding:2,children:[(0,t.jsx)(d.IconButton,{alt:"Menu",size:28,tooltipBehavior:"hidden",children:(0,t.jsx)(n.default,{})}),(0,t.jsx)(p.View,{p:4,clsx:f.default.menu,br:6,children:"function"==typeof e.children?e.children(()=>o(!1)):e.children})]}),a>0?(0,t.jsx)(p.View,{clsx:f.default.notificationIndicator}):null]})}],237671)},949791,e=>{"use strict";var t=e.i(351623);let i=t.gql`
+    fragment AiProviderCurrentUser on CurrentUser {
+  id
+  timeCreated
+}
+    `;e.s(["AiProviderCurrentUserFragmentDoc",0,i])},669011,e=>{"use strict";var t=e.i(351623),i=e.i(99357),n=e.i(344480);e.i(975473);let r={},o=t.gql`
+    fragment ReplEnvironmentHeaderInviteButtonRepl on Repl {
+  id
+  owner {
+    ... on User {
+      id
+    }
+    ... on Team {
+      id
+    }
+  }
+  org {
+    id
+    slug
+    type
+  }
+  authorizations {
+    editPermissions {
+      isAuthorized
+    }
+  }
+}
+    `,a=t.gql`
+    query InviteButtonOrgReplPerms($replId: String!) {
+  getRepl(id: $replId) {
+    __typename
+    ... on Repl {
+      __typename
+      ...ReplMultiplayerStatusV2
+    }
+  }
+}
+    ${i.ReplMultiplayerStatusV2FragmentDoc}`;e.s(["ReplEnvironmentHeaderInviteButtonReplFragmentDoc",0,o,"useInviteButtonOrgReplPermsQuery",0,function(e){let t={...r,...e};return n.useQuery(a,t)}])},762288,e=>{"use strict";var t=e.i(351623);let i=t.gql`
+    fragment UserLinkUser on User {
+  id
+  url
+  username
+}
+    `,n=t.gql`
+    fragment UserLinkCurrentUser on CurrentUser {
+  id
+  url
+  username
+}
+    `;e.s(["UserLinkCurrentUserFragmentDoc",0,n,"UserLinkUserFragmentDoc",0,i])},117714,e=>{"use strict";var t=e.i(351623),i=e.i(344480);e.i(975473);let n={},r=t.gql`
+    fragment NewPaneRepl on Repl {
+  id
+  config {
+    isAgentStack
+    isServer
+    isExpertMode
+  }
+}
+    `,o=t.gql`
+    query NewPanePrimaryOutput($replId: String!) {
+  getRepl(id: $replId) {
+    ... on Repl {
+      id
+      config {
+        isAgentStack
+      }
+    }
+  }
+}
+    `;e.s(["NewPaneReplFragmentDoc",0,r,"useNewPanePrimaryOutputQuery",0,function(e){let t={...n,...e};return i.useQuery(o,t)}])},575872,29530,663197,e=>{"use strict";var t=e.i(351623),i=e.i(344480);e.i(975473);var n=e.i(299020);let r={},o=t.gql`
+    fragment WorkspaceDoGitProviderImportCurrentUser on CurrentUser {
+  id
+  username
+}
+    `,a=t.gql`
+    fragment WorkspaceDoGitProviderImportRepl on Repl {
+  id
+  org {
+    id
+  }
+  config {
+    gitRemoteUrl
+    doClone
+    isAgentRepl
+  }
+  slug
+}
+    `,l=t.gql`
+    query WorkspaceDoGitProviderImportFlow($replId: String!) {
+  getRepl(id: $replId) {
+    ...WorkspaceDoGitProviderImportRepl
+  }
+  currentUser {
+    ...WorkspaceDoGitProviderImportCurrentUser
+  }
+}
+    ${a}
+${o}`,s=t.gql`
+    mutation WorkspaceDoGitProviderImportFlowFinishClone($input: UpdateReplInput!) {
+  updateRepl(input: $input) {
+    repl {
+      id
+      config {
+        doClone
+      }
+    }
+  }
+}
+    `,c=t.gql`
+    query GitHubImportGetTopLanguages($input: GitHubRepoInfoInput!) {
+  githubRepoInfo(input: $input) {
+    ... on GitHubRepoInfoOutput {
+      topLanguages
+      repositorySource
+    }
+    ... on TooManyRequestsError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on ServiceUnavailable {
+      message
+    }
+    ... on UserError {
+      message
+    }
+    ... on NotFoundError {
+      message
+    }
+  }
+}
+    `,u=t.gql`
+    query BitbucketImportGetTopLanguages($input: BitbucketRepoInfoInput!) {
+  bitbucketRepoInfo(input: $input) {
+    ... on BitbucketRepoInfoOutput {
+      topLanguages
+      repositorySource
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on ServiceUnavailable {
+      message
+    }
+    ... on UserError {
+      message
+    }
+    ... on NotFoundError {
+      message
+    }
+  }
+}
+    `;e.s(["WorkspaceDoGitProviderImportCurrentUserFragmentDoc",0,o,"WorkspaceDoGitProviderImportReplFragmentDoc",0,a,"useBitbucketImportGetTopLanguagesQuery",0,function(e){let t={...r,...e};return i.useQuery(u,t)},"useGitHubImportGetTopLanguagesQuery",0,function(e){let t={...r,...e};return i.useQuery(c,t)},"useWorkspaceDoGitProviderImportFlowFinishCloneMutation",0,function(e){let t={...r,...e};return n.useMutation(s,t)},"useWorkspaceDoGitProviderImportFlowQuery",0,function(e){let t={...r,...e};return i.useQuery(l,t)}],575872);let d=t.gql`
+    fragment PageTitleRepl on Repl {
+  id
+  title
+}
+    `;e.s(["PageTitleReplFragmentDoc",0,d],29530);let m=t.gql`
+    fragment ReplInfoRepl on Repl {
+  id
+  title
+  iconUrl
+}
+    `;e.s(["ReplInfoReplFragmentDoc",0,m],663197)},590911,e=>{"use strict";var t=e.i(351623);let i=t.gql`
+    fragment DevCopyUsernameItemCurrentUser on CurrentUser {
+  id
+  username
+}
+    `;e.s(["DevCopyUsernameItemCurrentUserFragmentDoc",0,i])},838317,e=>{"use strict";var t=e.i(351623),i=e.i(180273),n=e.i(669011),r=e.i(590911),o=e.i(762288),a=e.i(85085),l=e.i(344480);e.i(975473);let s={},c=t.gql`
+    fragment WorkspaceHeaderNavMenuRepl on Repl {
+  id
+  org {
+    id
+    slug
+    ...IsUnifiedPlanEnabledOrg
+  }
+  ...ReplEnvironmentHeaderInviteButtonRepl
+}
+    ${i.IsUnifiedPlanEnabledOrgFragmentDoc}
+${n.ReplEnvironmentHeaderInviteButtonReplFragmentDoc}`,u=t.gql`
+    fragment WorkspaceHeaderNavMenuCurrentUser on CurrentUser {
+  id
+  image
+  username
+  ...DevCopyUsernameItemCurrentUser
+  ...IsUnifiedPlanEnabledPersonalWorkspaceCurrentUser
+  ...UserLinkCurrentUser
+  ...OrgSwitcherCurrentUser
+}
+    ${r.DevCopyUsernameItemCurrentUserFragmentDoc}
+${i.IsUnifiedPlanEnabledPersonalWorkspaceCurrentUserFragmentDoc}
+${o.UserLinkCurrentUserFragmentDoc}
+${a.OrgSwitcherCurrentUserFragmentDoc}`,d=t.gql`
+    query WorkspaceHeaderNavMenu($replId: String!) {
+  getRepl(id: $replId) {
+    ... on Repl {
+      ...WorkspaceHeaderNavMenuRepl
+    }
+  }
+  currentUser {
+    ...WorkspaceHeaderNavMenuCurrentUser
+  }
+}
+    ${c}
+${u}`;e.s(["WorkspaceHeaderNavMenuReplFragmentDoc",0,c,"useWorkspaceHeaderNavMenuQuery",0,function(e){let t={...s,...e};return l.useQuery(d,t)}])},951894,72159,879106,809541,e=>{"use strict";var t=e.i(351623),i=e.i(663197),n=e.i(669011),r=e.i(838317);let o=t.gql`
+    fragment DesktopAppNavMenuRepl on Repl {
+  ...WorkspaceHeaderNavMenuRepl
+}
+    ${r.WorkspaceHeaderNavMenuReplFragmentDoc}`,a=t.gql`
+    fragment ReplEnvironmentHeaderRepl on Repl {
+  id
+  url
+  agentFeedback {
+    ... on ReplAgentFeedback {
+      isEnabled
+    }
+  }
+  authorizations {
+    viewPermissions {
+      isAuthorized
+    }
+    viewDeploymentConfig {
+      isAuthorized
+    }
+    viewFreemiumExperience {
+      isAuthorized
+    }
+  }
+  owner {
+    ... on Team {
+      id
+    }
+    ... on User {
+      id
+      isSubscribed
+    }
+  }
+  hostingDeployment {
+    ... on HostingDeployment {
+      id
+      timeCreated
+      replitAppSubdomain
+      latestBuildStatus
+      currentBuild {
+        id
+        provider
+      }
+    }
+  }
+  config {
+    isInPlanningPhase
+    isWebDesignMockup
+  }
+  isFreeUserWithStaticDeployment
+  ...ReplInfoRepl
+  ...ReplEnvironmentHeaderInviteButtonRepl
+  ...DesktopAppNavMenuRepl
+}
+    ${i.ReplInfoReplFragmentDoc}
+${n.ReplEnvironmentHeaderInviteButtonReplFragmentDoc}
+${o}`;e.s(["ReplEnvironmentHeaderReplFragmentDoc",0,a],951894);var l=e.i(344480);e.i(975473);var s=e.i(299020);let c={},u=t.gql`
+    fragment FigmaImportFlowRepl on Repl {
+  id
+  config {
+    figmaUrl
+    figmaImportStatus
+  }
+}
+    `,d=t.gql`
+    query FigmaImportFlow($replId: String!) {
+  getRepl(id: $replId) {
+    ... on Repl {
+      id
+      ...FigmaImportFlowRepl
+    }
+  }
+}
+    ${u}`,m=t.gql`
+    mutation UpdateReplForFigmaImport($input: UpdateReplInput!) {
+  updateRepl(input: $input) {
+    repl {
+      id
+      isRenamed
+      title
+      ...FigmaImportFlowRepl
+    }
+  }
+}
+    ${u}`,p=t.gql`
+    mutation GetFigmaIntermediateToken($input: GetFigmaIntermediateTokenInput!) {
+  getFigmaIntermediateToken(input: $input) {
+    ... on FigmaImportIntermediateToken {
+      token
+    }
+    ... on NoOAuthFoundError {
+      message
+    }
+    ... on InvalidFigmaUrlError {
+      message
+    }
+    ... on FigmaRateLimitError {
+      message
+    }
+  }
+}
+    `;e.s(["FigmaImportFlowReplFragmentDoc",0,u,"useFigmaImportFlowQuery",0,function(e){let t={...c,...e};return l.useQuery(d,t)},"useGetFigmaIntermediateTokenMutation",0,function(e){let t={...c,...e};return s.useMutation(p,t)},"useUpdateReplForFigmaImportMutation",0,function(e){let t={...c,...e};return s.useMutation(m,t)}],72159);var f=e.i(846545);let g={},h=t.gql`
+    fragment LovableZipImportFlowRepl on Repl {
+  id
+  config {
+    zipImportSource
+    zipImportStatus
+  }
+}
+    `,x=t.gql`
+    query LovableZipImportFlow($replId: String!) {
+  getRepl(id: $replId) {
+    ... on Repl {
+      id
+      ...LovableZipImportFlowRepl
+    }
+  }
+}
+    ${h}`,R=t.gql`
+    mutation UpdateReplForLovableZipImport($input: UpdateReplInput!) {
+  updateRepl(input: $input) {
+    repl {
+      id
+      ...LovableZipImportFlowRepl
+    }
+  }
+}
+    ${h}`,v=t.gql`
+    subscription LovableImportZipProgress($replId: String!) {
+  importZipProgress(replId: $replId)
+}
+    `;e.s(["LovableZipImportFlowReplFragmentDoc",0,h,"useLovableImportZipProgressSubscription",0,function(e){let t={...g,...e};return f.useSubscription(v,t)},"useLovableZipImportFlowQuery",0,function(e){let t={...g,...e};return l.useQuery(x,t)},"useUpdateReplForLovableZipImportMutation",0,function(e){let t={...g,...e};return s.useMutation(R,t)}],879106);let I=t.gql`
+    fragment ReplEnvironmentDesktopTopLevelHooksRepl on Repl {
+  id
+  slug
+  config {
+    isAgentRepl
+    isExpertMode
+    isInPlanningPhase
+  }
+  org {
+    id
+  }
+  origin {
+    id
+  }
+  language
+  user {
+    id
+    username
+  }
+  authorizations {
+    editFileContents {
+      isAuthorized
+    }
+  }
+}
+    `;e.s(["ReplEnvironmentDesktopTopLevelHooksReplFragmentDoc",0,I],809541)},689736,e=>{"use strict";var t=e.i(351623),i=e.i(319801),n=e.i(344480);e.i(975473);let r={},o=t.gql`
+    fragment HandleReplRedirectionReplRedirect on ReplRedirect {
+  replUrl
+}
+    `,a=t.gql`
+    fragment HandleReplRedirectionSubscriptionExpired on ReplSubscriptionExpired {
+  isOwner
+  replId
+}
+    `,l=t.gql`
+    fragment HandleReplRedirectionRepl on Repl {
+  id
+  isOwner
+  language
+  ...ReplLinkRepl
+  authorizations {
+    connectToWorkspace {
+      isAuthorized
+    }
+  }
+  org {
+    id
+  }
+}
+    ${i.ReplLinkReplFragmentDoc}`,s=t.gql`
+    query HandleReplRedirection($replId: String!) {
+  getRepl(id: $replId) {
+    ... on Repl {
+      ...HandleReplRedirectionRepl
+      heliumMigrationStatus {
+        isUsingHelium
+        shouldMigrateToHelium
+      }
+    }
+    ... on ReplRedirect {
+      ...HandleReplRedirectionReplRedirect
+    }
+    ... on ReplSubscriptionExpired {
+      ...HandleReplRedirectionSubscriptionExpired
+    }
+  }
+}
+    ${l}
+${o}
+${a}`;e.s(["HandleReplRedirectionReplFragmentDoc",0,l,"HandleReplRedirectionReplRedirectFragmentDoc",0,o,"HandleReplRedirectionSubscriptionExpiredFragmentDoc",0,a,"useHandleReplRedirectionQuery",0,function(e){let t={...r,...e};return n.useQuery(s,t)}])},966824,e=>{e.v({defaultText:"RecentReplsMenu-module__Zg4UXW__defaultText",recentReplsLabel:"RecentReplsMenu-module__Zg4UXW__recentReplsLabel",surfaceShades:"RecentReplsMenu-module__Zg4UXW__surfaceShades"})},345836,913864,280729,e=>{"use strict";var t=e.i(276385),i=e.i(389959),n=e.i(486597),r=e.i(624071),o=e.i(32988),a=e.i(351623),l=e.i(764992),s=e.i(575872),c=e.i(949791),u=e.i(180273),d=e.i(74768),m=e.i(29530),p=e.i(951894),f=e.i(117714),g=e.i(72159),h=e.i(879106),x=e.i(809541),R=e.i(689736);let v=a.gql`
+    fragment ReplEnvironmentDesktopCurrentUser on CurrentUser {
+  id
+  isAdmin: hasRole(role: ADMIN)
+  ...CrosisContextCurrentUser
+  workspacePreferences
+  ...WorkspaceDoGitProviderImportCurrentUser
+  ...AiProviderCurrentUser
+  ...IsUnifiedPlanEnabledPersonalWorkspaceCurrentUser
+}
+    ${l.CrosisContextCurrentUserFragmentDoc}
+${s.WorkspaceDoGitProviderImportCurrentUserFragmentDoc}
+${c.AiProviderCurrentUserFragmentDoc}
+${u.IsUnifiedPlanEnabledPersonalWorkspaceCurrentUserFragmentDoc}`,I=a.gql`
+    fragment ReplAiAuthorizations on ReplAuthorizations {
+  useAdvancedChat: useAiChat(model: advanced) {
+    isAuthorized
+    code
+    message
+  }
+  connectToWorkspace {
+    isAuthorized
+    code
+  }
+}
+    `,y=a.gql`
+    fragment ReplEnvironmentDesktopRepl on Repl {
+  id
+  title
+  layoutState
+  description
+  url
+  origin {
+    id
+  }
+  org {
+    ...IsUnifiedPlanEnabledOrg
+  }
+  config {
+    isAgentStack
+    isInPlanningPhase
+    figmaUrl
+    zealot
+    ...ReplAgentSettingsReplConfig
+  }
+  ...CrosisContextRepl
+  ...PageTitleRepl
+  authorizations {
+    ...ReplAiAuthorizations
+  }
+  ...WorkspaceDoGitProviderImportRepl
+  ...ReplEnvironmentHeaderRepl
+  ...NewPaneRepl
+  ...FigmaImportFlowRepl
+  ...LovableZipImportFlowRepl
+  ...ReplEnvironmentDesktopTopLevelHooksRepl
+  ...HandleReplRedirectionRepl
+}
+    ${u.IsUnifiedPlanEnabledOrgFragmentDoc}
+${d.ReplAgentSettingsReplConfigFragmentDoc}
+${l.CrosisContextReplFragmentDoc}
+${m.PageTitleReplFragmentDoc}
+${I}
+${s.WorkspaceDoGitProviderImportReplFragmentDoc}
+${p.ReplEnvironmentHeaderReplFragmentDoc}
+${f.NewPaneReplFragmentDoc}
+${g.FigmaImportFlowReplFragmentDoc}
+${h.LovableZipImportFlowReplFragmentDoc}
+${x.ReplEnvironmentDesktopTopLevelHooksReplFragmentDoc}
+${R.HandleReplRedirectionReplFragmentDoc}`;e.s(["ReplAiAuthorizationsFragmentDoc",0,I,"ReplEnvironmentDesktopCurrentUserFragmentDoc",0,v,"ReplEnvironmentDesktopReplFragmentDoc",0,y],913864);var C=e.i(344480);e.i(975473);let N={},j=a.gql`
+    fragment SidebarRecentRepl on Repl {
+  id
+  title
+  iconUrl
+  url
+  nextPagePathname
+  ...ReplEnvironmentDesktopRepl
+}
+    ${y}`,_=a.gql`
+    query SidebarRecentRepls($count: Int!) {
+  allRecentRepls: recentRepls(count: $count) {
+    id
+    ...SidebarRecentRepl
+  }
+}
+    ${j}`;function w(e){let t={...N,...e};return C.useQuery(_,t)}let b=a.gql`
+    query SidebarRecentOrgRepls($count: Int!, $orgId: String) {
+  currentUser {
+    id
+    org(orgId: $orgId) {
+      ... on Org {
+        id
+        recentRepls(input: {count: $count}) {
+          items {
+            id
+            ...SidebarRecentRepl
+          }
+        }
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+}
+    ${j}`;function k(e){let t={...N,...e};return C.useQuery(b,t)}e.s(["useSidebarRecentOrgReplsQuery",0,k,"useSidebarRecentReplsQuery",0,w],280729);var S=e.i(269848),T=e.i(761201),U=e.i(780902);e.i(214847);var F=e.i(864300),$=e.i(127384),M=e.i(919073),P=e.i(295231),L=e.i(798142),q=e.i(8047),D=e.i(61732),A=e.i(921125),E=e.i(365757),O=e.i(966824);let W=({repl:e})=>{let i=(0,A.replLinkProps)(e);return(0,t.jsx)(P.MenuItem,{icon:(0,t.jsx)(E.default,{size:16,iconUrl:e.iconUrl,alt:e.title}),label:e.title,href:i.href,as:i.as})},B=({loading:e,recentRepls:i})=>{let n=(0,F.useIntl)(),r=n.formatMessage(T.REPL_DISPLAY_NAME.plural),o=e&&!i?.length?(0,t.jsx)(D.View,{grow:!0,justify:"center",align:"center",children:(0,t.jsx)(S.default,{})}):(0,t.jsx)(t.Fragment,{children:i?.length?(0,t.jsxs)(t.Fragment,{children:[(0,t.jsxs)(q.Text,{multiline:!1,variant:"small",color:"dimmer",clsx:O.default.recentReplsLabel,children:["Recent ",r]}),(0,t.jsx)(P.Menu,{"aria-label":`Recent ${r}`,children:i.map(e=>(0,t.jsx)(W,{repl:e},e.id))})]}):(0,t.jsx)(D.View,{grow:!0,justify:"center",align:"center",children:(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",clsx:O.default.defaultText,children:n.formatMessage({id:"home.recentlyViewedEntities",defaultMessage:"Recently viewed {entityName} will show up here"},{entityName:r})})})});return(0,t.jsx)(M.ShadesSurface,{colorShade:"themePopup",p:4,br:6,clsx:O.default.surfaceShades,children:o})};e.s(["OrgSidebarRecentRepls",0,({orgId:e})=>{let{data:i,loading:n}=k({variables:{count:6,orgId:e},ssr:!1,fetchPolicy:"cache-and-network",nextFetchPolicy:"cache-first"}),r=i?.currentUser?.org?.__typename==="Org"?i?.currentUser?.org?.recentRepls.items:void 0;return(0,t.jsx)(B,{loading:n,recentRepls:r})},"RECENT_REPLS_SIDEBAR_MENU_COUNT",0,6,"RecentReplsPopover",0,({children:e})=>{let{setTriggerElement:a,setPopoverElement:l,styles:s,attributes:c,popoverElement:u}=(()=>{let[e,t]=(0,i.useState)(null),[n,r]=(0,i.useState)(null),{styles:a,attributes:l}=(0,o.usePopper)(e,n,{modifiers:[{name:"offset",options:{offset:[0,4]}}],placement:"right-start"});return{setTriggerElement:t,setPopoverElement:r,styles:a.popper,attributes:l.popper,triggerElement:e,popoverElement:n}})(),d=(0,n.useOverlayTriggerState)({}),m=(({setOpen:e,timeout:t=200,popoverElement:n})=>{let r=(0,i.useRef)(null);return{onMouseEnter:(0,i.useCallback)(()=>{e(!0),r.current&&clearTimeout(r.current)},[e]),onMouseLeave:(0,i.useCallback)(i=>{r.current&&clearTimeout(r.current),((e,t)=>{if(!t)return!1;let{clientX:i,clientY:n}=e,{left:r,right:o,top:a,bottom:l}=t.getBoundingClientRect();return i>=r&&i<=o&&n>=a&&n<=l})(i,n)||(r.current=setTimeout(()=>{e(!1)},t))},[e,t,n])}})({setOpen:d.setOpen,popoverElement:u}),[p,f]=e,g=(0,U.useIsMobile)();return(0,t.jsxs)(t.Fragment,{children:[p(m,a),d.isOpen&&!g&&(0,t.jsx)(L.Portal,{children:(0,t.jsx)("div",{"aria-hidden":!0,ref:l,style:{...s,zIndex:$.SIDEBAR_Z_INDEX},...(0,r.mergeProps)(c,m),children:f})})]})},"SidebarRecentRepls",0,()=>{let{data:e,loading:i}=w({variables:{count:6},ssr:!1,fetchPolicy:"cache-and-network",nextFetchPolicy:"cache-first"});return(0,t.jsx)(B,{loading:i,recentRepls:e?.allRecentRepls})}],345836)},841114,e=>{"use strict";var t=e.i(351623),i=e.i(344480);e.i(975473);var n=e.i(299020);let r={},o=t.gql`
+    query ThemePreferenceCurrentUser {
+  currentUser {
+    id
+    workspacePreferences
+  }
+}
+    `,a=t.gql`
+    mutation ThemePreferenceUpdate($input: JSON!) {
+  updateWorkspacePreferences(input: $input) {
+    id
+    workspacePreferences
+  }
+}
+    `;var l=e.i(320216);e.s(["useThemePreference",0,function(){var e;let t,s,{showError:c}=(0,l.default)(),{data:u}=(e={ssr:!0},t={...r,...e},i.useQuery(o,t)),d=u?.currentUser?.__typename==="CurrentUser"?u.currentUser:null,m=d?.workspacePreferences.theme,p=null==m,[f]=(s={...r,...void 0},n.useMutation(a,s)),g=async e=>{if(!d)return;let t="system"===e?null:e;null===t&&p||(t!==m||p)&&await f({variables:{input:{theme:t}},optimisticResponse:{__typename:"RootMutationType",updateWorkspacePreferences:{__typename:"CurrentUser",id:d.id,workspacePreferences:{...d.workspacePreferences,theme:t}}},onError:()=>c("Something went wrong setting the active theme - please try again.")})};return{isSystemTheme:p,setActiveTheme:g}}],841114)},636562,e=>{e.v({flexButtons:"index-module__LUcORa__flexButtons",frontFormSection:"index-module__LUcORa__frontFormSection",subcategorySection:"index-module__LUcORa__subcategorySection"})},64017,e=>{"use strict";var t=e.i(276385),i=e.i(389959),n=e.i(351623),r=e.i(344480);e.i(975473);let o={},a=n.gql`
+    query currentUser {
+  currentUser {
+    __typename
+    id
+    username
+    isSubscribed
+    isMemberOfAnyOrg
+  }
+}
+    `;var l=e.i(787527),s=e.i(252204),c=e.i(295652),u=e.i(612343),d=e.i(596139),m=e.i(3466),p=e.i(316431),f=e.i(419635),g=e.i(108431),h=e.i(8047),x=e.i(61732),R=e.i(908796);let v=[{value:"billing-issue",title:"Billing",showFrontForm:!0},{value:"account-issue",title:"Account",showFrontForm:!0},{value:"technical-issue",title:"Technical",showFrontForm:!0}];var I=e.i(299020);let y={},C=n.gql`
+    mutation frontSupportRequest($input: FrontSupportRequestInput!) {
+  frontSupportRequest(input: $input) {
+    ... on UserError {
+      message
+    }
+    ... on TooManyRequestsError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on FrontSupportRequestSuccess {
+      success
+    }
+    __typename
+  }
+}
+    `;var N=R,j=e.i(269848),_=e.i(320216),w=e.i(415541),b=e.i(709485),k=e.i(643484),S=e.i(528710);let T={},U=n.gql`
+    fragment ReplSelectorRepl on Repl {
+  id
+  title
+  timeUpdated
+  url
+  slug
+  owner {
+    ... on User {
+      id
+      username
+      image
+      fullName
+    }
+    ... on Team {
+      id
+      username
+      image
+    }
+  }
+  iconUrl
+  templateLabel
+  publishedAs
+}
+    `,F=n.gql`
+    query ReplSelector($search: String!, $excludePrivate: Boolean, $excludeMultiplayer: Boolean) {
+  currentUser {
+    id
+    replSearch(
+      search: $search
+      excludePrivate: $excludePrivate
+      excludeMultiplayer: $excludeMultiplayer
+    ) {
+      id
+      ...ReplSelectorRepl
+    }
+  }
+}
+    ${U}`;var $=e.i(602686),M=e.i(619158),P=e.i(480028),L=e.i(760982),q=e.i(585544),D=e.i(365757);let A="__not_app_specific__",E="Not related to a specific app";function O(e){return e.owner?`${e.owner.username}/${e.title}`:e.title}function W({onSelect:e}){var n;let o,[a,l]=(0,i.useState)(""),[s,c]=(0,i.useState)(null),u=(0,i.useRef)([]),d=(0,M.default)(a,150),m=u.current.find(e=>e.id===s),p=""===a?"":d,{data:f,loading:g}=(n={variables:{search:s&&m&&p===O(m)?"":p,excludeMultiplayer:!1}},o={...T,...n},r.useQuery(F,o)),R=f?.currentUser?.replSearch??[];return u.current=R,(0,t.jsxs)(L.ComboBox,{"aria-label":"Select an app",placeholder:"Select an app",menuTrigger:"focus",style:{width:"100%"},selectedKey:s,inputValue:a,onInputChange:t=>{if(l(t),s&&s!==A){let i=u.current.find(e=>e.id===s);i&&t===O(i)||(c(null),e(null))}else s===A&&t!==E&&(c(null),e(null))},triggerIcon:s?(0,t.jsx)($.default,{}):void 0,triggerButtonProps:s?{onClick:()=>{c(null),l(""),e(null)}}:void 0,isLoading:g&&0===R.length,emptyMessage:"No apps found",maxHeight:240,onSelectionChange:t=>{if(c(t),null===t)return void e(null);if(t===A){e("none"),l(E);return}let i=u.current.find(e=>e.id===t);i&&(e(i),l(O(i)))},children:[(0,t.jsx)(q.BaseListBoxItem,{id:A,textValue:E,children:(0,t.jsx)(h.Text,{color:"dimmer",multiline:!1,children:E})},A),R.map(e=>(0,t.jsx)(q.BaseListBoxItem,{id:e.id,textValue:O(e),children:(0,t.jsxs)(x.View,{row:!0,gap:8,align:"center",children:[e.iconUrl?(0,t.jsx)(D.default,{alt:e.title,iconUrl:e.iconUrl,size:16}):null,(0,t.jsx)(x.View,{row:!0,align:"center",children:e.owner?(0,t.jsxs)(t.Fragment,{children:[(0,t.jsxs)("span",{style:{color:P.tokens.greyDimmer},children:[e.owner.username,"/"]}),(0,t.jsx)("span",{children:e.title})]}):(0,t.jsx)("span",{children:e.title})})]})},e.id))]})}let B=({onDone:e,type:n,subcategory:r,config:o={titleField:"Subject",titleDescription:"Briefly describe what's going on",titlePlaceholder:"I am unable to...",bodyField:"Description",bodyDescription:"Please detail what you're experiencing, and any additional information that can help us help you.",bodyPlaceholder:"I am currently experiencing...",allowAttachments:!0},categoryType:a=N.SupportCategoryType.AccountBilling})=>{var l;let s,c=a===N.SupportCategoryType.Technical,{showError:u,showConfirm:d}=(0,_.default)(),[m,p]=(0,i.useState)(""),[f,g]=(0,i.useState)(""),[R,v]=(0,i.useState)(null);(0,i.useEffect)(()=>{v(null)},[a]);let[T,{loading:U}]=(l={onError:e=>{u(e.toString())},onCompleted:t=>{e(),"FrontSupportRequestSuccess"===t.frontSupportRequest.__typename?d("Your message was successfully sent. We will be in touch via email shortly."):u(t.frontSupportRequest.message)}},s={...y,...l},I.useMutation(C,s));return(0,t.jsxs)(x.View,{gap:16,style:{minWidth:0},children:[c?(0,t.jsxs)(x.View,{gap:8,children:[(0,t.jsx)(h.Text,{variant:"subheadDefault",multiline:!1,children:"App name"}),(0,t.jsx)(W,{onSelect:v})]}):null,o.titleField?(0,t.jsxs)(x.View,{gap:8,children:[(0,t.jsx)(h.Text,{variant:"subheadDefault",multiline:!1,children:o.titleField}),(0,t.jsx)(S.Input,{value:m,onChange:e=>p(e.target.value),placeholder:o.titleDescription??o.titlePlaceholder})]}):null,(0,t.jsxs)(x.View,{gap:8,children:[o.bodyField?(0,t.jsx)(h.Text,{variant:"subheadDefault",multiline:!1,children:o.bodyField}):null,(0,t.jsx)(S.MultiLineInput,{style:{width:"100%",boxSizing:"border-box"},value:f,onChange:e=>g(e.target.value),placeholder:c?"What's happening? Include steps to reproduce and any error messages you're seeing.\n\n1. Go to...\n2. Click on...\n3. See error...":o.bodyDescription??o.bodyPlaceholder,rows:6})]}),(0,t.jsxs)(x.View,{row:!0,gap:4,justify:"end",children:[(0,t.jsx)(k.Button,{text:"Cancel",onClick:e}),(0,t.jsx)(k.Button,{text:"Submit",onClick:()=>{let e=o.titleField&&m.length>3,t=f.length>20,i=!c||null!==R,l="none"!==R?R:null;if(!e||!t||!i){let n=[];i||n.push("Please select an app"),e||n.push("Subject must be at least 3 characters"),t||n.push("Description must be at least 20 characters"),u(n.join(". ")+".");return}let s=l?.title,d=l?.id;T({variables:{input:{title:m,body:[f,c&&s?`
+
+App Name: ${s}`:""].join(""),type:a,replId:c?d||"N/A":void 0,clientInformation:{pageUrl:location.href,browser:window.navigator.userAgent}}}}),(0,w.track)(b.events.HELP_FORM_SUBMITTED,{category:n,subcategory:r})},colorway:"primary",loading:U,iconLeft:U?(0,t.jsx)(j.default,{}):void 0})]})]})};var H=e.i(636562);e.s(["default",0,({onRequestClose:e,items:n,initialOptionPlaceholder:I="Choose an option",formConfig:y})=>{let C,[N,j]=(0,i.useState)(null),[_,w]=(0,i.useState)(null),{data:b,loading:k}=(C={...o,...void 0},r.useQuery(a,C)),S=b?.currentUser?.isSubscribed,T=b?.currentUser?.isMemberOfAnyOrg;(0,i.useEffect)(()=>{N?.subcategories&&w(N.subcategories[0])},[N]);let U=(0,i.useMemo)(()=>n||(S||T?v:[]),[n,S,T]),F=!!N&&(N.showFrontForm||!!_?.showFrontForm),$=16*!!F;return(0,t.jsxs)(x.View,{gap:16,children:[U.length>0?(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(h.Text,{variant:"subheadDefault",multiline:!1,children:"Get help"}),(0,t.jsx)(g.StatusBanner,{colorway:"primary",text:`Hi there, ${k?"":b?.currentUser?.username+"!"} How can we help?`}),(0,t.jsx)(p.Select,{"aria-label":"Select support category",items:U,selectedItem:N,onChange:e=>j(e),placeholder:I}),null!==N?(0,t.jsxs)(x.View,{children:[(0,t.jsx)(x.View,{pb:$,gap:8}),N.subcategories?.length&&_?(0,t.jsx)(x.View,{clsx:H.default.subcategorySection,pb:$,pt:16,gap:8,children:(0,t.jsx)(p.Select,{"aria-label":"Select subcategory",items:N.subcategories,selectedItem:_,onChange:e=>w(e)})}):null,F?(0,t.jsx)(x.View,{clsx:H.default.frontFormSection,pt:16,children:(0,t.jsx)(B,{onDone:e,type:N.value,config:y,categoryType:function(e){switch(e){case"billing-issue":return R.SupportCategoryType.Billing;case"account-issue":return R.SupportCategoryType.Account;case"technical-issue":return R.SupportCategoryType.Technical;default:return}}(N.value)})}):null]}):null]}):(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(h.Text,{variant:"subheadBig",multiline:!1,children:"Subscription is required for Support"}),(0,t.jsx)(m.default,{context:"support_dialog",text:`Upgrade to Replit ${d.corePlanName}`,colorway:"primary"})]}),(0,t.jsxs)(x.View,{clsx:H.default.flexButtons,pt:16,row:!0,gap:8,children:[(0,t.jsx)(f.ButtonLink,{href:"https://docs.replit.com/legal-and-security-info/abuse-report",target:"_blank",text:"Report abuse",iconRight:(0,t.jsx)(s.default,{}),iconLeft:(0,t.jsx)(c.default,{}),size:"small"}),(0,t.jsx)(f.ButtonLink,{href:"https://docs.replit.com",target:"_blank",text:"Read the docs",iconRight:(0,t.jsx)(s.default,{}),iconLeft:(0,t.jsx)(l.default,{}),size:"small"}),(0,t.jsx)(f.ButtonLink,{href:"https://replit.com/community",target:"_blank",text:"Check the community",iconRight:(0,t.jsx)(s.default,{}),iconLeft:(0,t.jsx)(u.default,{}),size:"small"})]})]})}],64017)},795968,e=>{e.v({content:"NotificationCard-module__5qO-ya__content",indicator:"NotificationCard-module__5qO-ya__indicator",indicatorLink:"NotificationCard-module__5qO-ya__indicatorLink",notificationLink:"NotificationCard-module__5qO-ya__notificationLink",notificationLinkWrapper:"NotificationCard-module__5qO-ya__notificationLinkWrapper",root:"NotificationCard-module__5qO-ya__root"})},377498,e=>{"use strict";var t=e.i(276385),i=e.i(840467),n=e.i(389959),r=e.i(927600),o=e.i(415541),a=e.i(709485),l=e.i(480028),s=e.i(795968);let c=({condition:e,children:t,wrap:i})=>e?(0,n.cloneElement)(i(t)):t;e.s(["default",0,function({children:e,seen:n,href:u,as:d,isLastItem:m=!1}){let p=!!(u||d);return(0,t.jsx)(c,{condition:p,wrap:e=>(0,t.jsxs)("div",{clsx:s.default.notificationLinkWrapper,children:[d&&u?(0,t.jsx)(i.default,{as:d,href:u,clsx:s.default.notificationLink,children:e}):null,!d&&u&&"object"==typeof u?(0,t.jsx)(i.default,{href:u,clsx:s.default.notificationLink,children:e}):null,d||"string"!=typeof u?null:(0,t.jsx)("a",{clsx:s.default.notificationLink,href:u,children:e})]}),children:(0,t.jsxs)("div",{onClick:()=>{p&&(0,o.track)(a.events.NOTIFICATION_ITEM_CLICKED,{seen:n})},clsx:s.default.root,"data-has-link":p,"data-last-item":m,children:[(0,t.jsx)("div",{clsx:s.default.content,children:e}),p?(0,t.jsxs)("div",{clsx:s.default.indicatorLink,children:[!n&&(0,t.jsx)("div",{clsx:s.default.indicator}),(0,t.jsx)(r.default,{color:l.tokens.foregroundDimmest})]}):null]})})}])},987987,e=>{e.v({content:"Item-module__2hGgkG__content",contentContainer:"Item-module__2hGgkG__contentContainer",itemText:"Item-module__2hGgkG__itemText",itemTextNewFollowerWrapper:"Item-module__2hGgkG__itemTextNewFollowerWrapper",userAvatarLink:"Item-module__2hGgkG__userAvatarLink",usernameLink:"Item-module__2hGgkG__usernameLink"})},413325,e=>{e.v({buttonGroupContainer:"List-module__a4KWka__buttonGroupContainer",compact:"List-module__a4KWka__compact",emptyState:"List-module__a4KWka__emptyState",emptyStateContainer:"List-module__a4KWka__emptyStateContainer",list:"List-module__a4KWka__list",loadMoreContainer:"List-module__a4KWka__loadMoreContainer",textCenter:"List-module__a4KWka__textCenter"})},638046,e=>{e.v({count:"NotificationsItem-module__00pi2G__count"})},286093,765185,736372,556278,566032,e=>{"use strict";var t=e.i(276385),i=e.i(389959),n=e.i(351623);let r=n.gql`
+    fragment NotificationItemCreator on User {
+  id
+  image
+  username
+  fullName
+  url
+}
+    `,o=n.gql`
+    fragment NotificationItemRepliedToPostNotification on RepliedToPostNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,a=n.gql`
+    fragment NotificationItemRepliedToCommentNotification on RepliedToCommentNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,l=n.gql`
+    fragment NotificationItemMentionedInPostNotification on MentionedInPostNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,s=n.gql`
+    fragment NotificationItemMentionedInCommentNotification on MentionedInCommentNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,c=n.gql`
+    fragment NotificationItemAnswerAcceptedNotification on AnswerAcceptedNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,u=n.gql`
+    fragment NotificationItemMultiplayerJoinedEmailNotification on MultiplayerJoinedEmailNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,d=n.gql`
+    fragment NotificationItemMultiplayerJoinedLinkNotification on MultiplayerJoinedLinkNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,m=n.gql`
+    fragment NotificationItemMultiplayerInvitedNotification on MultiplayerInvitedNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,p=n.gql`
+    fragment NotificationItemMultiplayerOverlimitNotification on MultiplayerOverlimitNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,f=n.gql`
+    fragment NotificationItemWarningNotification on WarningNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+}
+    `,g=n.gql`
+    fragment NotificationItemTeamInvite on TeamInvite {
+  id
+  team {
+    id
+    displayName
+    username
+  }
+}
+    `,h=n.gql`
+    fragment NotificationItemTeamInviteNotification on TeamInviteNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  invite {
+    id
+    ...NotificationItemTeamInvite
+  }
+}
+    ${g}`,x=n.gql`
+    fragment NotificationItemTeamOrganizationInvite on TeamOrganizationInvite {
+  id
+  organization {
+    id
+    name
+  }
+}
+    `,R=n.gql`
+    fragment NotificationItemTeamOrganizationInviteNotification on TeamOrganizationInviteNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  invite {
+    id
+    ...NotificationItemTeamOrganizationInvite
+  }
+}
+    ${x}`,v=n.gql`
+    fragment NotificationTeamTemplateSubmittedNotification on TeamTemplateSubmittedNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  repl {
+    id
+    url
+  }
+}
+    `,I=n.gql`
+    fragment NotificationTeamTemplateReviewedStatusNotification on TeamTemplateReviewedStatusNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  repl {
+    id
+    url
+  }
+}
+    `,y=n.gql`
+    fragment NotificationReplCommentCreatedNotification on ReplCommentCreatedNotification {
+  id
+  url
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,C=n.gql`
+    fragment NotificationReplCommentReplyCreatedNotification on ReplCommentReplyCreatedNotification {
+  id
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,N=n.gql`
+    fragment NotificationReplCommentMentionNotification on ReplCommentMentionNotification {
+  id
+  timeCreated
+  seen
+  creator {
+    id
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,j=n.gql`
+    fragment NotificationItemNewFollower on NewFollowerNotification {
+  id
+  timeCreated
+  seen
+  url
+  creator {
+    ...NotificationItemCreator
+  }
+}
+    ${r}`,_=n.gql`
+    fragment BasicNotificationItemNotification on BasicNotification {
+  id
+  text
+  url
+  timeCreated
+  seen
+  context
+}
+    `,w=n.gql`
+    fragment NotificationItemEgressLimitNotification on EgressLimitNotification {
+  id
+  url
+  timeCreated
+  seen
+  variant
+  limitGib
+  percentage
+}
+    `,b=n.gql`
+    fragment NotificationItemOrgUpgradeRequestReviewedNotification on OrgUpgradeRequestReviewedNotification {
+  id
+  timeCreated
+  seen
+  url
+  creator {
+    ...NotificationItemCreator
+  }
+  isAccepted
+  orgId
+}
+    ${r}`;var k=e.i(344480);e.i(975473);let S={},T=n.gql`
+    fragment NotificationItems on Notification {
+  ... on BasicNotification {
+    id
+    ...BasicNotificationItemNotification
+  }
+  ... on MentionedInPostNotification {
+    id
+    ...NotificationItemMentionedInPostNotification
+  }
+  ... on RepliedToPostNotification {
+    id
+    ...NotificationItemRepliedToPostNotification
+  }
+  ... on MentionedInCommentNotification {
+    id
+    ...NotificationItemMentionedInCommentNotification
+  }
+  ... on RepliedToCommentNotification {
+    id
+    ...NotificationItemRepliedToCommentNotification
+  }
+  ... on AnswerAcceptedNotification {
+    id
+    ...NotificationItemAnswerAcceptedNotification
+  }
+  ... on MultiplayerInvitedNotification {
+    id
+    ...NotificationItemMultiplayerInvitedNotification
+  }
+  ... on MultiplayerJoinedEmailNotification {
+    id
+    ...NotificationItemMultiplayerJoinedEmailNotification
+  }
+  ... on MultiplayerJoinedLinkNotification {
+    id
+    ...NotificationItemMultiplayerJoinedLinkNotification
+  }
+  ... on MultiplayerOverlimitNotification {
+    id
+    ...NotificationItemMultiplayerOverlimitNotification
+  }
+  ... on WarningNotification {
+    id
+    ...NotificationItemWarningNotification
+  }
+  ... on TeamInviteNotification {
+    id
+    ...NotificationItemTeamInviteNotification
+  }
+  ... on TeamOrganizationInviteNotification {
+    id
+    ...NotificationItemTeamOrganizationInviteNotification
+  }
+  ... on TeamTemplateSubmittedNotification {
+    id
+    ...NotificationTeamTemplateSubmittedNotification
+  }
+  ... on TeamTemplateReviewedStatusNotification {
+    id
+    ...NotificationTeamTemplateReviewedStatusNotification
+  }
+  ... on ReplCommentCreatedNotification {
+    id
+    ...NotificationReplCommentCreatedNotification
+  }
+  ... on ReplCommentReplyCreatedNotification {
+    id
+    ...NotificationReplCommentReplyCreatedNotification
+  }
+  ... on ReplCommentMentionNotification {
+    id
+    ...NotificationReplCommentMentionNotification
+  }
+  ... on NewFollowerNotification {
+    id
+    ...NotificationItemNewFollower
+  }
+  ... on OrgUpgradeRequestReviewedNotification {
+    id
+    ...NotificationItemOrgUpgradeRequestReviewedNotification
+  }
+  ... on EgressLimitNotification {
+    id
+    ...NotificationItemEgressLimitNotification
+  }
+  ... on OrgUpgradeRequestReviewedNotification {
+    id
+    ...NotificationItemOrgUpgradeRequestReviewedNotification
+  }
+}
+    ${_}
+${l}
+${o}
+${s}
+${a}
+${c}
+${m}
+${u}
+${d}
+${p}
+${f}
+${h}
+${R}
+${v}
+${I}
+${y}
+${C}
+${N}
+${j}
+${b}
+${w}`,U=n.gql`
+    query notifications($after: String, $count: Int, $seen: Boolean) {
+  currentUser {
+    id
+  }
+  notifications(after: $after, count: $count, seen: $seen) {
+    items {
+      ...NotificationItems
+    }
+    pageInfo {
+      nextCursor
+    }
+  }
+}
+    ${T}`;var F=e.i(299020);let $={},M=n.gql`
+    mutation MarkAllNotificationsAsSeen {
+  markAllNotificationsAsSeen {
+    id
+    notificationCount
+  }
+}
+    `;var P=e.i(183035),L=e.i(269848),q=e.i(840467),D=e.i(377498),A=e.i(192915),E=e.i(825419),O=e.i(8047),W=e.i(472499),B=e.i(61732),H=e.i(987987);let z=({seen:e,url:i,as:n,href:r,text:o,timeCreated:a,creator:l,invite:s,orgInvite:c,isLastItem:u=!1,...d})=>{let m,p;return i&&((m=new URL("/"===i[0]?`https://replit.com${i}`:i)).searchParams.set("from","notifications"),p=(i.startsWith("http")&&"https:"===m.protocol?m.protocol+"//"+m.hostname:"")+m.pathname+m.search+m.hash),(0,t.jsx)(D.default,{seen:e,compact:d.compact,isLastItem:u,as:n,href:r||p,children:(0,t.jsxs)("div",{clsx:H.default.contentContainer,children:[l?(0,t.jsx)(q.default,{...(0,A.userLinkProps)(l),clsx:H.default.userAvatarLink,children:(0,t.jsx)(E.Avatar,{size:32,src:l.image,username:l.username,fullName:l.fullName})}):null,(0,t.jsxs)(B.View,{shrink:!0,children:[(0,t.jsxs)("div",{clsx:H.default.itemText,children:[l?(0,t.jsx)(q.default,{...(0,A.userLinkProps)(l),clsx:H.default.usernameLink,children:l.username}):null," ",o,s?(0,t.jsx)(t.Fragment,{children:` ${s.team.displayName}. Click here to join`}):null,c?(0,t.jsx)(t.Fragment,{children:` the ${c.organization.name} workspace. Click here to join`}):null]}),(0,t.jsx)(O.Text,{variant:"small",color:"dimmer",multiline:!1,children:(0,t.jsx)(W.Timestamp,{date:a})})]})]})})},G=({notification:e,isLastItem:i,setAsSeen:n,...r})=>{if("ReplCommentCreatedNotification"===e.__typename||"ReplCommentReplyCreatedNotification"===e.__typename||"ReplCommentMentionNotification"===e.__typename){let o={ReplCommentCreatedNotification:"commented on your repl",ReplCommentReplyCreatedNotification:"replied to your comment on your repl",ReplCommentMentionNotification:"mentioned you in your repl"}[e.__typename];return(0,t.jsx)(z,{isLastItem:i,text:o||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,creator:e.creator||void 0})}if("BasicNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:e.text||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("MentionedInPostNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"mentioned you in their post",creator:e.creator||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("MentionedInCommentNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"mentioned you in their comment",creator:e.creator||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("RepliedToPostNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"replied to your post",creator:e.creator||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("RepliedToCommentNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"replied to your comment",creator:e.creator||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("AnswerAcceptedNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"accepted your answer (you earned 5 cycles!)",creator:e.creator||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("WarningNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"You have been warned by a moderator.  Click here to learn more.",seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("TeamInviteNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"You have been invited to join",invite:e.invite||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("TeamOrganizationInviteNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:"You have been invited to join",orgInvite:e.invite||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("MultiplayerJoinedEmailNotification"===e.__typename||"MultiplayerJoinedLinkNotification"===e.__typename||"MultiplayerInvitedNotification"===e.__typename||"MultiplayerOverlimitNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:e.text?e.text.split(" ").slice(1).join(" "):"",creator:e.creator||void 0,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url});if("TeamTemplateSubmittedNotification"===e.__typename||"TeamTemplateReviewedStatusNotification"===e.__typename)return(0,t.jsx)(z,{isLastItem:i,text:e.text,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.repl?.url||e.url});if("NewFollowerNotification"===e.__typename){let o=e.creator?(0,A.userLinkProps)(e.creator):null;return(0,t.jsx)(D.default,{seen:n||e.seen,compact:r.compact,as:o?.as,href:o?.href,isLastItem:i,children:(0,t.jsxs)("div",{clsx:H.default.contentContainer,children:[(0,t.jsx)(E.Avatar,{size:32,src:e.creator?.image??null,username:e.creator?.username??"",fullName:e.creator?.fullName}),(0,t.jsx)("div",{clsx:H.default.content,children:(0,t.jsx)("div",{clsx:H.default.itemTextNewFollowerWrapper,children:(0,t.jsxs)("div",{clsx:H.default.itemText,children:[(0,t.jsxs)("div",{children:[e.creator?(0,t.jsx)(q.default,{...(0,A.userLinkProps)(e.creator),children:e.creator.username}):"[deleted]"," started following you"]}),(0,t.jsx)(O.Text,{variant:"small",color:"dimmer",multiline:!1,children:(0,t.jsx)(W.Timestamp,{date:e.timeCreated})})]})})})]})})}return"OrgUpgradeRequestReviewedNotification"===e.__typename?(0,t.jsx)(z,{creator:e.creator||void 0,isLastItem:i,text:e.isAccepted?"approved your request to join the workspace":"rejected your request to join the workspace",seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url}):"EgressLimitNotification"===e.__typename?(0,t.jsx)(z,{creator:void 0,isLastItem:i,text:"egress_reached_limit"===e.variant?"You have reached your data transfer limit for the month. Your Apps' data transfer is being throttled, and will be shut off. Upgrade your plan or purchase additional data transfer with Cycles to resume normal speeds.":`You have used ${e.percentage}% of your monthly data transfer limit. If you reach the limit, your Apps data transfer will be throttled and eventually shut off. Upgrade your plan or purchase additional data transfer with Cycles to prevent disruptions to your Apps.`,seen:n||e.seen,compact:r.compact,timeCreated:e.timeCreated,url:e.url}):null},V={},Q=n.gql`
+    mutation MarkNotificationsAsSeen($ids: [Int!]) {
+  markNotificationsAsSeen(ids: $ids)
+}
+    `;var Z=e.i(980224);let Y=e=>{var t;let n,[r,o]=(0,i.useState)([]),{count:a,setUnreadCount:l}=(0,Z.default)(),s=e.notificationIds.filter(e=>-1===r.indexOf(e)),[c,{data:u}]=(t={variables:{ids:s}},n={...V,...t},F.useMutation(Q,n));return(0,i.useEffect)(()=>{0!==s.length&&(o([...r,...s]),c())},[s,c]),(0,i.useEffect)(()=>{u?.markNotificationsAsSeen&&l(Math.max(0,a-u.markNotificationsAsSeen))},[u,l]),null};var K=e.i(766299),J=e.i(643484),X=e.i(449525),ee=e.i(413325);e.s(["default",0,e=>{var n,r;let o,a,[l,s]=(0,i.useState)(!0),{count:c}=(0,Z.default)(),[u,d]=(0,i.useState)(!1),{data:m,loading:p,fetchMore:f}=(n={fetchPolicy:"cache-and-network",ssr:!1,notifyOnNetworkStatusChange:!0,variables:{...e.count?{count:e.count}:{},...l?{seen:!1}:{}}},o={...S,...n},k.useQuery(U,o)),g=(m?.notifications?.items??[]).filter(e=>"AnnotationNotification"!==e.__typename&&"ThreadNotification"!==e.__typename),[h]=(r={onCompleted(){d(!1)},optimisticResponse:{__typename:"RootMutationType",markAllNotificationsAsSeen:{__typename:"CurrentUser",id:m?.currentUser?.id,notificationCount:0}}},a={...$,...r},F.useMutation(M,a)),x=(0,K.useIdSeed)();return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsxs)(B.View,{row:!0,gap:16,justify:"space-between",clsx:[ee.default.list,{[ee.default.compact]:e.compact}],children:[(0,t.jsx)("div",{clsx:[ee.default.buttonGroupContainer,{[ee.default.compact]:e.compact&&c>0}],children:(0,t.jsxs)(X.ButtonGroup,{name:x("visibility"),value:l.toString(),primary:!0,onChange:()=>s(!l),row:!0,stretch:!0,children:[(0,t.jsx)(X.ButtonGroupItem,{id:x("true"),value:"true",text:"Unread"}),(0,t.jsx)(X.ButtonGroupItem,{id:x("false"),value:"false",text:"All"})]})}),c>0&&(0,t.jsx)(J.Button,{text:u?"Marking all...":"Mark as read",disabled:p,iconLeft:(0,t.jsx)(P.default,{}),stretch:!0,onClick:()=>{d(!0),h()}})]}),(0,t.jsxs)(B.View,{children:[!p||m&&m.notifications?null:(0,t.jsx)(B.View,{p:64,align:"center",children:(0,t.jsx)(L.default,{})}),0===g.length&&(0,t.jsx)("div",{clsx:[ee.default.emptyStateContainer,{[ee.default.compact]:e.compact}],children:(0,t.jsx)(B.View,{clsx:[ee.default.emptyState,{[ee.default.compact]:e.compact}],children:(0,t.jsx)(O.Text,{variant:"text",color:"dimmer",multiline:!1,clsx:ee.default.textCenter,children:l?"You're all caught up!":"No notifications"})})}),g.length?(0,t.jsxs)(t.Fragment,{children:[g.map((i,n)=>(0,t.jsx)(G,{compact:e.compact,notification:i,isLastItem:n===g.length-1,setAsSeen:!0},i.id)),e.markAsSeen&&(0,t.jsx)(Y,{notificationIds:g.filter(e=>"seen"in e&&!e.seen).map(e=>e.id)})]}):null,e.loadMore&&m?.notifications.pageInfo.nextCursor?(0,t.jsx)("div",{clsx:[ee.default.loadMoreContainer,{[ee.default.compact]:e.compact}],children:(0,t.jsx)(J.Button,{text:p?"Loading...":"Load more",onClick:()=>{p||f({variables:{after:m&&m.notifications&&!l?m.notifications.pageInfo.nextCursor:null},updateQuery:(e,t)=>{if(!t||!t.fetchMoreResult)return e;let{fetchMoreResult:i}=t,n=e?e.notifications.items:[],r={...i};return r.notifications.items=[...n,...i.notifications.items],r}})},disabled:p})}):null]})]})}],286093);var et=e.i(725958),ei=e.i(908796),en=e.i(712903),er=e.i(255701),eo=e.i(195206),ea=e.i(334028),el=e.i(177037),es=e.i(596139),ec=e.i(294827),eu=e.i(776065),ed=e.i(926233),em=e.i(983420),ep=e.i(295231);function ef({right:e,label:i,...n}){return(0,t.jsxs)(ep.BaseMenuItem,{textValue:i,...n,children:[(0,t.jsxs)(B.View,{gap:6,pl:2,row:!0,align:"center",grow:!0,shrink:!0,children:[(0,t.jsx)(em.IconProvider,{size:16,children:n.icon}),(0,t.jsx)(ep.MenuItemLabel,{children:i})]}),e??null]})}e.s(["MenuItemWithRightContent",0,ef],765185);var eg=e.i(648880),eh=e.i(919073),ex=e.i(638046);function eR({count:e,onAction:i}){return(0,t.jsx)(ep.BaseMenuItem,{textValue:"Notifications",onAction:i,children:(0,t.jsxs)(B.View,{align:"center",row:!0,gap:6,justify:"space-between",grow:!0,shrink:!0,children:[(0,t.jsxs)(B.View,{align:"center",grow:!0,shrink:!0,row:!0,gap:6,children:[(0,t.jsx)(eg.default,{}),(0,t.jsx)(O.Text,{children:"Notifications"})]}),e?(0,t.jsx)(eh.ShadesSurface,{clsx:ex.default.count,colorShade:"themeError",align:"center",justify:"center",children:(0,t.jsx)(O.Text,{variant:"small",children:e})}):null]})})}e.s(["AccountItems",0,function({currentUser:e,setActiveModal:i,notificationCount:n,isUnifiedPlanEnabled:r,onClose:o}){let a=(0,et.useRouter)(),l=(0,A.userLinkProps)(e),{shouldHidePersonalWorkspace:s}=(0,ec.usePersonalWorkspacesDisabled)();return(0,t.jsxs)(t.Fragment,{children:[r?(0,t.jsx)(ep.MenuItem,{label:"Settings",icon:(0,t.jsx)(er.default,{}),onAction:()=>{(0,eu.updatePathWithQueryParams)({router:a,params:[{mode:"add",key:ed.SETTINGS_SHOW_PARAM,value:"true"}]}),o?.()}}):(0,t.jsx)(ef,{label:"Account",as:"/account",href:"/account",dataCy:"avatar-dropdown-account-link",icon:e.isMemberOfAnyOrg?(0,t.jsx)(er.default,{}):(0,t.jsx)(E.Avatar,{size:16,src:e.image,username:e.username,fullName:e.fullName}),right:e.userSubscriptionType===ei.UserSubscriptionTypeEnum.HackerPro?(0,t.jsxs)(B.View,{row:!0,align:"center",gap:4,children:[(0,t.jsx)(en.default,{size:12,color:el.brandOrange}),(0,t.jsx)(O.Text,{variant:"small",color:"dimmer",translate:"no",children:es.corePlanName})]}):null}),s||r?null:(0,t.jsx)(ep.MenuItem,{label:"Profile",as:l.as,href:l.href,dataCy:"avatar-dropdown-account-link",icon:(0,t.jsx)(ea.default,{})}),(0,t.jsx)(eR,{count:n,onAction:()=>{i("notifications")}}),(0,t.jsx)(ep.Separator,{}),(0,t.jsx)(ep.MenuItem,{label:"CLUI",as:"/~/cli",href:"/~/cli",icon:(0,t.jsx)(eo.default,{})}),(0,t.jsx)(ep.Separator,{})]})}],736372),e.i(90984);var ev=e.i(320216);e.s(["DevCopyUsernameItem",0,function({currentUser:e}){let{showConfirm:i}=(0,ev.default)();return(0,t.jsx)(t.Fragment,{children:null})}],556278);var eI=e.i(625251),ey=e.i(787527),eC=e.i(927600),eN=e.i(399245),ej=e.i(222878),e_=e.i(735362),ew=e.i(761201),eb=e.i(709485),ek=e.i(415541),eS=e.i(519979);function eT(){return(0,t.jsx)(ep.MenuItem,{icon:(0,t.jsx)(eS.default,{}),label:"Status",href:"https://status.replit.com"})}var eU=e.i(773222);e.s(["HelpItem",0,function({setActiveModal:e,children:i}){return(0,t.jsx)(t.Fragment,{children:(0,t.jsxs)(eI.SubmenuTrigger,{children:[(0,t.jsx)(ep.BaseMenuItem,{textValue:"Help",children:(0,t.jsxs)(B.View,{align:"center",row:!0,gap:6,justify:"space-between",grow:!0,shrink:!0,children:[(0,t.jsxs)(B.View,{align:"center",grow:!0,shrink:!0,row:!0,gap:6,children:[(0,t.jsx)(ej.default,{}),(0,t.jsx)(O.Text,{children:"Help"})]}),(0,t.jsx)(eC.default,{size:12})]})}),(0,t.jsx)(eU.RawPopover,{offset:4,children:(0,t.jsx)(B.View,{p:4,children:(0,t.jsxs)(ep.Menu,{"aria-label":"Help",children:[(0,t.jsx)(eT,{}),(0,t.jsx)(ep.MenuItem,{label:"Get help",icon:(0,t.jsx)(ej.default,{size:16}),onAction:()=>{e("support"),(0,ek.track)(eb.events.HELP_FORM_OPENED,{type:"New Help Form"})}}),(0,t.jsx)(ep.MenuItem,{icon:(0,t.jsx)(eN.default,{}),label:"Community Hub",href:ew.COMMUNITY_URL}),(0,t.jsx)(ep.MenuItem,{icon:(0,t.jsx)(e_.default,{}),label:"View updates",href:ew.LINKS_DOCS.CHANGELOG,onAction:()=>{(0,ek.track)(eb.events.CHANGELOG_OPENED)}}),(0,t.jsx)(ep.MenuItem,{icon:(0,t.jsx)(ey.default,{}),label:"Read the docs",href:ew.LINKS_DOCS.HOME,onAction:()=>{(0,ek.track)(eb.events.DOCS_OPENED,{source:"help_menu"})}}),i]})})})]})})}],566032)},70219,e=>{"use strict";var t=e.i(276385),i=e.i(408116),n=e.i(98346),r=e.i(443197),o=e.i(295231);e.s(["LogoutItem",0,function(){let e=(0,i.useApolloClient)();return(0,t.jsx)(o.MenuItem,{label:"Log out",icon:(0,t.jsx)(n.default,{}),onAction:async()=>{await (0,r.signOut)(e),window.location.href="/logout"}})}])},246613,e=>{"use strict";var t=e.i(276385),i=e.i(725958),n=e.i(625251),r=e.i(908796),o=e.i(183035),a=e.i(151027),l=e.i(320216),s=e.i(648552),c=e.i(294827),u=e.i(448942),d=e.i(276887),m=e.i(765185),p=e.i(825419),f=e.i(295231),g=e.i(8047),h=e.i(61732);e.s(["TeamsItem",0,function({currentUser:e}){let x=(0,a.useCurrentUserStoredOrgContext)(),{loading:R}=x,v=(0,s.useOrgSwitcher)(),{shouldHidePersonalWorkspace:I}=(0,c.usePersonalWorkspacesDisabled)(),y="CurrentUserOrganizationConnection"===e.orgs.__typename?e.orgs.items:null,{showError:C}=(0,l.default)(),N=(0,i.useRouter)();return!y?.length||R?null:(0,t.jsxs)(n.MenuSection,{children:[(0,t.jsx)(f.MenuHeader,{text:"Switch Workspace"}),I?null:(0,t.jsx)(m.MenuItemWithRightContent,{icon:(0,t.jsx)(p.Avatar,{size:16,src:e.image,username:e.username,fullName:e.fullName}),label:"Personal",onAction:()=>{v({type:r.OrgType.Personal}),N.push("/home","/~",{shallow:!1})},right:void 0===x.orgId?(0,t.jsx)(o.default,{}):void 0,selected:void 0===x.orgId}),y.map(({org:e,type:i})=>(0,t.jsxs)(f.BaseMenuItem,{textValue:e.name,onAction:()=>(e=>{if(!e.currentUserRole)return void C("Something went wrong, please try again.");v({type:r.OrgType.Team,id:e.id,slug:e.slug,orgRole:e.currentUserRole,orgDealContext:e.dealContext});let{home:t}=(0,u.orgLinks)({slug:e.slug});N.push(t.href,t.as)})(e),children:[(0,t.jsxs)(h.View,{grow:!0,shrink:!0,row:!0,gap:6,align:"center",children:[(0,t.jsx)(p.Avatar,{size:16,src:e.image??null,username:e.name,fullName:e.name}),(0,t.jsx)(g.Text,{translate:"no",children:e.name}),i?(0,t.jsx)(g.Text,{variant:"small",color:"dimmest",children:(0,d.orgGroupToDisplayName)(i)}):null]}),e.id===x.orgId?(0,t.jsx)(o.default,{}):null]},e.id)),(0,t.jsx)(f.Separator,{})]})}])},13465,e=>{"use strict";var t=e.i(276385),i=e.i(625251),n=e.i(927600),r=e.i(155119),o=e.i(759317),a=e.i(393428),l=e.i(308521),s=e.i(401036),c=e.i(841114),u=e.i(295231),d=e.i(773222),m=e.i(8047),p=e.i(61732);e.s(["ThemeItem",0,function(){let{currentTheme:e}=(0,s.useTheme)(),{setActiveTheme:f,isSystemTheme:g}=(0,c.useThemePreference)(),h="Custom";return g?h="System":"replitDark"===e.id?h="Dark":"replitLight"===e.id&&(h="Light"),(0,t.jsxs)(i.SubmenuTrigger,{children:[(0,t.jsx)(u.BaseMenuItem,{textValue:"Theme",children:(0,t.jsxs)(p.View,{align:"center",row:!0,gap:6,justify:"space-between",grow:!0,shrink:!0,children:[(0,t.jsxs)(p.View,{align:"center",grow:!0,shrink:!0,row:!0,gap:6,children:[(0,t.jsx)(a.default,{}),(0,t.jsx)(m.Text,{multiline:!1,children:"Theme"})]}),(0,t.jsxs)(p.View,{row:!0,gap:4,align:"center",children:[(0,t.jsx)(m.Text,{color:"dimmer",children:h}),(0,t.jsx)(n.default,{size:12})]})]})}),(0,t.jsx)(d.RawPopover,{offset:4,children:(0,t.jsx)(p.View,{p:4,children:(0,t.jsxs)(u.Menu,{"aria-label":"Theme",children:[(0,t.jsx)(u.MenuItem,{label:"Light",icon:(0,t.jsx)(l.default,{size:16}),onAction:()=>f("replitLight")}),(0,t.jsx)(u.MenuItem,{label:"Dark",icon:(0,t.jsx)(o.default,{size:16}),onAction:()=>f("replitDark")}),(0,t.jsx)(u.MenuItem,{label:"System",icon:(0,t.jsx)(r.default,{size:16}),onAction:()=>f("system")})]})})})]})}])}]);
+
+//# debugId=8de6a84f-996e-31b6-383f-59ca9d4b6521
+//# sourceMappingURL=0c0aaixh_2sk3.js.map
