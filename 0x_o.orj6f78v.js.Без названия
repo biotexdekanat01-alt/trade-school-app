@@ -1,0 +1,159 @@
+;!function(){try { var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&((e._debugIds|| (e._debugIds={}))[n]="aac1e2f1-9711-cb5c-37b1-8216f50e2c18")}catch(e){}}();
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,233763,e=>{"use strict";var t=e.i(389959),r=e.i(830675),n=e.i(320216),a=e.i(871752),o=e.i(489859);let i="email-verification-resend-timestamp";e.s(["useEmailVerificationResend",0,function(){let[e,s]=(0,t.useState)(!1),[u,l]=(0,t.useState)(0),{showConfirm:d,showError:c}=(0,n.default)();return(0,t.useEffect)(()=>{try{let e=o.default.get(i,"number");if(e){let t=Date.now()-e;t<6e4?(s(!0),l(Math.ceil((6e4-t)/1e3))):o.default.remove(i)}}catch(e){r.captureException(e)}},[]),(0,t.useEffect)(()=>{if(!e||u<=0)return;let t=setInterval(()=>{l(e=>{let n=e-1;if(n<=0){s(!1);try{o.default.remove(i)}catch(e){r.captureException(e)}return clearInterval(t),0}return n})},1e3);return()=>clearInterval(t)},[e,u]),{resendVerification:(0,t.useCallback)(async()=>{if(!e)try{await (0,a.postJson)("/data/user/resend_verification",{}),d("Verification email sent"),s(!0),l(60);try{o.default.set(i,Date.now())}catch(e){r.captureException(e)}}catch(t){let{message:e}=t;c(`Failed to resend verification email: ${e}`),r.captureException(t)}},[e,d,c]),isInCooldown:e,cooldownTimeRemaining:u}}])},644647,e=>{"use strict";var t=e.i(725958),r=e.i(389959),n=e.i(351623),a=e.i(344480);e.i(975473);let o={},i=n.gql`
+    query UsePayInvoicesRedirectOrg($orgId: String!) {
+  getOrg(orgId: $orgId) {
+    __typename
+    ... on Org {
+      id
+      slug
+      authorizations {
+        payOpenInvoice {
+          isAuthorized
+        }
+      }
+    }
+  }
+}
+    `,s=n.gql`
+    query UsePayInvoicesRedirectPersonal {
+  currentUser {
+    __typename
+    ... on CurrentUser {
+      id
+      isRazorpayPaymentProcessor
+      openInvoices {
+        stripeInvoiceId
+      }
+    }
+  }
+}
+    `;var u=e.i(151027),l=e.i(926233);e.s(["usePayInvoicesRedirect",0,function(e,n){var d,c;let g,p,f=(0,t.useRouter)(),m=(0,u.useCurrentUserStoredOrgContext)(),y=e??m.orgId,h=!!y,v=n?.skip??!1,{data:b,loading:_}=(d={variables:{orgId:y??""},skip:v||!h},g={...o,...d},a.useQuery(i,g)),{data:S,loading:C}=(c={skip:v||h},p={...o,...c},a.useQuery(s,p)),O=h?_:C,x=b?.getOrg?.__typename==="Org"?b.getOrg:null,T=x?.authorizations.payOpenInvoice.isAuthorized??!1,U=x?.slug??m.orgSlug,w=S?.currentUser?.__typename==="CurrentUser"?S.currentUser:null,D=(w?.isRazorpayPaymentProcessor??!1)&&(w?.openInvoices?.length??0)>0,I=h?T:D,A=(0,r.useCallback)(()=>{h&&U?f.push(`/t/${U}?${(0,l.settingsQueryString)("billing")}`):f.push(`/home?${(0,l.settingsQueryString)("billing")}`,`/~?${(0,l.settingsQueryString)("billing")}`)},[h,U,f]);return I?{shouldRedirect:!0,isLoading:!1,openBillingTab:A}:{shouldRedirect:!1,isLoading:O}}],644647)},476601,e=>{"use strict";var t=e.i(908796),r=e.i(761201);let n=["/home","/cycles","/usage","/account","/bounties","/templates","/learn","/repls","/replEnvironmentDesktop","/replEnvironmentMobile","/new","/profile","/my-teams"];e.s(["convertDecimalToDisplayPercent",0,function(e){if(e>1)return"100%+";let t=(100*e).toLocaleString(void 0,{maximumFractionDigits:0});return`${t}%`},"getUbbSuspensionDescription",0,e=>{let n,a="",o=e.isRazorpay;switch(e.type){case"org":if(e.orgDealContext?.dealType===t.OrgDealType.Trial||e.orgDealContext?.dealType===t.OrgDealType.EnterpriseTrial){n=e.isAdmin?`Your Replit trial has ended. Contact ${e.orgDealContext.salesContactEmail??r.SALES_TEAM_CONTACT_EMAIL} to resume services.`:"Your Replit trial has ended. Contact your admin to resume services.";break}n=e.isSuspended?e.isAdmin?o?"Your workspace has been temporarily suspended due to a failed payment. Please pay your outstanding invoices to continue using Agent.":"Your workspace has been temporarily suspended due to a failed payment. Please update your workspace's payment method and address unpaid invoices to continue using Agent.":"Your workspace has been temporarily suspended due to a failed payment. Contact your admin to continue using Agent.":e.isAdmin?o?"Your workspace has a failed payment. Please pay your outstanding invoices to continue using Agent.":"Your workspace has a failed payment. Please update your workspace's payment method to continue using Agent.":"Your workspace has a failed payment. Contact your admin to continue using Agent.",a=e.isAdmin?o?"If you have already paid your invoices, please wait a few minutes and refresh the page.":"If you have already updated your workspace's payment method, please wait a few minutes and refresh the page.":o?"If your admin has already paid the outstanding invoices, please wait a few minutes and refresh the page.":"If your admin has already updated your workspace's payment method, please wait a few minutes and refresh the page.";break;case"user":n=e.isSuspended?"Your account has been temporarily suspended due to a failed payment":o?"You have a failed payment. Please pay your outstanding invoices to continue using Agent.":"You have a failed payment. Please update your payment method to continue using Agent.",a=o?"If you have already paid your invoices, please wait a few minutes and refresh the page.":"If you have already updated your payment method, please wait a few minutes and refresh the page."}return{headingText:n,subheadingText:a}},"shouldShowUsageAlert",0,e=>n.includes(e)||e.startsWith("/t/[orgSlug]")])},822296,(e,t,r)=>{"use strict";Object.defineProperty(r,"__esModule",{value:!0}),Object.defineProperty(r,"LoadableContext",{enumerable:!0,get:function(){return n}});let n=e.r(2879)._(e.r(389959)).default.createContext(null)},447221,(e,t,r)=>{"use strict";Object.defineProperty(r,"__esModule",{value:!0}),Object.defineProperty(r,"default",{enumerable:!0,get:function(){return g}});let n=e.r(2879)._(e.r(389959)),a=e.r(822296),o=[],i=[],s=!1;function u(e){let t=e(),r={loading:!0,loaded:null,error:null};return r.promise=t.then(e=>(r.loading=!1,r.loaded=e,e)).catch(e=>{throw r.loading=!1,r.error=e,e}),r}class l{constructor(e,t){this._loadFn=e,this._opts=t,this._callbacks=new Set,this._delay=null,this._timeout=null,this.retry()}promise(){return this._res.promise}retry(){this._clearTimeouts(),this._res=this._loadFn(this._opts.loader),this._state={pastDelay:!1,timedOut:!1};let{_res:e,_opts:t}=this;e.loading&&("number"==typeof t.delay&&(0===t.delay?this._state.pastDelay=!0:this._delay=setTimeout(()=>{this._update({pastDelay:!0})},t.delay)),"number"==typeof t.timeout&&(this._timeout=setTimeout(()=>{this._update({timedOut:!0})},t.timeout))),this._res.promise.then(()=>{this._update({}),this._clearTimeouts()}).catch(e=>{this._update({}),this._clearTimeouts()}),this._update({})}_update(e){this._state={...this._state,error:this._res.error,loaded:this._res.loaded,loading:this._res.loading,...e},this._callbacks.forEach(e=>e())}_clearTimeouts(){clearTimeout(this._delay),clearTimeout(this._timeout)}getCurrentValue(){return this._state}subscribe(e){return this._callbacks.add(e),()=>{this._callbacks.delete(e)}}}function d(t){return function(t,r){let u=Object.assign({loader:null,loading:null,delay:200,timeout:null,webpack:null,modules:null},r),d=null;function c(){if(!d){let e=new l(t,u);d={getCurrentValue:e.getCurrentValue.bind(e),subscribe:e.subscribe.bind(e),retry:e.retry.bind(e),promise:e.promise.bind(e)}}return d.promise()}if("u"<typeof window&&o.push(c),!s&&"u">typeof window){let t=u.webpack&&"function"==typeof e.t.resolveWeak?u.webpack():u.modules;t&&i.push(e=>{for(let r of t)if(e.includes(r))return c()})}function g(e,t){let r;c(),(r=n.default.useContext(a.LoadableContext))&&Array.isArray(u.modules)&&u.modules.forEach(e=>{r(e)});let o=n.default.useSyncExternalStore(d.subscribe,d.getCurrentValue,d.getCurrentValue);return n.default.useImperativeHandle(t,()=>({retry:d.retry}),[]),n.default.useMemo(()=>{var t;return o.loading||o.error?n.default.createElement(u.loading,{isLoading:o.loading,pastDelay:o.pastDelay,timedOut:o.timedOut,error:o.error,retry:d.retry}):o.loaded?n.default.createElement((t=o.loaded)&&t.default?t.default:t,e):null},[e,o])}return g.preload=()=>c(),g.displayName="LoadableComponent",n.default.forwardRef(g)}(u,t)}function c(e,t){let r=[];for(;e.length;){let n=e.pop();r.push(n(t))}return Promise.all(r).then(()=>{if(e.length)return c(e,t)})}d.preloadAll=()=>new Promise((e,t)=>{c(o).then(e,t)}),d.preloadReady=(e=[])=>new Promise(t=>{let r=()=>(s=!0,t());c(i,e).then(r,r)}),"u">typeof window&&(window.__NEXT_PRELOADREADY=d.preloadReady);let g=d},274654,(e,t,r)=>{"use strict";Object.defineProperty(r,"__esModule",{value:!0});var n={default:function(){return c},noSSR:function(){return d}};for(var a in n)Object.defineProperty(r,a,{enumerable:!0,get:n[a]});let o=e.r(2879),i=e.r(478902);e.r(389959);let s=o._(e.r(447221)),u="u"<typeof window;function l(e){return{default:e?.default||e}}function d(e,t){if(delete t.webpack,delete t.modules,!u)return e(t);let r=t.loading;return()=>(0,i.jsx)(r,{error:null,isLoading:!0,pastDelay:!1,timedOut:!1})}function c(e,t){let r=s.default,n={loading:({error:e,isLoading:t,pastDelay:r})=>null};e instanceof Promise?n.loader=()=>e:"function"==typeof e?n.loader=e:"object"==typeof e&&(n={...n,...e});let a=(n={...n,...t}).loader;return(n.loadableGenerated&&(n={...n,...n.loadableGenerated},delete n.loadableGenerated),"boolean"!=typeof n.ssr||n.ssr)?r({...n,loader:()=>null!=a?a().then(l):Promise.resolve(l(()=>null))}):(delete n.webpack,delete n.modules,d(r,n))}("function"==typeof r.default||"object"==typeof r.default&&null!==r.default)&&void 0===r.default.__esModule&&(Object.defineProperty(r.default,"__esModule",{value:!0}),Object.assign(r.default,r),t.exports=r.default)},138173,(e,t,r)=>{t.exports=e.r(274654)},598986,e=>{"use strict";class t{static get(e,t){let r,n;try{r=sessionStorage.getItem(e)}catch(e){}if(null==r)return null;try{n=JSON.parse(r)}catch(e){}return null==n||"array"===t&&!Array.isArray(n)||t&&typeof n!==t?null:n}static set(e,t){try{sessionStorage.setItem(e,JSON.stringify(t))}catch(e){}}static remove(e){try{sessionStorage.removeItem(e)}catch(e){}}static keys(){try{return Object.keys(sessionStorage)}catch(e){return[]}}}e.s(["default",()=>t])},138716,e=>{"use strict";var t=e.i(276385),r=e.i(983420);e.s(["default",0,function(e){return(0,t.jsx)(r.default,{...e,children:(0,t.jsx)("path",{fillRule:"evenodd",d:"M4.47 11.47a.75.75 0 0 0 0 1.06l7 7a.75.75 0 1 0 1.06-1.06l-5.72-5.72H19a.75.75 0 0 0 0-1.5H6.81l5.72-5.72a.75.75 0 0 0-1.06-1.06l-7 7Z",clipRule:"evenodd"})})}])},151027,873054,672220,284693,e=>{"use strict";var t=e.i(276385),r=e.i(725958),n=e.i(389959),a=e.i(351623);let o=a.gql`
+    fragment OrgFlagsOrg on Org {
+  id
+  flags {
+    id
+    type
+    value
+  }
+}
+    `;e.s(["OrgFlagsOrgFragmentDoc",0,o],873054);var i=e.i(344480);e.i(975473);var s=e.i(299020);let u={},l=a.gql`
+    fragment UseCurrentUserOrgContext_orgdealcontext on OrgDealContext {
+  dealType
+  salesContactEmail
+}
+    `,d=a.gql`
+    fragment CurrentUserOrg on Org {
+  id
+  slug
+  currentUserRole
+  dealContext {
+    ...UseCurrentUserOrgContext_orgdealcontext
+  }
+  ...OrgFlagsOrg
+}
+    ${l}
+${o}`,c=a.gql`
+    query CurrentUserOrgContext {
+  getUserOrgContext2 {
+    ... on Org {
+      ...CurrentUserOrg
+    }
+  }
+}
+    ${d}`;function g(e){let t={...u,...e};return i.useQuery(c,t)}let p=a.gql`
+    query CurrentUserOrgContextGetOrg($orgSlug: String!) {
+  currentUser {
+    id
+    org(orgSlug: $orgSlug) {
+      ... on Org {
+        id
+        ...CurrentUserOrg
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+}
+    ${d}`;function f(e){let t={...u,...e};return i.useQuery(p,t)}let m=a.gql`
+    mutation CurrentUserOrgContextUpdateOrgContext($input: UpdateOrgContextInput!) {
+  updateOrgContext(input: $input) {
+    ... on Org {
+      ...CurrentUserOrg
+    }
+    ... on Error {
+      __typename
+      message
+    }
+  }
+}
+    ${d}`;e.s(["CurrentUserOrgContextDocument",0,c,"CurrentUserOrgContextUpdateOrgContextDocument",0,m,"useCurrentUserOrgContextGetOrgQuery",0,f,"useCurrentUserOrgContextQuery",0,g,"useCurrentUserOrgContextUpdateOrgContextMutation",0,function(e){let t={...u,...e};return s.useMutation(m,t)}],672220),e.i(908796);let y={"flag-sponsorship-bulk-send":"number","flag-org-depl-rules":"boolean","flag-require-git-remote":"boolean","flag-agent-billing-v2-teams":"boolean","flag-org-stack-templates":"boolean","flag-tom-riddle":"boolean","flag-deployments-switch-to-azure":"boolean","flag-experimental-connectors":"string","flag-org-require-security-scan-in-deployment":"boolean","flag-enable-deployment-private-passwords":"boolean","flag-org-custom-mcp-servers":"boolean","flag-org-predefined-mcp-providers":"boolean","flag-org-budgets":"boolean","flag-azure-org-can-use-object-store":"boolean","flag-unified-plans-enterprise":"boolean","flag-self-hosted-git-domains":"boolean","flag-databricks-apps":"boolean","flag-msft-rayfin":"boolean","flag-self-serve-sso":"boolean","flag-vibes-not-guaranteed":"boolean","flag-account-usage-total-usd":"boolean"};function h(e){if(!e||"object"!=typeof e)return!1;let{id:t,type:r,value:n}=e;if(!(t in y))return!1;let a=y[t];return r===a||"number"===a&&"string"===r&&!isNaN(Number(n))}function v(e){return(e.flags||[]).filter(h).reduce((e,{id:t,value:r})=>({...e,[t]:"number"===y[t]?Number(r):r}),{})}e.s(["orgFlags",0,v],284693);var b=e.i(933302);let _=["/evaluations","/import","/integrations","/notifications","/templates","/theme","/@","/~/cli","/grab"],S=(0,n.createContext)(null),C=(0,n.createContext)(null);function O(){let e=(0,n.useContext)(S);if(null===e)throw Error("StoredOrgContextProvider missing!");return e}e.s(["StoredOrgContextProvider",0,function({children:e}){let a=(0,r.useRouter)(),o=a.asPath,i=function(){let e=(0,r.useRouter)().asPath.split("?")[0];if(e.startsWith("/t")){let t=e.split("/");if(t[2])return t[2]}return null}(),s=(0,b.useSyncStatsigOrgContext)(),u=null!=i,l=!u&&_.some(e=>o.startsWith(e)),d=g({skip:"/replEnvironmentDesktop"===a.pathname||"/replEnvironmentMobile"===a.pathname||!l}),c=d.data?.getUserOrgContext2?.__typename==="Org"?d.data.getUserOrgContext2:null,p=f({skip:!u,variables:{orgSlug:i??""}}),m=p.data?.currentUser?.org?.__typename==="Org"?p.data.currentUser.org:null,y=l?d.loading:p.loading,h=u?m:l?c:null;s(h?.id,h?.dealContext?.dealType);let[O,x]=(0,n.useState)({orgId:h?.id,orgSlug:h?.slug,orgRole:h?.currentUserRole??void 0,orgDealContext:h?.dealContext??void 0});(0,n.useEffect)(()=>{y||x({orgId:h?.id,orgSlug:h?.slug,orgRole:h?.currentUserRole??void 0,orgDealContext:h?.dealContext??void 0})},[h,y]);let T=(0,n.useCallback)(e=>x(e),[]),U=(0,n.useMemo)(()=>h?v(h):{},[h]);return(0,t.jsx)(C.Provider,{value:T,children:(0,t.jsx)(S.Provider,{value:{flags:U,orgId:O.orgId,orgSlug:O.orgSlug,orgRole:O.orgRole,orgDealContext:O.orgDealContext,loading:y},children:e})})},"getOrgTrackingContext",0,e=>e?`Org:${e.id}`:"Personal","useCurrentUserStoredOrgContext",0,O,"useIsCurrentOrgEnterprise",0,function(){let e=O();return e.orgDealContext?.dealType==="enterprise"||e.orgDealContext?.dealType==="enterprise_trial"},"useSetOptimisticOrg",0,function(){let e=(0,n.useContext)(C);if(null===e)throw Error("StoredOrgContextProvider missing!");return e}],151027)},871752,e=>{"use strict";var t=e.i(324753),r=e.i(272391);function n(e,r){return(0,t.default)(e,{credentials:"same-origin",headers:{"Content-Type":"application/json",Accept:"application/json","X-Requested-With":"XMLHttpRequest"},method:"post",body:JSON.stringify(r)})}e.s(["postJson",0,function(e,t={}){var a,o;let i;return a=n(e,t),o=e,i=new r.default("Unknown http error"),Promise.resolve(a).then(async e=>{let t;if(e.ok)return e.json();let r=e.headers.get("content-type");if(r&&r.includes("application/json"))t=await e.json();else{let r=await e.text();try{t=JSON.parse(r)}catch(e){t={message:r}}}throw t.message&&(i.message=t.message),i.setExtras({url:o,responseBody:t,responseData:{status:e.status,statusText:e.statusText,redirected:e.redirected,type:e.type,url:e.url}}).setTag("httpError","true"),i})},"wrapPost",0,n])},198,e=>{e.v({foreground:"LoadingStyle2-module__oDa7mW__foreground","move-background-position-x":"LoadingStyle2-module__oDa7mW__move-background-position-x","move-gradient":"LoadingStyle2-module__oDa7mW__move-gradient",nativeInput:"LoadingStyle2-module__oDa7mW__nativeInput",root:"LoadingStyle2-module__oDa7mW__root",themeOutline:"LoadingStyle2-module__oDa7mW__themeOutline",themePositive:"LoadingStyle2-module__oDa7mW__themePositive",themePrimary:"LoadingStyle2-module__oDa7mW__themePrimary",themeSurface:"LoadingStyle2-module__oDa7mW__themeSurface"})},327651,e=>{"use strict";var t=e.i(198);let r=t.default.root,n=t.default.foreground,a=t.default.nativeInput,o={surface:t.default.themeSurface,outline:t.default.themeOutline,primary:t.default.themePrimary,positive:t.default.themePositive};e.s(["foregroundPulse",0,n,"loadingPulse",0,r,"loadingPulseThemes",0,o,"nativeInputPulse",0,a])},935984,e=>{"use strict";var t=e.i(351623),r=e.i(344480),n=e.i(975473),a=e.i(299020);let o={},i=t.gql`
+    fragment TourServiceTour on TourSeen {
+  id
+  seen
+}
+    `,s=t.gql`
+    query TourServiceToursSeen($tours: [String!]!) {
+  currentUser {
+    id
+    toursSeen(tours: $tours) {
+      id
+      ...TourServiceTour
+    }
+  }
+}
+    ${i}`,u=t.gql`
+    mutation TourServiceDismissTour($name: String!) {
+  markTourAsSeen2(input: {name: $name}) {
+    __typename
+    ... on TourSeen {
+      id
+      ...TourServiceTour
+    }
+    ... on UserError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+  }
+}
+    ${i}`;e.s(["TourServiceDismissTourDocument",0,u,"TourServiceToursSeenDocument",0,s,"useTourServiceDismissTourMutation",0,function(e){let t={...o,...e};return a.useMutation(u,t)},"useTourServiceToursSeenLazyQuery",0,function(e){let t={...o,...e};return n.useLazyQuery(s,t)},"useTourServiceToursSeenQuery",0,function(e){let t={...o,...e};return r.useQuery(s,t)}])},777198,e=>{"use strict";var t=e.i(389959),r=e.i(935984);function n(e,n,a){let{data:o,loading:i}=(0,r.useTourServiceToursSeenQuery)({variables:{tours:e},skip:a?.skip}),[s,{loading:u}]=(0,r.useTourServiceDismissTourMutation)({variables:{name:e},optimisticResponse:{__typename:"RootMutationType",markTourAsSeen2:{__typename:"TourSeen",id:e,seen:!0}},onCompleted:n}),[l,{loading:d}]=(0,r.useTourServiceDismissTourMutation)({variables:{name:e},optimisticResponse:{__typename:"RootMutationType",markTourAsSeen2:{__typename:"TourSeen",id:e,seen:!1}}}),c=!!o?.currentUser?.toursSeen[0].seen;return(0,t.useMemo)(()=>({isLoading:i,isDone:c,setAsDone:s,unsetAsDone:l,isMutating:u||d}),[i,c,s,l,u,d])}e.s(["useDismissibleElement",0,function(e){let{isLoading:t,isDone:r,setAsDone:a,unsetAsDone:o}=n(e);return{isLoading:t,isDone:r,setAsDone:a,unsetAsDone:o}},"useMemoedDismissibleElement",0,n])},979530,e=>{"use strict";var t=e.i(276385),r=e.i(983420);e.s(["default",0,function(e){return(0,t.jsxs)(r.default,{...e,children:[(0,t.jsx)("path",{fillRule:"evenodd",d:"M1.47 1.47a.75.75 0 0 1 1.06 0l20 20a.75.75 0 1 1-1.06 1.06l-4.108-4.107a11.501 11.501 0 0 1-15.993-5.79 1.75 1.75 0 0 1-.01-1.243l.01-.024a11.502 11.502 0 0 1 3.956-4.98L1.469 2.53a.75.75 0 0 1 0-1.06Zm4.933 5.994a10 10 0 0 0-3.64 4.454.25.25 0 0 0 0 .16 10.002 10.002 0 0 0 10.297 6.115 10.001 10.001 0 0 0 3.182-.89l-2.175-2.175A3.75 3.75 0 0 1 8.87 9.932L6.403 7.464Zm3.568 3.568a2.245 2.245 0 0 0 2.996 2.996l-2.996-2.996Z",clipRule:"evenodd"}),(0,t.jsx)("path",{d:"M10.644 4.331a11.496 11.496 0 0 1 11.8 6.604l.187.43.01.025a1.75 1.75 0 0 1-.01 1.243 11.498 11.498 0 0 1-1.545 2.663.75.75 0 0 1-1.185-.919 10 10 0 0 0 1.336-2.299.25.25 0 0 0 0-.159A9.995 9.995 0 0 0 10.822 5.82a.75.75 0 0 1-.178-1.489Z"})]})}])},491194,e=>{"use strict";var t=e.i(276385),r=e.i(983420);e.s(["default",0,function(e){return(0,t.jsx)(r.default,{...e,children:(0,t.jsx)("path",{fillRule:"evenodd",d:"M10 2.75A1.25 1.25 0 0 0 8.75 4v1.25h6.5V4A1.25 1.25 0 0 0 14 2.75h-4Zm6.75 2.5V4A2.75 2.75 0 0 0 14 1.25h-4A2.75 2.75 0 0 0 7.25 4v1.25H3a.75.75 0 0 0 0 1.5h1.25V20A2.75 2.75 0 0 0 7 22.75h10A2.75 2.75 0 0 0 19.75 20V6.75H21a.75.75 0 0 0 0-1.5h-4.25Zm-11 1.5V20A1.25 1.25 0 0 0 7 21.25h10A1.25 1.25 0 0 0 18.25 20V6.75H5.75Zm4.25 3.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Zm4 0a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z",clipRule:"evenodd"})})}])},11029,e=>{"use strict";var t=e.i(276385),r=e.i(983420);e.s(["default",0,function(e){return(0,t.jsx)(r.default,{...e,children:(0,t.jsx)("path",{fillRule:"evenodd",d:"M20 3.25A2.75 2.75 0 0 1 22.75 6v12A2.75 2.75 0 0 1 20 20.75H4A2.75 2.75 0 0 1 1.25 18V6A2.75 2.75 0 0 1 4 3.25h16ZM2.75 18c0 .69.56 1.25 1.25 1.25h16c.69 0 1.25-.56 1.25-1.25V8.367l-7.838 4.992-.026.017a2.75 2.75 0 0 1-2.763 0l-.025-.017L2.75 8.365V18ZM4 4.75c-.69 0-1.25.56-1.25 1.25v.588l8.626 5.49a1.254 1.254 0 0 0 1.256 0l8.618-5.49V6c0-.69-.56-1.25-1.25-1.25H4Z",clipRule:"evenodd"})})}])},519979,e=>{"use strict";var t=e.i(276385),r=e.i(983420);e.s(["default",0,function(e){return(0,t.jsx)(r.default,{...e,children:(0,t.jsx)("path",{d:"M9 1.25a1 1 0 0 1 .902.57l.058.15.002.008L15 19.9l1.868-6.643a2.75 2.75 0 0 1 2.652-2.007H22a.75.75 0 0 1 0 1.5h-2.481a1.25 1.25 0 0 0-1.206.912l-2.351 8.361-.002.007a1.001 1.001 0 0 1-1.92 0l-.002-.008L9 4.1l-1.867 6.644a2.752 2.752 0 0 1-2.64 2.007H2a.75.75 0 0 1 0-1.5h2.488a1.251 1.251 0 0 0 1.2-.913l2.35-8.36.002-.007a1 1 0 0 1 .36-.52l.136-.086A1 1 0 0 1 9 1.25Z"})})}])},377882,(e,t,r)=>{t.exports=function(e){var t=typeof e;return null!=e&&("object"==t||"function"==t)}},186231,(e,t,r)=>{t.exports=e.g&&e.g.Object===Object&&e.g},971640,(e,t,r)=>{var n=e.r(186231),a="object"==typeof self&&self&&self.Object===Object&&self;t.exports=n||a||Function("return this")()},151193,(e,t,r)=>{t.exports=e.r(971640).Symbol},381803,(e,t,r)=>{var n=e.r(151193),a=Object.prototype,o=a.hasOwnProperty,i=a.toString,s=n?n.toStringTag:void 0;t.exports=function(e){var t=o.call(e,s),r=e[s];try{e[s]=void 0;var n=!0}catch(e){}var a=i.call(e);return n&&(t?e[s]=r:delete e[s]),a}},862749,(e,t,r)=>{var n=Object.prototype.toString;t.exports=function(e){return n.call(e)}},924519,(e,t,r)=>{var n=e.r(151193),a=e.r(381803),o=e.r(862749),i=n?n.toStringTag:void 0;t.exports=function(e){return null==e?void 0===e?"[object Undefined]":"[object Null]":i&&i in Object(e)?a(e):o(e)}},460779,(e,t,r)=>{t.exports=function(e){return null!=e&&"object"==typeof e}},983631,(e,t,r)=>{var n=e.r(924519),a=e.r(460779);t.exports=function(e){return"symbol"==typeof e||a(e)&&"[object Symbol]"==n(e)}},505690,e=>{"use strict";var t=e.i(722045),r=e.i(489859);class n{static get(e){return r.default.get(e,"string")||t.default.get(e)}static set(e,n){r.default.set(e,n),t.default.set(e,n)}static remove(e){r.default.remove(e),t.default.remove(e)}}e.s(["default",()=>n])},658862,e=>{"use strict";var t=e.i(389959),r=e.i(351623),n=e.i(846545),a=e.i(344480);e.i(975473);var o=e.i(299020);let i={},s=r.gql`
+    fragment UsageBasedBillingSuspensionNotification on UsageBasedBillingSuspensionStatusNotification {
+  id
+  isDismissed
+  user {
+    id
+  }
+  customer {
+    id
+    name
+  }
+  type
+  suspensionScheduledTime
+}
+    `,u=r.gql`
+    subscription UsageBasedBillingSuspensionNotifications($orgId: String) {
+  usageBasedBillingSuspensionStatusNotifications(orgId: $orgId) {
+    id
+    ...UsageBasedBillingSuspensionNotification
+  }
+}
+    ${s}`,l=r.gql`
+    query UsageBasedBillingSuspensionNotificationsCurrentUser {
+  currentUser {
+    id
+  }
+}
+    `,d=r.gql`
+    mutation DismissUbbSuspensionNotification($input: DismissUbbSuspensionNotificationInput!) {
+  dismissUbbSuspensionNotification(input: $input) {
+    ... on UsageBasedBillingSuspensionStatusNotification {
+      ...UsageBasedBillingSuspensionNotification
+    }
+  }
+}
+    ${s}`;var c=e.i(151027);e.s(["useUBBSuspensionNotifications",0,function({skip:e=!1,overrideOrgId:r}={}){var s,g;let p,f,m,{orgId:y}=(0,c.useCurrentUserStoredOrgContext)(),{data:h,loading:v}=(s={skip:e},p={...i,...s},a.useQuery(l,p)),{data:b,loading:_,error:S}=(g={variables:{orgId:r??y??void 0},skip:e||h?.currentUser?.__typename!=="CurrentUser"||v},f={...i,...g},n.useSubscription(u,f)),[C]=(m={...i,...void 0},o.useMutation(d,m)),[O,x]=(0,t.useState)(null);return{suspensionNotification:b?.usageBasedBillingSuspensionStatusNotifications?.__typename==="UsageBasedBillingSuspensionStatusNotification"&&O!==b.usageBasedBillingSuspensionStatusNotifications.id?b.usageBasedBillingSuspensionStatusNotifications:null,suspensionNotificationsLoading:_,suspensionNotificationsError:S,handleDismissNotification:e=>{x(e),C({variables:{input:{notificationId:e}}})}}}],658862)},279849,e=>{"use strict";let t;var r=e.i(722045),n=e.i(775973),a=e.i(912206),o=e.i(365669),i=e.i(505690),s=e.i(415541);let u="gating_id",l="ld_uid",d={clientSideID:o.publicEnv.NEXT_PUBLIC_LAUNCH_DARKLY_CLIENT_ID||"",context:{key:i.default.get(l)||(window?.ldAnonId?t=window.ldAnonId:((t=(0,s.getAnonymousId)()||r.default.get(u))||(t=(0,a.v4)()),(0,s.getAnonymousId)()!==t&&(0,s.setAnonymousId)(t),window.ldAnonId=t),r.default.get(u)||r.default.set(u,t,{path:"/"}),t),kind:"user",anonymous:!i.default.get(l)},options:{bootstrap:"localStorage",sendEvents:!0,streaming:!1,fetchGoals:!1},reactOptions:{useCamelCaseFlagKeys:!1}};e.s(["default",0,()=>(0,n.withLDProvider)(d),"setLdUserId",0,e=>{i.default.set(l,e)}])}]);
+
+//# debugId=aac1e2f1-9711-cb5c-37b1-8216f50e2c18
+//# sourceMappingURL=0zwcy-_aohp3m.js.map

@@ -1,0 +1,742 @@
+;!function(){try { var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&((e._debugIds|| (e._debugIds={}))[n]="1b63c6cc-06eb-f239-797a-bcd263e60f28")}catch(e){}}();
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,14154,428807,e=>{"use strict";var t=e.i(351623),r=e.i(762288);let a=t.gql`
+    fragment AccountItemCurrentUser on CurrentUser {
+  id
+  username
+  fullName
+  image
+  userSubscriptionType
+  customer {
+    ... on Customer {
+      id
+      isUnifiedPlanEnabled
+    }
+  }
+  isMemberOfAnyOrg
+  ...UserLinkCurrentUser
+}
+    ${r.UserLinkCurrentUserFragmentDoc}`;var i=e.i(590911);let l=t.gql`
+    fragment TeamsItemOrg on Org {
+  id
+  name
+  type
+  slug
+  currentUserRole
+  image
+  dealContext {
+    dealType
+    salesContactEmail
+  }
+}
+    `,n=t.gql`
+    fragment TeamsItemCurrentUser on CurrentUser {
+  id
+  image
+  username
+  fullName
+  orgs(count: 50) {
+    __typename
+    ... on CurrentUserOrganizationConnection {
+      items {
+        type
+        org {
+          ...TeamsItemOrg
+        }
+      }
+    }
+    ... on Error {
+      message
+    }
+    ... on NotFoundError {
+      message
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    ${l}`;var s=e.i(180273);let o=t.gql`
+    fragment GloablHeaderCurrentUser on CurrentUser {
+  id
+  isMemberOfAnyOrg
+  customer {
+    ... on Customer {
+      id
+      isUnifiedPlanEnabled
+    }
+  }
+  ...AccountItemCurrentUser
+  ...DevCopyUsernameItemCurrentUser
+  ...TeamsItemCurrentUser
+  ...IsUnifiedPlanEnabledForAnyOrg
+}
+    ${a}
+${i.DevCopyUsernameItemCurrentUserFragmentDoc}
+${n}
+${s.IsUnifiedPlanEnabledForAnyOrgFragmentDoc}`;e.s(["GloablHeaderCurrentUserFragmentDoc",0,o],428807);var u=e.i(481963),d=e.i(344480);e.i(975473);let c={},p=t.gql`
+    fragment LayoutSidebarCurrentUser on CurrentUser {
+  id
+  firstName
+  isStaff: hasRole(role: REPLIT_STAFF)
+  isExplorer: hasRole(role: EXPLORER)
+  ...GloablHeaderCurrentUser
+  ...UserPlanStateCurrentUser
+  ...IsUnifiedPlanEnabledPersonalWorkspaceCurrentUser
+  ...IsUnifiedPlanEnabledForAnyOrg
+}
+    ${o}
+${u.UserPlanStateCurrentUserFragmentDoc}
+${s.IsUnifiedPlanEnabledPersonalWorkspaceCurrentUserFragmentDoc}
+${s.IsUnifiedPlanEnabledForAnyOrgFragmentDoc}`,m=t.gql`
+    fragment LayoutSidebarOrg on Org {
+  id
+  name
+  slug
+  image
+  ...IsUnifiedPlanEnabledOrg
+  authorizations {
+    viewUsage {
+      isAuthorized
+    }
+    viewOrgAnalytics {
+      isAuthorized
+    }
+    viewOrgSecurity {
+      isAuthorized
+    }
+    viewSubscription {
+      isAuthorized
+    }
+  }
+}
+    ${s.IsUnifiedPlanEnabledOrgFragmentDoc}`,g=t.gql`
+    query LayoutSidebarGetOrg($orgId: String!) {
+  getOrg(orgId: $orgId) {
+    __typename
+    ... on Org {
+      ...LayoutSidebarOrg
+    }
+    ... on NotFoundError {
+      message
+    }
+  }
+}
+    ${m}`;e.s(["LayoutSidebarCurrentUserFragmentDoc",0,p,"useLayoutSidebarGetOrgQuery",0,function(e){let t={...c,...e};return d.useQuery(g,t)}],14154)},437497,e=>{"use strict";var t=e.i(351623),r=e.i(344480);e.i(975473);let a={},i=t.gql`
+    query UsageActionRequired {
+  currentUser {
+    __typename
+    id
+    usageBasedBillingBudget {
+      ... on UsageBasedBillingBudget {
+        id
+        hasReachedBudget
+      }
+      ... on UnauthorizedError {
+        message
+      }
+    }
+    storageInfo {
+      __typename
+      storageQuotaStatus2 {
+        __typename
+        ... on StorageQuotaStatus {
+          status
+        }
+        ... on ServiceUnavailable {
+          message
+        }
+      }
+    }
+  }
+}
+    `,l=t.gql`
+    query OrgUsageActionRequired($orgId: String!) {
+  currentUser {
+    __typename
+    id
+    org(orgId: $orgId) {
+      __typename
+      ... on Org {
+        id
+        usageBasedBillingBudget {
+          __typename
+          ... on UsageBasedBillingBudget {
+            id
+            hasReachedBudget
+          }
+          ... on Error {
+            message
+          }
+        }
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+}
+    `;e.s(["UsageActionRequiredDocument",0,i,"useOrgUsageActionRequiredQuery",0,function(e){let t={...a,...e};return r.useQuery(l,t)},"useUsageActionRequiredQuery",0,function(e){let t={...a,...e};return r.useQuery(i,t)}])},445807,289038,650401,e=>{"use strict";var t=e.i(437497),r=e.i(908796);e.s(["useUsageActionRequired",0,e=>{let{loading:a,data:i}=(0,t.useUsageActionRequiredQuery)({ssr:!1,context:{noBatch:!0},skip:void 0!==e}),{loading:l,data:n}=(0,t.useOrgUsageActionRequiredQuery)({variables:{orgId:e??""},ssr:!1,context:{noBatch:!0},skip:!e});if(e)return{loading:l,actionRequired:n?.currentUser?.org.__typename==="Org"&&n.currentUser.org.usageBasedBillingBudget?.__typename==="UsageBasedBillingBudget"&&!!n.currentUser.org.usageBasedBillingBudget.hasReachedBudget};{if(!i||i.currentUser?.__typename!=="CurrentUser"||i.currentUser.storageInfo?.__typename!=="StorageInfo"||"StorageQuotaStatus"!==i.currentUser.storageInfo.storageQuotaStatus2.__typename)return{loading:a,actionRequired:!1};let{storageInfo:{storageQuotaStatus2:{status:e}},usageBasedBillingBudget:t}=i.currentUser;return{loading:a,actionRequired:t?.__typename==="UsageBasedBillingBudget"&&t.hasReachedBudget||e===r.StorageQuotaEnum.ExceedingQuota||e===r.StorageQuotaEnum.ApproachingQuota}}}],445807);var a=e.i(276385),i=e.i(138716),l=e.i(995691),n=e.i(255701),s=e.i(612343),o=e.i(776065),u=e.i(448942);let d=e=>t=>t.pathname===e;e.s(["useOrgGroupNavItems",0,function({orgSlug:e}){let t=(0,o.useQueryParam)("groupId","string"),r=(0,o.useQueryParam)("groupSlug","string");if(!e||!t||!r)return[];let c=(0,u.orgLinks)({slug:e}),p=(0,u.orgGroupLinks)({orgSlug:e,groupId:t,groupSlug:r});return[{label:"Back",href:c.groups.href.toString(),icon:(0,a.jsx)(i.default,{}),active:d(c.groups.routerPath)},{label:"Members",href:p.members.href.toString(),icon:(0,a.jsx)(s.default,{}),active:d(p.members.routerPath)},{label:"Permissions",href:p.permissions.href.toString(),icon:(0,a.jsx)(l.default,{}),active:d(p.permissions.routerPath)},{label:"Group settings",href:p.settings.href.toString(),icon:(0,a.jsx)(n.default,{}),active:d(p.settings.routerPath)}]}],289038);var c=e.i(351623),p=e.i(319801);let m=c.gql`
+    fragment GlobalSearchReplResult on Repl {
+  id
+  title
+  iconUrl
+  ...ReplLinkRepl
+}
+    ${p.ReplLinkReplFragmentDoc}`;var g=e.i(344480),h=e.i(975473);let x={},f=c.gql`
+    fragment GlobalSearchRepl on Repl {
+  id
+  ...GlobalSearchReplResult
+}
+    ${m}`,y=c.gql`
+    query GlobalPersonalRecentRepls($count: Int!) {
+  currentUser {
+    id
+    isStaff: hasRole(role: REPLIT_STAFF)
+    clui
+  }
+  recentRepls(count: $count) {
+    id
+    ...GlobalSearchRepl
+  }
+}
+    ${f}`,j=c.gql`
+    query GlobalPersonalSearch($search: String!) {
+  currentUser {
+    id
+    replSearch(search: $search) {
+      id
+      ...GlobalSearchRepl
+    }
+  }
+}
+    ${f}`,v=c.gql`
+    query GlobalOrgRecentRepls($count: Int!, $orgId: String!) {
+  currentUser {
+    id
+    isStaff: hasRole(role: REPLIT_STAFF)
+    clui
+    org(orgId: $orgId) {
+      ... on Org {
+        id
+        name
+        recentRepls(input: {count: $count}) {
+          ... on ReplConnection {
+            items {
+              ...GlobalSearchRepl
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    ${f}`,b=c.gql`
+    query GlobalOrgSearch($orgId: String!, $replsInput: OrgReplsInput!) {
+  currentUser {
+    id
+    org(orgId: $orgId) {
+      ... on Org {
+        id
+        repls(input: $replsInput) {
+          ... on ReplConnection {
+            items {
+              ...GlobalSearchRepl
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    ${f}`;e.s(["useGlobalOrgRecentReplsQuery",0,function(e){let t={...x,...e};return g.useQuery(v,t)},"useGlobalOrgSearchLazyQuery",0,function(e){let t={...x,...e};return h.useLazyQuery(b,t)},"useGlobalPersonalRecentReplsQuery",0,function(e){let t={...x,...e};return g.useQuery(y,t)},"useGlobalPersonalSearchLazyQuery",0,function(e){let t={...x,...e};return h.useLazyQuery(j,t)}],650401)},291996,(e,t,r)=>{t.exports=function(e,t,r){var a=-1,i=e.length;t<0&&(t=-t>i?0:i+t),(r=r>i?i:r)<0&&(r+=i),i=t>r?0:r-t>>>0,t>>>=0;for(var l=Array(i);++a<i;)l[a]=e[a+t];return l}},79988,(e,t,r)=>{var a=e.r(291996);t.exports=function(e,t,r){var i=e.length;return r=void 0===r?i:r,!t&&r>=i?e:a(e,t,r)}},364927,(e,t,r)=>{var a=RegExp("[\\u200d\\ud800-\\udfff\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff\\ufe0e\\ufe0f]");t.exports=function(e){return a.test(e)}},256779,(e,t,r)=>{t.exports=function(e){return e.split("")}},19728,(e,t,r)=>{var a="\\ud800-\\udfff",i="[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]",l="\\ud83c[\\udffb-\\udfff]",n="[^"+a+"]",s="(?:\\ud83c[\\udde6-\\uddff]){2}",o="[\\ud800-\\udbff][\\udc00-\\udfff]",u="(?:"+i+"|"+l+")?",d="[\\ufe0e\\ufe0f]?",c="(?:\\u200d(?:"+[n,s,o].join("|")+")"+d+u+")*",p=RegExp(l+"(?="+l+")|"+("(?:"+[n+i+"?",i,s,o,"["+a+"]"].join("|"))+")"+(d+u+c),"g");t.exports=function(e){return e.match(p)||[]}},136144,(e,t,r)=>{var a=e.r(256779),i=e.r(364927),l=e.r(19728);t.exports=function(e){return i(e)?l(e):a(e)}},504442,(e,t,r)=>{var a=e.r(79988),i=e.r(364927),l=e.r(136144),n=e.r(213296);t.exports=function(e){return function(t){var r=i(t=n(t))?l(t):void 0,s=r?r[0]:t.charAt(0),o=r?a(r,1).join(""):t.slice(1);return s[e]()+o}}},676145,(e,t,r)=>{t.exports=e.r(504442)("toUpperCase")},28894,(e,t,r)=>{var a=e.r(213296),i=e.r(676145);t.exports=function(e){return i(a(e).toLowerCase())}},838460,(e,t,r)=>{t.exports=function(e,t,r,a){var i=-1,l=null==e?0:e.length;for(a&&l&&(r=e[++i]);++i<l;)r=t(r,e[i],i,e);return r}},390568,(e,t,r)=>{t.exports=function(e){return function(t){return null==e?void 0:e[t]}}},472299,(e,t,r)=>{t.exports=e.r(390568)({À:"A",Á:"A",Â:"A",Ã:"A",Ä:"A",Å:"A",à:"a",á:"a",â:"a",ã:"a",ä:"a",å:"a",Ç:"C",ç:"c",Ð:"D",ð:"d",È:"E",É:"E",Ê:"E",Ë:"E",è:"e",é:"e",ê:"e",ë:"e",Ì:"I",Í:"I",Î:"I",Ï:"I",ì:"i",í:"i",î:"i",ï:"i",Ñ:"N",ñ:"n",Ò:"O",Ó:"O",Ô:"O",Õ:"O",Ö:"O",Ø:"O",ò:"o",ó:"o",ô:"o",õ:"o",ö:"o",ø:"o",Ù:"U",Ú:"U",Û:"U",Ü:"U",ù:"u",ú:"u",û:"u",ü:"u",Ý:"Y",ý:"y",ÿ:"y",Æ:"Ae",æ:"ae",Þ:"Th",þ:"th",ß:"ss",Ā:"A",Ă:"A",Ą:"A",ā:"a",ă:"a",ą:"a",Ć:"C",Ĉ:"C",Ċ:"C",Č:"C",ć:"c",ĉ:"c",ċ:"c",č:"c",Ď:"D",Đ:"D",ď:"d",đ:"d",Ē:"E",Ĕ:"E",Ė:"E",Ę:"E",Ě:"E",ē:"e",ĕ:"e",ė:"e",ę:"e",ě:"e",Ĝ:"G",Ğ:"G",Ġ:"G",Ģ:"G",ĝ:"g",ğ:"g",ġ:"g",ģ:"g",Ĥ:"H",Ħ:"H",ĥ:"h",ħ:"h",Ĩ:"I",Ī:"I",Ĭ:"I",Į:"I",İ:"I",ĩ:"i",ī:"i",ĭ:"i",į:"i",ı:"i",Ĵ:"J",ĵ:"j",Ķ:"K",ķ:"k",ĸ:"k",Ĺ:"L",Ļ:"L",Ľ:"L",Ŀ:"L",Ł:"L",ĺ:"l",ļ:"l",ľ:"l",ŀ:"l",ł:"l",Ń:"N",Ņ:"N",Ň:"N",Ŋ:"N",ń:"n",ņ:"n",ň:"n",ŋ:"n",Ō:"O",Ŏ:"O",Ő:"O",ō:"o",ŏ:"o",ő:"o",Ŕ:"R",Ŗ:"R",Ř:"R",ŕ:"r",ŗ:"r",ř:"r",Ś:"S",Ŝ:"S",Ş:"S",Š:"S",ś:"s",ŝ:"s",ş:"s",š:"s",Ţ:"T",Ť:"T",Ŧ:"T",ţ:"t",ť:"t",ŧ:"t",Ũ:"U",Ū:"U",Ŭ:"U",Ů:"U",Ű:"U",Ų:"U",ũ:"u",ū:"u",ŭ:"u",ů:"u",ű:"u",ų:"u",Ŵ:"W",ŵ:"w",Ŷ:"Y",ŷ:"y",Ÿ:"Y",Ź:"Z",Ż:"Z",Ž:"Z",ź:"z",ż:"z",ž:"z",Ĳ:"IJ",ĳ:"ij",Œ:"Oe",œ:"oe",ŉ:"'n",ſ:"s"})},121596,(e,t,r)=>{var a=e.r(472299),i=e.r(213296),l=/[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g,n=RegExp("[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]","g");t.exports=function(e){return(e=i(e))&&e.replace(l,a).replace(n,"")}},131888,(e,t,r)=>{var a=/[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;t.exports=function(e){return e.match(a)||[]}},114039,(e,t,r)=>{var a=/[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;t.exports=function(e){return a.test(e)}},291697,(e,t,r)=>{var a="\\ud800-\\udfff",i="\\u2700-\\u27bf",l="a-z\\xdf-\\xf6\\xf8-\\xff",n="A-Z\\xc0-\\xd6\\xd8-\\xde",s="\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000",o="['’]",u="["+s+"]",d="["+l+"]",c="[^"+a+s+"\\d+"+i+l+n+"]",p="(?:\\ud83c[\\udde6-\\uddff]){2}",m="[\\ud800-\\udbff][\\udc00-\\udfff]",g="["+n+"]",h="(?:"+d+"|"+c+")",x="(?:"+g+"|"+c+")",f="(?:"+o+"(?:d|ll|m|re|s|t|ve))?",y="(?:"+o+"(?:D|LL|M|RE|S|T|VE))?",j="(?:[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]|\\ud83c[\\udffb-\\udfff])?",v="[\\ufe0e\\ufe0f]?",b="(?:\\u200d(?:"+["[^"+a+"]",p,m].join("|")+")"+v+j+")*",T="(?:"+["["+i+"]",p,m].join("|")+")"+(v+j+b),_=RegExp([g+"?"+d+"+"+f+"(?="+[u,g,"$"].join("|")+")",x+"+"+y+"(?="+[u,g+h,"$"].join("|")+")",g+"?"+h+"+"+f,g+"+"+y,"\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])|\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])|\\d+",T].join("|"),"g");t.exports=function(e){return e.match(_)||[]}},192724,(e,t,r)=>{var a=e.r(131888),i=e.r(114039),l=e.r(213296),n=e.r(291697);t.exports=function(e,t,r){return(e=l(e),void 0===(t=r?void 0:t))?i(e)?n(e):a(e):e.match(t)||[]}},283819,(e,t,r)=>{var a=e.r(838460),i=e.r(121596),l=e.r(192724),n=RegExp("['’]","g");t.exports=function(e){return function(t){return a(l(i(t).replace(n,"")),e,"")}}},361623,(e,t,r)=>{var a=e.r(28894);t.exports=e.r(283819)(function(e,t,r){return t=t.toLowerCase(),e+(r?a(t):t)})},810277,e=>{e.v({checkboxInput:"Form-module__Qa3YCq__checkboxInput",cliForm:"Form-module__Qa3YCq__cliForm",selectInput:"Form-module__Qa3YCq__selectInput"})},983894,e=>{e.v({container:"index-module__ycHd5G__container",inputDescription:"index-module__ycHd5G__inputDescription",label:"index-module__ycHd5G__label",submitButton:"index-module__ycHd5G__submitButton"})},154610,e=>{e.v({menu:"Menu-module__YzSDJa__menu"})},57509,e=>{e.v({highlighted:"MenuItem-module__VXgYqW__highlighted",highlightedAndSelected:"MenuItem-module__VXgYqW__highlightedAndSelected",menuItem:"MenuItem-module__VXgYqW__menuItem",selected:"MenuItem-module__VXgYqW__selected",taller:"MenuItem-module__VXgYqW__taller"})},941706,e=>{e.v({accentPrimary:"index-module__BB7faG__accentPrimary",fieldWrapper:"index-module__BB7faG__fieldWrapper",menuWrapper:"index-module__BB7faG__menuWrapper",templateRow:"index-module__BB7faG__templateRow"})},109273,135069,458713,89610,196064,762902,166295,771087,e=>{"use strict";var t=e.i(351623),r=e.i(344480);e.i(975473);let a={},i=t.gql`
+    query CurrentUserClui {
+  currentUser {
+    id
+    clui
+  }
+}
+    `;e.s(["useCurrentUserCluiQuery",0,function(e){let t={...a,...e};return r.useQuery(i,t)}],109273),e.i(361623),e.s([],135069),e.s(["forEach",0,(e,t)=>{if("object"!=typeof e.commands)throw Error("Expected commands object");t({command:e,root:e});let r=[...Object.values(e.commands)];for(;r.length;){let a=r.shift();a&&(t({command:a,root:e}),a.commands&&r.push(...Object.values(a.commands)))}}],458713);let l=e=>{if("ENUM"===e.arg.graphql.kind)return e.value||void 0;switch(e.arg.type){case"string":return e.value;case"int":return parseInt(e.value,10);case"float":return parseFloat(e.value);case"boolean":return!!e.value;default:return}};e.s(["parseArgs",0,e=>{let t=[],r=[],a={},i={...e.args};if(!e.command.args)return{variables:a,missing:{},extra:Object.keys(i).length?i:void 0};for(let n of Object.values(e.command.args)){let s=e.args[n.name];if(delete i[n.name],void 0===s)n.required?t.push(n):r.push(n);else if("boolean"===n.type&&"boolean"==typeof s)a[n.name]=s;else{let e=l({value:s.toString(),arg:n});void 0!==e&&(a[n.name]=e)}}return{variables:a,missing:{...t.length?{required:t}:{},...r.length?{optional:r}:{}},extra:Object.keys(i).length?i:void 0}}],89610);var n=e.i(276385),s=e.i(342008),o=e.i(108431);e.s(["default",0,e=>{let{networkError:t}=e.error,r=t&&t.result&&t.result.errors?t.result.errors.map(e=>e.message):[e.error.toString()],a=1===r.length?r[0]:(0,n.jsx)(n.Fragment,{children:r.map((e,t)=>(0,n.jsxs)("span",{children:[t>0?(0,n.jsx)("br",{}):null,e]},e))});return(0,n.jsx)(o.StatusBanner,{colorway:"negative",icon:(0,n.jsx)(s.default,{}),text:a})}],196064);var u=e.i(389959),d=e.i(54456),c=e.i(37048),p=e.i(643484),m=e.i(86145),g=e.i(8047),h=e.i(810277);let x=(e,t)=>"UPDATE"===t.type?{...e,...t.updates}:e,f=({description:e,...t})=>(0,n.jsxs)(c.VStack,{spacing:1,align:"stretch",children:[(0,n.jsx)(d.default,{...t,label:t.name}),e?(0,n.jsxs)(g.Text,{color:"dimmer",variant:"small",children:[e,t.required?"":" (optional)"]}):null,e||t.required?null:(0,n.jsx)(g.Text,{color:"dimmer",variant:"small",children:"optional"})]}),y=({description:e,...t})=>(0,n.jsxs)("div",{clsx:h.default.checkboxInput,children:[(0,n.jsxs)("label",{children:[(0,n.jsx)(m.Checkbox,{...t}),(0,n.jsx)("span",{children:t.name})]}),e?(0,n.jsxs)(g.Text,{color:"dimmer",variant:"small",children:[e,t.required?"":" (optional)"]}):null,e||t.required?null:(0,n.jsx)(g.Text,{color:"dimmer",variant:"small",children:"optional"})]}),j=({description:e,...t})=>(0,n.jsxs)(c.VStack,{spacing:1,align:"stretch",children:[t.name?(0,n.jsx)(g.Text,{color:"dimmer",variant:"small",children:t.name}):null,(0,n.jsx)("label",{clsx:h.default.selectInput,children:(0,n.jsxs)("select",{...t,children:[(0,n.jsx)("option",{value:""},"empty"),t.options.map(e=>(0,n.jsx)("option",{value:e.value,children:e.value},e.value))]})}),e?(0,n.jsxs)(g.Text,{color:"dimmer",variant:"small",children:[e,t.required?"":" (optional)"]}):null,e||t.required?null:(0,n.jsx)(g.Text,{color:"dimmer",variant:"small",children:"optional"})]});e.s(["default",0,e=>{let{command:t,parsedVariables:r}=e,a=t.args&&Object.values(t.args).reverse(),i=Object.keys(r).reduce((e,t)=>(a?.find(e=>e.name===t)&&(e[t]=r[t]),e),{}),[l,s]=(0,u.useReducer)(x,i),o=(0,u.useCallback)(e=>s({type:"UPDATE",updates:e}),[s]),d=a?.find(e=>"boolean"!==e.type&&!l[e.name]);return(0,n.jsx)("div",{className:"wrap",clsx:h.default.cliForm,children:(0,n.jsx)("form",{onSubmit:t=>{t.preventDefault(),e.onSubmit(l)},children:(0,n.jsxs)(c.VStack,{spacing:2,align:"stretch",children:[t.description?(0,n.jsx)(g.Text,{children:t.description}):null,a?a.map(e=>{let t=e.name,r={name:e.name,required:e.required,description:e.description||void 0},a=l[e.name];return"ENUM"===e.graphql.kind&&Array.isArray(e.options)?(0,n.jsx)(j,{...r,options:e.options,autoFocus:d&&d.name===e.name,onChange:t=>o({[e.name]:t.currentTarget.value})},t):"boolean"===e.type?(0,n.jsx)(y,{...r,id:t,checked:!!l[e.name],onChange:t=>o({[e.name]:t})},t):(0,n.jsx)(f,{...r,autoFocus:d&&d.name===e.name,value:a?a.toString():"",onChange:t=>o({[e.name]:t.currentTarget.value})},t)}):null,(0,n.jsx)("div",{children:(0,n.jsx)(p.Button,{colorway:"primary",type:"submit",disabled:e.isLoading,text:e.isLoading?"Loading...":"Submit"})})]})})})}],762902);var v=e.i(299020);let b={},T=t.gql`
+    mutation DeleteTipInteractions($mode: DeleteTipInteractionsMode!, $target: String) {
+  deleteTipInteractions(mode: $mode, target: $target) {
+    __typename
+    ... on DeleteTipInteractionsResult {
+      message
+      deletedCount
+      details
+    }
+    ... on NotFoundError {
+      message
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    `;var _=e.i(399245),R=e.i(355407),C=e.i(334028),S=e.i(612343),w=e.i(570438),U=e.i(480028),I=e.i(449525),k=e.i(142406),L=e.i(528326),O=e.i(61732),A=e.i(983894);e.s(["default",0,()=>{let e,[t,r]=(0,u.useState)("USERNAME"),[a,i]=(0,u.useState)(""),[l,s]=(0,u.useState)(""),[o,c]=(0,u.useState)(null),[m,h]=(0,u.useState)(!1),x=(0,w.useCurrentUserId)(),[f,{loading:y}]=(e={...b,...void 0},v.useMutation(T,e)),j=(0,u.useCallback)(async()=>{try{let e;e="ALL"===t?void 0:"MYSELF"===t?x?.toString():a.trim();let{data:r}=await f({variables:{mode:"MYSELF"===t?"USER_ID":t,target:e}}),l=r?.deleteTipInteractions;l&&("DeleteTipInteractionsResult"===l.__typename?(c({message:l.message}),i("")):("NotFoundError"===l.__typename||"UserError"===l.__typename)&&c({error:l.message}))}catch(e){c({error:"An unexpected error occurred"})}},[f,t,a,x]),E=(0,u.useCallback)(async e=>{(e.preventDefault(),s(""),t)?"MYSELF"!==t||x?"USERNAME"!==t&&"USER_ID"!==t&&"ORG"!==t||a.trim()?"ALL"===t?h(!0):await j():"USERNAME"===t?s("Please enter a username"):"USER_ID"===t?s("Please enter a user ID"):s("Please enter a workspace ID"):s("Current user ID not available"):s("Please select what to delete")},[t,a,j,x]),P=(0,u.useCallback)(async()=>{h(!1),await j()},[j]);return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(O.View,{p:16,clsx:A.default.container,children:(0,n.jsxs)(O.View,{gap:16,align:"stretch",children:[(0,n.jsx)(g.Text,{variant:"subheadBig",children:"Delete user tip interactions"}),(0,n.jsx)(g.Text,{variant:"small",color:"dimmer",children:"This will permanently delete tip interaction data. This action cannot be undone."}),(0,n.jsx)("form",{onSubmit:E,children:(0,n.jsxs)(O.View,{gap:12,align:"stretch",children:[(0,n.jsxs)(O.View,{children:[(0,n.jsx)(g.Text,{variant:"small",clsx:A.default.label,children:"What to delete"}),(0,n.jsxs)(I.ButtonGroup,{primary:!0,name:"delete-mode",value:t,onChange:e=>{r(e),s(""),c(null)},disabled:y,row:!0,stretch:!0,children:[(0,n.jsx)(I.ButtonGroupItem,{id:"myself-mode",text:"Myself",value:"MYSELF",icon:(0,n.jsx)(C.default,{})}),(0,n.jsx)(I.ButtonGroupItem,{id:"username-mode",text:"Username",value:"USERNAME",icon:(0,n.jsx)(C.default,{})}),(0,n.jsx)(I.ButtonGroupItem,{id:"user-id-mode",text:"User ID",value:"USER_ID",icon:(0,n.jsx)(R.default,{})}),(0,n.jsx)(I.ButtonGroupItem,{id:"org-mode",text:"Workspace",value:"ORG",icon:(0,n.jsx)(S.default,{})}),(0,n.jsx)(I.ButtonGroupItem,{id:"all-mode",text:"All Users",value:"ALL",icon:(0,n.jsx)(_.default,{})})]})]}),"USERNAME"===t||"USER_ID"===t||"ORG"===t?(0,n.jsxs)(O.View,{children:[(0,n.jsx)(g.Text,{variant:"small",clsx:A.default.label,children:"USERNAME"===t?"Username":"USER_ID"===t?"User ID":"ORG"===t?"Workspace ID":""}),(0,n.jsx)(d.default,{value:a,onChange:e=>{i(e.target.value),s(""),c(null)},placeholder:"USERNAME"===t?"Enter username (e.g., johndoe)...":"USER_ID"===t?"Enter numeric user ID (e.g., 12345)...":"ORG"===t?"Enter workspace ID...":"",disabled:y}),(0,n.jsx)(g.Text,{variant:"small",color:"dimmer",clsx:A.default.inputDescription,children:"USERNAME"===t?"Enter the exact username without the @ symbol.":"USER_ID"===t?"Enter the numeric user ID from the database.":"ORG"===t?"This will delete tip interactions for all users within the specified workspace.":""})]}):null,"MYSELF"===t&&(0,n.jsx)(O.View,{children:(0,n.jsxs)(g.Text,{variant:"small",color:"dimmer",children:["This will delete your own tip interactions (User ID:"," ",x||"Loading...",")."]})}),"ALL"===t&&(0,n.jsx)(O.View,{children:(0,n.jsx)(g.Text,{variant:"small",color:"dimmer",children:"⚠️ This will delete ALL tip interactions for ALL users globally. This action cannot be undone."})}),l?(0,n.jsxs)(g.Text,{variant:"small",color:"dimmer",children:["⚠️ ",l]}):null,o?(0,n.jsx)(O.View,{style:{padding:U.tokens.space12,borderRadius:U.tokens.borderRadius8,backgroundColor:o.error?U.tokens.redDimmest:U.tokens.greenDimmest,border:`1px solid ${o.error?U.tokens.redDimmer:U.tokens.greenDimmer}`},children:(0,n.jsxs)(g.Text,{variant:"small",children:[o.error?"❌":"✅"," ",o.message||o.error]})}):null,(0,n.jsx)(p.Button,{type:"submit",disabled:!(t&&("ALL"===t||("MYSELF"===t?!!x:a.trim().length>0)))||y,clsx:A.default.submitButton,colorway:"ALL"===t?"negative":"primary",text:y?"Deleting...":"ALL"===t?"Delete All Interactions":"Delete Interactions"})]})})]})}),(0,n.jsx)(L.Modal,{isOpen:m,onRequestClose:()=>h(!1),maxWidth:500,centered:!0,children:(0,n.jsx)(k.default,{prompt:"Confirm Global Deletion",desc:(0,n.jsxs)(O.View,{gap:8,children:[(0,n.jsxs)(g.Text,{children:["You are about to permanently delete"," ",(0,n.jsx)("strong",{children:"ALL tip interactions"})," for"," ",(0,n.jsx)("strong",{children:"ALL users"})," in the system."]}),(0,n.jsx)(g.Text,{color:"dimmer",children:"This action is irreversible and will affect the entire platform. Are you absolutely sure you want to continue?"})]}),confirmText:"Yes, Delete Everything",danger:!0,loading:y,onCancel:()=>h(!1),onConfirm:P})})]})}],166295);var E=e.i(330666),P=e.i(162372),M=e.i(319801);let D={},B=t.gql`
+    fragment CluiTemplateReplsRepl on Repl {
+  id
+  slug
+  title
+  language
+  iconUrl
+  ...ReplLinkRepl
+}
+    ${M.ReplLinkReplFragmentDoc}`,V=t.gql`
+    fragment CluiTemplateReplsLanguage on Language {
+  id
+  key
+  icon
+  displayName
+  templateRepl {
+    id
+  }
+  betaTemplateRepl {
+    id
+  }
+}
+    `,$=t.gql`
+    mutation CluiSetLanguageRepl($input: SetLanguageTemplateInput!) {
+  setLanguageTemplateRepl(input: $input) {
+    ... on Repl {
+      id
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on NotFoundError {
+      message
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    `;function N(e){let t={...D,...e};return v.useMutation($,t)}let q=t.gql`
+    query CluiSetTemplate {
+  languageTemplateRepls {
+    id
+    ...CluiTemplateReplsRepl
+  }
+  languages(getAll: true) {
+    id
+    ...CluiTemplateReplsLanguage
+  }
+}
+    ${B}
+${V}`;var F=e.i(657929),G=e.i(491194),z=e.i(585227),Q=e.i(919073),W=e.i(154610);function H({children:e,className:t,innerRef:r}){return(0,n.jsx)(Q.ShadesSurface,{className:t,tag:"ul",innerRef:r,clsx:W.default.menu,br:8,children:e})}let Y=(0,u.forwardRef)((e,t)=>(0,n.jsx)(H,{innerRef:t,...e}));Y.displayName="Menu";var K=e.i(983420),Z=e.i(406664),J=e.i(66982),X=e.i(57509);function ee(e){let{highlighted:t,selected:r,taller:a}=e,i=(0,Z.useCreateInteractive)({variant:"nofill"}),l=!!t&&!r,s=e.filter?(0,n.jsx)(J.ExactMatchSubString,{source:e.title,match:e.filter}):e.title,o=[l?i.clsx:null,X.default.menuItem,a&&X.default.taller,l&&X.default.highlighted,r&&X.default.selected,t&&r&&X.default.highlightedAndSelected],u=l?i.style:void 0;return e.subtitle?(0,n.jsxs)(O.View,{row:!0,gap:8,align:"center",p:8,br:4,clsx:o,style:u,children:[e.icon?(0,n.jsx)(K.IconProvider,{size:e.subtitle?24:16,children:e.icon}):null,(0,n.jsxs)(O.View,{gap:4,grow:!0,shrink:!0,children:[(0,n.jsx)(g.Text,{height:"singleLine",multiline:!1,children:s}),(0,n.jsx)(g.Text,{multiline:!1,height:"singleLine",variant:"small",color:e.selected?void 0:"dimmer",children:e.subtitle})]})]}):(0,n.jsxs)(O.View,{row:!0,gap:8,align:"center",p:8,br:4,clsx:o,style:u,children:[e.icon?(0,n.jsx)(K.IconProvider,{size:e.subtitle?24:16,children:e.icon}):null,(0,n.jsx)(g.Text,{shrink:1,multiline:!1,children:s})]})}var et=e.i(295798),er=e.i(320216),ea=e.i(528710),ei=e.i(921125),el=e.i(365757),en=e.i(941706);function es({id:e,items:t,"aria-label":r,initialSelectedItem:a,selectedItem:i,onChange:l,placeholder:s,dataCy:o,...d}){let c=(0,et.default)(l),[p,m]=(0,u.useState)(t),g=(0,P.useCombobox)({id:e,items:p,onInputValueChange({inputValue:e}){let r;m(t.filter((r=e?.toLowerCase()??"",function(t){return!e||t.title.toLowerCase().includes(r)})))},initialSelectedItem:a,onSelectedItemChange({selectedItem:e}){e&&c.current(e)},itemToString:e=>e?e.title:"",...void 0!==i&&{selectedItem:i}});return(0,n.jsxs)(O.View,{dataCy:o,children:[(0,n.jsx)(E.VisuallyHidden,{children:(0,n.jsx)("label",{...g.getLabelProps(),children:r})}),(0,n.jsx)(Z.Interactive,{tag:"button",type:"button",variant:"filled",row:!0,align:"center",p:8,style:{height:32},...d,...g.getToggleButtonProps({refKey:"innerRef"}),children:(0,n.jsxs)(O.View,{clsx:en.default.fieldWrapper,align:"center",row:!0,gap:8,children:[(0,n.jsx)(ea.Input,{placeholder:s,...g.getInputProps()}),(0,n.jsx)(F.default,{rotate:180*!!g.isOpen})]})}),(0,n.jsx)("div",{...g.getMenuProps(),clsx:en.default.menuWrapper,children:g.isOpen&&p.length>0?(0,n.jsx)(Y,{children:p.map((e,t)=>(0,n.jsx)("li",{...g.getItemProps({item:e,index:t}),children:(0,n.jsx)(ee,{highlighted:t===g.highlightedIndex,selected:e===g.selectedItem,title:e.title})},e.title))}):null})]})}function eo(e){return!z.default.allSupported().find(({key:t})=>t===e)}function eu(e){return e.slice().sort((e,t)=>{let r=eo(e.key),a=eo(t.key);return r&&!a?1:!r&&a?-1:!e.templateRepl&&t.templateRepl?1:e.templateRepl&&!t.templateRepl?-1:e.key!==t.key?e.key.localeCompare(t.key):0})}function ed({icon:e,repl:t,betaRepl:r,displayName:a,onRemove:i,language:l}){let[s,o]=(0,u.useState)(null),[d,{loading:m}]=N({onCompleted:()=>{i()},onError:e=>{o(e.message)}});return(0,n.jsxs)("tr",{clsx:en.default.templateRow,children:[(0,n.jsx)("td",{children:(0,n.jsxs)(c.HStack,{spacing:1,children:[(0,n.jsx)(el.default,{size:16,alt:a,iconUrl:e}),(0,n.jsxs)(c.VStack,{children:[(0,n.jsx)(g.Text,{children:a}),(0,n.jsx)(g.Text,{variant:"code",style:{color:U.tokens.accentPrimaryDefault},children:l})]})]})}),(0,n.jsx)("td",{children:(0,n.jsxs)(c.HStack,{spacing:1,children:[(0,n.jsx)("div",{children:(0,n.jsx)(el.default,{size:16,alt:t.title,iconUrl:t.iconUrl})}),(0,n.jsx)(ei.default,{repl:t,children:t.url}),"nix"===t.language||"nix_beta"===t.language?(0,n.jsx)("div",{children:"(nix)"}):null]})}),(0,n.jsx)("td",{children:r?(0,n.jsxs)(c.HStack,{spacing:1,children:[(0,n.jsx)("div",{children:(0,n.jsx)(el.default,{size:16,alt:r.title,iconUrl:r.iconUrl})}),(0,n.jsx)(ei.default,{repl:r,children:r.url}),"nix"===r.language||"nix_beta"===r.language?(0,n.jsx)("div",{children:"(nix)"}):null]}):(0,n.jsx)("div",{children:"-"})}),(0,n.jsxs)("td",{children:[(0,n.jsx)(p.Button,{disabled:m,size:"small",colorway:"negative",variant:"underlined",onClick:()=>{window.confirm(`Are you sure you want to remove the template for ${a}?`)&&d({variables:{input:{language:l}}})},iconLeft:(0,n.jsx)(G.default,{}),text:""}),s?(0,n.jsx)(g.Text,{style:{color:U.tokens.accentNegativeDefault},children:s}):null]})]})}function ec({language:e,icon:t,displayName:r}){return(0,n.jsxs)("tr",{clsx:en.default.templateRow,children:[(0,n.jsx)("td",{children:(0,n.jsxs)(c.HStack,{spacing:1,children:[(0,n.jsx)(el.default,{size:16,alt:r,iconUrl:t}),(0,n.jsxs)(c.VStack,{children:[(0,n.jsx)(g.Text,{children:r}),(0,n.jsx)(g.Text,{variant:"code",style:{color:U.tokens.accentPrimaryDefault},children:e})]})]})}),(0,n.jsx)("td",{children:(0,n.jsx)(c.HStack,{spacing:1,children:(0,n.jsx)("div",{children:"-"})})}),(0,n.jsx)("td",{children:(0,n.jsx)("div",{children:"-"})}),(0,n.jsx)("td",{children:"-"})]})}function ep({languages:e,templates:t,onSubmit:r}){let{showError:a}=(0,er.default)(),[i,l]=(0,u.useState)(null),[s,o]=(0,u.useState)(null),[d,m]=(0,u.useState)(null),[g,h]=(0,u.useState)(null),[x,{loading:f}]=N({onCompleted:()=>{r(),l(null),o(null),m(null),h(null)},onError:e=>{a(e.message)}}),y=eu(e).map(e=>({value:e.key,title:`${e.key} (${e.displayName})`})),j=t.map(e=>({value:e.id,title:e.slug}));return(0,n.jsx)(c.VStack,{spacing:2,children:(0,n.jsxs)(c.HStack,{spacing:3,align:"center",justify:"space-evenly",children:[(0,n.jsx)(c.VStack,{children:(0,n.jsx)("div",{style:{width:200},children:(0,n.jsx)(es,{selectedItem:y.find(e=>e.value===i),placeholder:"Select a language",onChange:t=>{l(t.value);let r=e.find(e=>e.key===t.value);if(!r)return;let a=j.find(e=>e.value===r.templateRepl?.id);a&&(o(a.value),h(a.title));let i=j.find(e=>e.value===r.betaTemplateRepl?.id);i&&m(i.value)},items:y})})}),(0,n.jsx)(c.VStack,{children:(0,n.jsx)("div",{className:"select",children:(0,n.jsx)(es,{selectedItem:j.find(e=>e.value===s),placeholder:"Select a template",onChange:e=>{o(e.value),h(e.title)},items:j})})}),(0,n.jsx)(c.VStack,{children:(0,n.jsx)("div",{className:"select",children:(0,n.jsx)(es,{selectedItem:j.find(e=>e.value===d),placeholder:"(optional) Select a beta template",onChange:e=>{m(e.value)},items:j})})}),(0,n.jsx)(c.VStack,{children:(0,n.jsx)(p.Button,{colorway:"primary",disabled:!i||!s||f,onClick:()=>{if(!i||!s)throw Error("Expected language and template");let t=e.find(e=>e.key===i);if(!t)throw Error(`Expected language with key ${i}`);!window.confirm(`Are you sure you want to map ${t.displayName} to the template ${g}?`)||f||x({variables:{input:{language:i,replId:s,betaReplId:d}}}).then(e=>{let t=e.data?.setLanguageTemplateRepl;t&&"message"in t&&a(t.message)})},text:"Submit"})})]})})}e.s(["default",0,function(){var e;let t,{data:a,loading:i,error:l,refetch:s}=(e={fetchPolicy:"cache-and-network",ssr:!1},t={...D,...e},r.useQuery(q,t));if(i)return(0,n.jsx)("div",{children:"Loading..."});if(l)return(0,n.jsx)("div",{children:l.message});if(!a?.languages||!a.languageTemplateRepls)throw Error("Error loading language templates");let{languages:o,languageTemplateRepls:u}=a;return(0,n.jsxs)(c.VStack,{spacing:2,align:"stretch",children:[(0,n.jsxs)(c.VStack,{spacing:1,align:"stretch",children:[(0,n.jsx)(g.Header,{level:3,variant:"subheadDefault",children:"Language Templates"}),(0,n.jsxs)(g.Text,{children:["To perform a flagged rollout, create/find a flag called flag-beta-template-",(0,n.jsx)("span",{clsx:en.default.accentPrimary,children:"languageKey"}),", and set a beta template in the form below."]})]}),(0,n.jsxs)(c.VStack,{spacing:2,children:[(0,n.jsxs)("table",{children:[(0,n.jsx)("thead",{children:(0,n.jsxs)("tr",{children:[(0,n.jsx)("td",{children:(0,n.jsx)(g.Text,{children:"Language"})}),(0,n.jsx)("td",{children:(0,n.jsx)(g.Text,{children:"Template"})}),(0,n.jsx)("td",{children:(0,n.jsx)(g.Text,{children:"Beta Template (optional)"})})]})}),eu(o).map(e=>{let{icon:t,displayName:r,key:a,templateRepl:i,betaTemplateRepl:l}=e,o=i?.id,d=u.find(e=>e.id===o),c=l?.id,p=u.find(e=>e.id===c);return d?(0,n.jsx)(ed,{language:a,icon:t||"",displayName:r,repl:d,betaRepl:p,onRemove:()=>s()},o):(0,n.jsx)(ec,{language:a,icon:t||"",displayName:r},a)})]}),(0,n.jsx)(c.VStack,{spacing:1,align:"stretch",children:(0,n.jsx)(g.Header,{level:3,variant:"subheadDefault",children:"Set new language template"})}),(0,n.jsx)(ep,{languages:o,templates:u,onSubmit:()=>s()})]})]})}],771087)},696664,e=>{"use strict";var t=e.i(351623),r=e.i(319801);let a=t.gql`
+    fragment ReplViewReplActionsCurrentUser on CurrentUser {
+  isModerator: hasRole(role: MODERATOR)
+  isAdmin: hasRole(role: ADMIN)
+}
+    `,i=t.gql`
+    fragment UnpublishReplRepl on Repl {
+  id
+  likeCount
+  publishedAs
+}
+    `,l=t.gql`
+    fragment ReplViewReplActionsPermissions on Repl {
+  id
+  publishedAs
+  owner {
+    ... on User {
+      id
+      username
+    }
+    ... on Team {
+      id
+      username
+    }
+  }
+  templateReview {
+    id
+    promoted
+  }
+  authorizations {
+    editFileContents {
+      isAuthorized
+    }
+    publish {
+      isAuthorized
+    }
+  }
+  ...UnpublishReplRepl
+  ...ReplLinkRepl
+}
+    ${i}
+${r.ReplLinkReplFragmentDoc}`;e.s(["ReplViewReplActionsCurrentUserFragmentDoc",0,a,"ReplViewReplActionsPermissionsFragmentDoc",0,l])},796820,931737,59897,e=>{"use strict";var t=e.i(351623),r=e.i(696664);let a=t.gql`
+    fragment TemplateReplCardFooterUser on User {
+  id
+  username
+  fullName
+  image
+  url
+}
+    `,i=t.gql`
+    fragment TemplateReplCardFooterTeam on Team {
+  id
+  username
+  image
+  url
+}
+    `,l=t.gql`
+    fragment TemplateReplCardRepl on Repl {
+  id
+  iconUrl
+  title
+  description(plainText: true)
+  releasesForkCount
+  templateLabel
+  likeCount
+  url
+  owner {
+    ... on User {
+      id
+      ...TemplateReplCardFooterUser
+    }
+    ... on Team {
+      id
+      ...TemplateReplCardFooterTeam
+    }
+  }
+  deployment {
+    id
+    activeRelease {
+      id
+    }
+  }
+  publishedAs
+  templateCategories {
+    id
+    title
+  }
+}
+    ${a}
+${i}`;e.s(["TemplateReplCardReplFragmentDoc",0,l],931737);var n=e.i(344480);e.i(975473);let s={},o=t.gql`
+    fragment CluiTemplateReplCurrentUser on CurrentUser {
+  id
+  ...ReplViewReplActionsCurrentUser
+}
+    ${r.ReplViewReplActionsCurrentUserFragmentDoc}`,u=t.gql`
+    fragment CluiTemplateReplListRepl on Repl {
+  templateCategories {
+    id
+    title
+  }
+  ...TemplateReplCardRepl
+  ...ReplViewReplActionsPermissions
+}
+    ${l}
+${r.ReplViewReplActionsPermissionsFragmentDoc}`,d=t.gql`
+    query CluiTemplateReplSubmissions {
+  currentUser {
+    ...CluiTemplateReplCurrentUser
+  }
+}
+    ${o}`;e.s(["CluiTemplateReplCurrentUserFragmentDoc",0,o,"CluiTemplateReplListReplFragmentDoc",0,u,"useCluiTemplateReplSubmissionsQuery",0,function(e){let t={...s,...e};return n.useQuery(d,t)}],59897);var c=e.i(299020);let p={},m=t.gql`
+    fragment CluiTemplateReplCategories2Results on TemplateCategoriesResults {
+  results {
+    id
+    title
+  }
+}
+    `,g=t.gql`
+    query CluiTemplateReplCategories2 {
+  currentUser {
+    ...CluiTemplateReplCurrentUser
+  }
+  templateCategories {
+    ... on TemplateCategoriesResults {
+      ...CluiTemplateReplCategories2Results
+    }
+  }
+}
+    ${o}
+${m}`,h=t.gql`
+    mutation CluiTemplateReplCategories2SetTemplateReplCategory($input: SetTemplateCategoryReplInput!) {
+  setTemplateCategoryRepl(input: $input) {
+    ... on TemplateCategoryReplResult {
+      templateCategoryRepl {
+        id
+        templateCategoryId
+      }
+    }
+    ... on NotFoundError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    `,x=t.gql`
+    mutation CluiTemplateReplCategories2UnsetTemplateReplCategory($input: UnsetTemplateCategoryReplInput!) {
+  unsetTemplateCategoryRepl(input: $input) {
+    ... on TemplateCategoryReplResult {
+      templateCategoryRepl {
+        id
+        templateCategoryId
+      }
+    }
+    ... on NotFoundError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    `;e.s(["useCluiTemplateReplCategories2Query",0,function(e){let t={...p,...e};return n.useQuery(g,t)},"useCluiTemplateReplCategories2SetTemplateReplCategoryMutation",0,function(e){let t={...p,...e};return c.useMutation(h,t)},"useCluiTemplateReplCategories2UnsetTemplateReplCategoryMutation",0,function(e){let t={...p,...e};return c.useMutation(x,t)}],796820)},167485,e=>{e.v({form:"BanReplAuthor-module__bbC0Sq__form",reasonInput:"BanReplAuthor-module__bbC0Sq__reasonInput"})},197992,e=>{"use strict";var t,r=e.i(276385),a=e.i(725958),i=e.i(389959),l=e.i(908796),n=e.i(682205),s=e.i(597853),o=e.i(619542),u=e.i(534141),d=e.i(828322),c=e.i(351623),p=e.i(299020);let m={},g=c.gql`
+    mutation BanUserFromCommunity($username: String!, $reason: String!) {
+  banCommunityUser(username: $username, reason: $reason) {
+    ... on BannedBoardUser {
+      id
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    `;var h=e.i(320216),x=e.i(643484),f=e.i(528710),y=e.i(8047),j=e.i(61732),v=e.i(167485);let b=j.SpecializedView.form;function T({username:e,onDone:t}){var a;let l,[n,s]=(0,i.useState)(""),{showConfirm:u,showError:d}=(0,h.default)(),[c,{loading:_}]=(a={onCompleted({banCommunityUser:e}){"UserError"===e.__typename?d(e.message):u("The user has been banned.")}},l={...m,...a},p.useMutation(g,l));return(0,r.jsxs)(j.View,{gap:24,children:[(0,r.jsx)(y.Header,{level:1,variant:"headerDefault",children:"Ban the author of the Repl?"}),(0,r.jsx)(y.Text,{children:"Are you sure you want to ban this user? All their Apps will be deleted and they will no longer be able to access their account."}),(0,r.jsxs)(b,{onSubmit:r=>{r.preventDefault(),n&&e?(c({variables:{username:e,reason:n}}),t()):d("Please provide a reason.")},clsx:v.default.form,children:[(0,r.jsx)(j.View,{gap:8,children:(0,r.jsx)(f.MultiLineInput,{placeholder:"Reason for banning the user",value:n,onChange:e=>s(e.currentTarget.value),clsx:v.default.reasonInput})}),(0,r.jsxs)(j.View,{row:!0,gap:8,justify:"end",children:[(0,r.jsx)(x.Button,{type:"button",text:"Cancel",onClick:()=>t()}),(0,r.jsx)(x.Button,{disabled:_,colorway:"negative",text:_?"Banning user...":"Yes, ban this user",type:"submit",iconLeft:(0,r.jsx)(o.default,{})})]})]})]})}var _=e.i(696664);let R={},C=c.gql`
+    mutation ReviewTemplateReview($input: ReviewTemplateInput!) {
+  reviewTemplate(input: $input) {
+    ... on TemplateReview {
+      id
+      repl {
+        id
+        ...ReplViewReplActionsPermissions
+      }
+    }
+    ... on UserError {
+      message
+    }
+    ... on UnauthorizedError {
+      message
+    }
+  }
+}
+    ${_.ReplViewReplActionsPermissionsFragmentDoc}`,S=j.SpecializedView.form;function w({replId:e,reviewType:t,onDone:a}){var i;let l,{showConfirm:o,showError:u}=(0,h.default)(),d=`Something went wrong ${"promote"===t?"promoting":"demoting"} this Template`,[c,m]=(i={variables:{input:{replId:e,shouldPromote:"promote"===t}},onError:({message:e})=>{u(e)},onCompleted:e=>{"TemplateReview"===e.reviewTemplate.__typename?(o(`Template successfully ${"promote"===t?"promoted":"demoted"}`),a()):"UnauthorizedError"===e.reviewTemplate.__typename||"UserError"===e.reviewTemplate.__typename?u(e.reviewTemplate.message):u(d)}},l={...R,...i},p.useMutation(C,l));return(0,r.jsxs)(j.View,{gap:24,children:[(0,r.jsx)(y.Header,{level:1,variant:"headerDefault",children:"promote"===t?"Promote Framework":"Demote Framework?"}),(0,r.jsxs)(S,{onSubmit:async e=>{e.preventDefault(),c()},gap:24,children:["promote"===t?(0,r.jsx)(y.Text,{children:"Promoting a Template will show the Template in the Create App modal."}):(0,r.jsx)(y.Text,{children:"Demoting a Template will remove the Template from the Create App modal."}),(0,r.jsxs)(j.View,{row:!0,gap:8,justify:"end",children:[(0,r.jsx)(x.Button,{type:"button",text:"Cancel",onClick:()=>a()}),"promote"===t?(0,r.jsx)(x.Button,{type:"submit",disabled:m.loading,colorway:"primary",iconLeft:(0,r.jsx)(s.default,{}),text:m.loading?"Promoting Framework...":"Promote Framework"}):(0,r.jsx)(x.Button,{type:"submit",disabled:m.loading,colorway:"negative",iconLeft:(0,r.jsx)(n.default,{}),text:m.loading?"Demoting Framework...":"Demote Framework"})]})]})]})}var U=e.i(488299),I=e.i(295231),k=e.i(528326),L=e.i(921125),O=((t=O||{}).warnAuthor="warnAuthor",t.banAuthor="banAuthor",t.reportRepl="reportRepl",t.unpublish="unpublish",t.promoteTemplate="promoteTemplate",t.demoteTemplate="demoteTemplate",t.modUnpublish="modUnpublish",t);e.s(["default",0,function({repl:e,currentUser:t}){let[c,p]=(0,i.useState)(null),m=new Map,g=(0,a.useRouter)(),h="/replEnvironmentDesktop"===g.pathname||"/replEnvironmentMobile"===g.pathname,x=(0,L.replLinkProps)(e);return(e.authorizations.editFileContents.isAuthorized&&!h&&m.set("edit",{label:"Edit App",onClick:()=>g.push(x.href,x.as),icon:(0,r.jsx)(u.default,{})}),t?.isModerator&&m.set("banauthor",{label:"Ban author",isMod:!0,icon:(0,r.jsx)(o.default,{}),onClick:()=>p("banAuthor"),isDestructive:!0}),t?.isAdmin&&e.publishedAs===l.PublishedReplKind.Template&&(e.templateReview?.promoted?m.set("demote",{label:"Demote Framework",icon:(0,r.jsx)(n.default,{}),isDestructive:!0,onClick:()=>p("demoteTemplate")}):m.set("promote",{label:"Promote Framework",icon:(0,r.jsx)(s.default,{}),onClick:()=>p("promoteTemplate")})),m.size)?(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(I.PopupMenu,{trigger:(0,r.jsx)(U.IconButton,{filled:!0,size:32,alt:"More",children:(0,r.jsx)(d.default,{size:16})}),onAction:e=>m.get(e)?.onClick(),children:Array.from(m).map(([e,t])=>(0,r.jsx)(I.MenuItem,{isDestructive:t.isDestructive,label:t.label,icon:t.icon,id:e},e))}),(0,r.jsx)(k.Modal,{isOpen:"banAuthor"===c,onRequestClose:()=>p(null),children:(0,r.jsx)(T,{username:e.owner?.username,onDone:()=>p(null)})}),(0,r.jsx)(k.Modal,{isOpen:"demoteTemplate"===c,onRequestClose:()=>p(null),children:(0,r.jsx)(w,{replId:e.id,reviewType:"demote",onDone:()=>p(null)})}),(0,r.jsx)(k.Modal,{isOpen:"promoteTemplate"===c,onRequestClose:()=>p(null),children:(0,r.jsx)(w,{replId:e.id,reviewType:"promote",onDone:()=>p(null)})})]}):null}],197992)},729092,e=>{"use strict";let t={padding:!0,symbols:["","K","M","G","T","P","E"]};e.s(["abbreviateNumber",0,function(e,r=1,a={padding:!1}){Array.isArray(a)&&(a={symbols:a});let{symbols:i,padding:l}=Object.assign({},t,a),n=Math.sign(e)>=0,s=Math.log10(e=Math.abs(e))/3|0;if(0===s)return(n?"":"-")+e.toString();let o=i[s];if(!o)throw RangeError();let u=(e/10**(3*s)).toFixed(r);return l||(u=String(Number(u))),(n?"":"-")+u+o}])},665439,e=>{e.v({icon:"OfficialIcon-module__5xUwQq__icon",iconBig:"OfficialIcon-module__5xUwQq__iconBig",iconSmall:"OfficialIcon-module__5xUwQq__iconSmall"})},487896,e=>{e.v({description:"TemplateReplCard-module__2v1CIW__description",forkButton:"TemplateReplCard-module__2v1CIW__forkButton",iconCount:"TemplateReplCard-module__2v1CIW__iconCount",ownerLink:"TemplateReplCard-module__2v1CIW__ownerLink",root:"TemplateReplCard-module__2v1CIW__root",rootStatic:"TemplateReplCard-module__2v1CIW__rootStatic",titleLink:"TemplateReplCard-module__2v1CIW__titleLink",titleText:"TemplateReplCard-module__2v1CIW__titleText"})},817887,e=>{e.v({backButtonWrapper:"TemplatesHeader-module__bgHa_G__backButtonWrapper",backgroundHigher:"TemplatesHeader-module__bgHa_G__backgroundHigher",header:"TemplatesHeader-module__bgHa_G__header",headerBottom:"TemplatesHeader-module__bgHa_G__headerBottom",searchBoxWrapper:"TemplatesHeader-module__bgHa_G__searchBoxWrapper",searchIconButtonWrapper:"TemplatesHeader-module__bgHa_G__searchIconButtonWrapper"})},899174,e=>{e.v({emptyBanner:"index-module__uRopkG__emptyBanner",loadingIcon:"index-module__uRopkG__loadingIcon",row:"index-module__uRopkG__row",rowContent:"index-module__uRopkG__rowContent",selectWithDivider:"index-module__uRopkG__selectWithDivider",selectWrapper:"index-module__uRopkG__selectWrapper",tagList:"index-module__uRopkG__tagList",tagPill:"index-module__uRopkG__tagPill"})},216537,e=>{e.v({emptyBanner:"index-module__qZO63q__emptyBanner",row:"index-module__qZO63q__row",rowContent:"index-module__qZO63q__rowContent"})},964228,e=>{e.v({header:"index-module__HPzRfq__header",paginationContainer:"index-module__HPzRfq__paginationContainer",tableRow:"index-module__HPzRfq__tableRow"})},908267,e=>{e.v({cell:"Table-module__sOrhQq__cell",pageIndicator:"Table-module__sOrhQq__pageIndicator",pagination:"Table-module__sOrhQq__pagination",root:"Table-module__sOrhQq__root",table:"Table-module__sOrhQq__table"})},813583,e=>{e.v({chevron:"PromptIcon-module__7VkN2a__chevron",error:"PromptIcon-module__7VkN2a__error",icon:"PromptIcon-module__7VkN2a__icon",success:"PromptIcon-module__7VkN2a__success"})},228759,e=>{e.v({surfcae:"OutputContainer-module__E34JzG__surfcae"})},141738,e=>{e.v({loading:"UserCli-module__fP09pW__loading",output:"UserCli-module__fP09pW__output",root:"UserCli-module__fP09pW__root"})},339487,477743,859194,e=>{"use strict";var t=e.i(276385),r=e.i(389959),a=e.i(192458),i=e.i(109273),l=e.i(197106),n=e.i(659042),s=e.i(380490),o=e.i(5257),u=e.i(269848),d=e.i(525864),c=e.i(255701),p=e.i(195206),m=e.i(491194),g=e.i(612343);e.i(135069);var h=e.i(458713),x=e.i(408116),f=e.i(299020),y=e.i(126585),j=e.i(342008),v=e.i(89610),b=e.i(443197),T=e.i(196064),_=e.i(762902),R=e.i(166295),C=e.i(771087),S=e.i(796820),w=e.i(657929),U=e.i(602686),I=e.i(416746),k=e.i(40916),L=e.i(110481),O=e.i(320216),A=e.i(197992),E=e.i(840467);e.i(113388),e.i(761201),e.i(729092);var P=e.i(183035),M=e.i(61732);e.i(665439);var D=e.i(192915),B=e.i(480028),V=e.i(406664);e.i(766299);var $=e.i(643484),N=e.i(744006),q=e.i(8047),F=e.i(21875);e.i(183555),e.i(921125);var G=e.i(365757),z=e.i(487896);function Q({owner:e,onLinkClick:r}){let a=(0,V.useCreateInteractive)({variant:"nofill"});return null===e?(0,t.jsx)(F.User,{small:!0,src:null,username:"[deleted]"}):(0,t.jsx)(E.default,{...(0,D.userLinkProps)(e),clsx:[z.default.ownerLink,a.clsx],style:a.style,onClick:r,children:(0,t.jsx)(F.User,{small:!0,username:e.username,fullName:"fullName"in e?e.fullName:void 0,src:e?.image||null})})}var W=e.i(656077),H=e.i(346781),Y=e.i(415541),K=e.i(709485),Z=e.i(908796),J=e.i(351623),X=e.i(931737),ee=e.i(59897),et=e.i(344480),er=e.i(975473);let ea={},ei=J.gql`
+    fragment UseTemplatesTemplate on Repl {
+  id
+  ...TemplateReplCardRepl
+  ...CluiTemplateReplListRepl
+}
+    ${X.TemplateReplCardReplFragmentDoc}
+${ee.CluiTemplateReplListReplFragmentDoc}`,el=J.gql`
+    query UseTemplates($options: TemplateRepls2QueryOptions!) {
+  templateRepls2(options: $options) {
+    ... on TemplateReplSearchConnection {
+      items {
+        __typename
+        id
+        ...UseTemplatesTemplate
+      }
+      pageInfo {
+        hasNextPage
+      }
+      orderBy
+      promotionStatus
+      searchQuery
+      total
+      category
+    }
+    ... on UserError {
+      message
+    }
+  }
+}
+    ${ei}`;var en=e.i(619158);function es({orderBy:e=Z.TemplateRepls2OrderBy.Forks,pageSize:t=12,promotionStatus:a=Z.TemplateRepls2PromotionStatus.All,initialSearchValue:i="",ssr:l=!0,noBatch:n=!1,categoryId:s,debounceDuration:o="short"}){var u;let d,[c,p]=(0,r.useState)(i),m=(0,en.default)(c,"short"===o?50:200),{data:g,loading:h,error:x,fetchMore:f}=(u={variables:{options:{searchQuery:m,after:0,orderBy:e,count:t,promotionStatus:a,category:s}},notifyOnNetworkStatusChange:!0,ssr:l,context:{noBatch:n}},d={...ea,...u},et.useQuery(el,d)),y=(0,r.useCallback)(async()=>{g?.templateRepls2.__typename!=="TemplateReplSearchConnection"||!g?.templateRepls2.pageInfo.hasNextPage||h||await f({variables:{options:{searchQuery:m,after:g.templateRepls2.items.length,count:t,orderBy:e,promotionStatus:a,category:s}}})},[g,f,m,e,t,h,a,s]),j=g?.templateRepls2.__typename==="TemplateReplSearchConnection"?g.templateRepls2.items:[],v=g?.templateRepls2.__typename==="UserError"?g?.templateRepls2.message:void 0;return{setSearchInputValue:p,searchInputValue:c,loadMore:y,loading:h,hasMore:g?.templateRepls2.__typename==="TemplateReplSearchConnection"&&g.templateRepls2.pageInfo.hasNextPage,error:x?"Something went wrong. Try refreshing the page.":v,templates:j,searchQuery:m}}var eo=Z,eu=e.i(316431),ed=e.i(419635),ec=e.i(488299),ep=e.i(528710),em=e.i(335670),eg=e.i(817887);let eh=[{value:eo.TemplateRepls2OrderBy.Recent,title:"New"},{value:eo.TemplateRepls2OrderBy.Forks,title:"Popular"}];function ex({title:e,description:r,searchInputValue:a,setSearchInputValue:i,orderBy:l=eo.TemplateRepls2OrderBy.Forks,setOrderBy:n,showOrderBy:s=!1,showBackButton:o=!1,showHowToLink:u=!1,variant:d="default",actionButton:c,statusBanner:p}){let m="https://docs.replit.com/replit-workspace/templates";return(0,t.jsxs)(M.View,{clsx:eg.default.header,children:[(0,t.jsxs)(M.View,{grow:!0,shrink:!0,gap:16,children:[(0,t.jsxs)(M.View,{gap:8,children:[o?(0,t.jsx)(M.View,{clsx:eg.default.backButtonWrapper,children:(0,t.jsx)(ed.ButtonLink,{href:"/templates",text:"Back to all Templates",iconLeft:(0,t.jsx)(W.default,{})})}):null,(0,t.jsx)(q.Header,{level:1,variant:"headerBig",children:e}),r?(0,t.jsx)(q.Text,{variant:"subheadBig",color:"dimmer",children:r}):null]}),p,u?(0,t.jsx)("a",{href:m,target:"_blank",onClick:()=>{(0,Y.track)(K.events.EXTERNAL_LINK_VIEWED,{url:m,campaign:"templates"})},children:"How to publish a Framework"}):null]}),(0,t.jsxs)(M.View,{clsx:eg.default.headerBottom,children:[c,s?(0,t.jsx)(eu.Select,{clsx:"higher"===d?eg.default.backgroundHigher:void 0,"aria-label":"Sort by",items:eh,selectedItem:eh.find(e=>e.value===l),onChange:e=>{n&&(e.value===eo.TemplateRepls2OrderBy.Recent?n(eo.TemplateRepls2OrderBy.Recent):n(eo.TemplateRepls2OrderBy.Forks))}}):null,(0,t.jsxs)(M.View,{clsx:eg.default.searchBoxWrapper,children:[(0,t.jsx)(ep.Input,{value:a,onChange:e=>i(e.currentTarget.value),placeholder:"Search Templates",clsx:"higher"===d?eg.default.backgroundHigher:void 0,type:"search","aria-label":"Search Templates"}),(0,t.jsx)(em.Surface,{background:"default",clsx:eg.default.searchIconButtonWrapper,children:a?(0,t.jsx)(ec.IconButton,{alt:"Clear",onClick:()=>i(""),children:(0,t.jsx)(U.default,{})}):(0,t.jsx)(H.default,{})})]})]})]})}var eo=Z,ef=Z,ey=e.i(919073),ej=e.i(108431),ev=e.i(899174);let eb={value:0,title:"Select category"};function eT({template:e,categories:a,currentUser:i}){let{showError:l}=(0,O.default)(),[n,s]=(0,r.useState)(e.templateCategories),[o,d]=(0,r.useState)(eb),[c,{loading:p}]=(0,S.useCluiTemplateReplCategories2SetTemplateReplCategoryMutation)({onError:e=>{l(e.message)},onCompleted:e=>{switch(e.setTemplateCategoryRepl?.__typename){case"NotFoundError":case"UnauthorizedError":case"UserError":l(e.setTemplateCategoryRepl.message);break;case"TemplateCategoryReplResult":{let t=e.setTemplateCategoryRepl.templateCategoryRepl.templateCategoryId,r=a.find(e=>e.id===t);if(!r)return;s([r,...n]),d(eb)}}}}),[m,{loading:g}]=(0,S.useCluiTemplateReplCategories2UnsetTemplateReplCategoryMutation)({onError:e=>{l(e.message)},onCompleted:e=>{switch(e.unsetTemplateCategoryRepl?.__typename){case"NotFoundError":case"UnauthorizedError":case"UserError":l(e.unsetTemplateCategoryRepl.message);break;case"TemplateCategoryReplResult":{let t=e.unsetTemplateCategoryRepl.templateCategoryRepl.templateCategoryId;s(n.filter(e=>e?.id!==t)),d(eb)}}}}),h=a.filter(e=>!n.find(t=>e.id===t?.id)).map(({id:e,title:t})=>({value:e,title:t}));return(0,t.jsxs)(ey.ShadesSurface,{clsx:ev.default.row,p:16,br:8,children:[(0,t.jsxs)(M.View,{row:!0,gap:8,align:"start",children:[(0,t.jsx)(M.View,{clsx:ev.default.rowContent,grow:!0,shrink:0,row:!0,gap:8,align:"center",children:(0,t.jsxs)(M.View,{gap:8,children:[g?(0,t.jsx)(M.View,{clsx:ev.default.loadingIcon,children:(0,t.jsx)(u.default,{size:16})}):(0,t.jsx)(M.View,{row:!0,gap:8,clsx:ev.default.tagList,children:n.map(r=>{if(r)return(0,t.jsxs)(M.View,{clsx:ev.default.tagPill,br:8,row:!0,gap:0,children:[(0,t.jsx)(N.Pill,{text:r.title}),(0,t.jsx)(ec.IconButton,{alt:"Remove category from template",onClick:()=>{var t;return t=r.id,void m({variables:{input:{replId:e.id,templateCategoryId:t}}})},tooltipBehavior:"hidden",children:(0,t.jsx)(U.default,{})})]},r.id)})}),(0,t.jsxs)(M.View,{row:!0,gap:8,children:[(0,t.jsx)(G.default,{alt:e.title,iconUrl:e.iconUrl,size:24}),(0,t.jsx)(q.Text,{variant:"subheadBig",multiline:!1,children:e.title})]})]})}),(0,t.jsxs)(M.View,{row:!0,gap:4,align:"center",children:[(0,t.jsxs)(M.View,{clsx:ev.default.selectWrapper,align:"center",br:8,row:!0,gap:2,children:[(0,t.jsx)(eu.Select,{"aria-label":"Select category",disabled:p||g,className:ev.default.selectWithDivider,placeholder:"Select category",initialSelectedItem:o,selectedItem:o,items:h,onChange:e=>d(e)}),(0,t.jsx)(M.View,{px:4,children:p?(0,t.jsx)(u.default,{size:16}):(0,t.jsx)(ec.IconButton,{alt:"Add selected category to template",onClick:()=>{o&&o.value!==eb.value&&c({variables:{input:{replId:e.id,templateCategoryId:o.value}}})},tooltipBehavior:"hidden",children:(0,t.jsx)(k.default,{})})})]}),(0,t.jsx)(A.default,{repl:e,currentUser:i})]})]}),(0,t.jsx)(M.View,{grow:!0,shrink:!0,justify:"end",children:(0,t.jsx)(q.Text,{color:"dimmest",maxLines:3,multiline:!1,children:e.description||"--"})}),(0,t.jsx)(M.View,{children:(0,t.jsx)(Q,{owner:e.owner||null})})]})}var eo=Z,ef=Z,e_=e.i(216537);function eR({template:e,currentUser:r}){return(0,t.jsxs)(ey.ShadesSurface,{clsx:e_.default.row,p:16,br:8,children:[(0,t.jsxs)(M.View,{row:!0,gap:8,align:"start",children:[(0,t.jsx)(M.View,{clsx:e_.default.rowContent,grow:!0,shrink:0,row:!0,gap:8,align:"center",children:(0,t.jsx)(M.View,{gap:8,children:(0,t.jsxs)(M.View,{row:!0,gap:8,children:[(0,t.jsx)(G.default,{alt:e.title,iconUrl:e.iconUrl,size:24}),(0,t.jsx)(q.Text,{variant:"subheadBig",multiline:!1,children:e.title})]})})}),(0,t.jsx)(M.View,{row:!0,gap:4,align:"center",children:(0,t.jsx)(A.default,{repl:e,currentUser:r})})]}),(0,t.jsx)(M.View,{grow:!0,shrink:!0,justify:"end",children:(0,t.jsx)(q.Text,{color:"dimmest",maxLines:3,multiline:!1,children:e.description||"--"})}),(0,t.jsx)(M.View,{children:(0,t.jsx)(Q,{owner:e.owner||null})})]})}var eC=e.i(261348);let eS={},ew=J.gql`
+    fragment UserTipFields on UserTip {
+  id
+  title
+  description
+  content
+  tags
+  priority
+  externalUrl
+  criteria
+  ctaTrigger
+  ctaLabel
+  publishedAt
+  timeCreated
+  timeUpdated
+  timeDeleted
+}
+    `,eU=J.gql`
+    query UserTipsManagementTable($after: String, $count: Int, $showArchived: Boolean) {
+  userTips(after: $after, count: $count, showArchived: $showArchived) {
+    items {
+      ...UserTipFields
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      nextCursor
+      previousCursor
+    }
+  }
+}
+    ${ew}`;var eI=e.i(534141),ek=e.i(965097),eL=e.i(828322),eO=e.i(820228),eA=e.i(302973),eE=e.i(94516),eP=e.i(789277),eM=e.i(301651),eD=e.i(585544),eB=e.i(19322);let eV=({initialTip:e,formRef:a})=>{let{formValues:i,errors:l,handleInputChange:n,handleDateChange:s,validateForm:o}=(e=>{let[t,a]=(0,r.useState)({id:e?.id||void 0,title:e?.title||"",description:e?.description||"",content:e?.content||"",tags:(e?.tags||[]).join(", "),priority:String(e?.priority||0),externalUrl:e?.externalUrl||"",criteria:e?.criteria||"",ctaTrigger:e?.ctaTrigger||"",ctaLabel:e?.ctaLabel||"",publishedAt:e?.publishedAt?new Date(e.publishedAt):null}),[i,l]=(0,r.useState)({}),n=(0,r.useCallback)(e=>t=>{a(r=>({...r,[e]:t.target.value}))},[]),s=(0,r.useCallback)(e=>{a(t=>({...t,publishedAt:e}))},[]);return{formValues:t,errors:i,handleInputChange:n,handleDateChange:s,resetForm:(0,r.useCallback)(e=>{a({id:e?.id||void 0,title:e?.title||"",description:e?.description||"",content:e?.content||"",tags:(e?.tags||[]).join(", "),priority:String(e?.priority||0),externalUrl:e?.externalUrl||"",criteria:e?.criteria||"",ctaTrigger:e?.ctaTrigger||"",ctaLabel:e?.ctaLabel||"",publishedAt:e?.publishedAt?new Date(e.publishedAt):null}),l({})},[]),validateForm:()=>{let e={};return t.title.trim()||(e.title="Title is required"),t.description.trim()||(e.description="Description is required"),t.priority&&isNaN(Number(t.priority))&&(e.priority="Priority must be a number"),t.externalUrl&&!(e=>{try{return new URL(e),!0}catch(e){return!1}})(t.externalUrl)&&(e.externalUrl="Please enter a valid URL"),t.ctaTrigger.trim()||t.externalUrl.trim()||(e.ctaTrigger="Either CTA Trigger or External URL is required",e.externalUrl="Either CTA Trigger or External URL is required"),l(e),0===Object.keys(e).length}}})(e);(0,r.useImperativeHandle)(a,()=>({formValues:i,validateForm:o}),[i,o]);let u=(0,eA.getLocalTimeZone)();return(0,t.jsxs)(M.View,{gap:16,p:16,children:[(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"Title *"}),(0,t.jsx)(ep.Input,{value:i.title,onChange:n("title"),placeholder:"Tip title"}),l.title?(0,t.jsx)(q.Text,{color:"default",style:{color:B.tokens.accentNegativeStronger},children:l.title}):null]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"Description *"}),(0,t.jsx)(ep.MultiLineInput,{value:i.description,onChange:n("description"),placeholder:"Short description of the tip",rows:2}),l.description?(0,t.jsx)(q.Text,{color:"default",style:{color:B.tokens.accentNegativeStronger},children:l.description}):null]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"Criteria"}),(0,t.jsx)(ep.MultiLineInput,{value:i.criteria,onChange:n("criteria"),rows:2}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:"Specific criteria or context for when this tip should be shown to users (optional and internal)"})]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"External URL"}),(0,t.jsx)(ep.Input,{value:i.externalUrl,onChange:n("externalUrl"),placeholder:"e.g. https://example.com/documentation"}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:"External link for additional resources. Either this or CTA Trigger is required."}),l.externalUrl?(0,t.jsx)(q.Text,{color:"default",style:{color:B.tokens.accentNegativeStronger},children:l.externalUrl}):null]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"CTA Trigger"}),(0,t.jsx)(eB.Select,{"aria-label":"CTA Trigger",items:[{id:"",label:"None (empty)"},{id:"bonsai_tour",label:"Launch Bonsai tour"},{id:"auth_pane",label:"Open authentication pane"},{id:"database_pane",label:"Open database pane"},{id:"create_new_chat",label:"Create new agent chat"},{id:"security_scan_pane",label:"Open security scanner pane"}],defaultSelectedKey:i.ctaTrigger||"",onSelectionChange:e=>{n("ctaTrigger")({target:{value:""===e?"":String(e)}})},children:e=>(0,t.jsx)(eD.ListBoxItem,{id:e.id,label:e.label},e.id)}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:"String identifier to match elements or actions in the codebase. Either this or External URL is required."}),l.ctaTrigger?(0,t.jsx)(q.Text,{color:"default",style:{color:B.tokens.accentNegativeStronger},children:l.ctaTrigger}):null]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"CTA Label"}),(0,t.jsx)(ep.Input,{value:i.ctaLabel,onChange:n("ctaLabel"),placeholder:"e.g., Get Started, Learn More, Try Now"}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:'Text to display on the call-to-action button. Leave empty to use default "Learn more".'})]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"Tags"}),(0,t.jsx)(ep.Input,{value:i.tags,onChange:n("tags"),placeholder:"Enter tags separated by commas"}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:'Comma-separated list of tags (e.g., "beginner, agent, workspace")'})]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"Priority"}),(0,t.jsx)(ep.Input,{type:"number",value:i.priority,onChange:n("priority")}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:"Lower numbers are higher priority (default: 0)"}),l.priority?(0,t.jsx)(q.Text,{color:"default",style:{color:B.tokens.accentNegativeStronger},children:l.priority}):null]}),(0,t.jsxs)(M.View,{children:[(0,t.jsx)(q.Text,{children:"Published Date"}),(0,t.jsx)(eM.default,{granularity:"minute",hourCycle:24,value:i.publishedAt?(0,eP.toCalendarDateTime)((0,eE.parseAbsolute)(i.publishedAt.toISOString(),u)):void 0,onChange:e=>s(e?e.toDate(u):null)}),(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:"When the tip should be published. Leave empty for draft state."})]})]})},e$={},eN=J.gql`
+    mutation CreateUserTip($title: String!, $description: String!, $content: String, $tags: [String!], $priority: Int, $externalUrl: String, $criteria: String, $ctaTrigger: String, $ctaLabel: String, $publishedAt: DateTime) {
+  createUserTip(
+    title: $title
+    description: $description
+    content: $content
+    tags: $tags
+    priority: $priority
+    externalUrl: $externalUrl
+    criteria: $criteria
+    ctaTrigger: $ctaTrigger
+    ctaLabel: $ctaLabel
+    publishedAt: $publishedAt
+  ) {
+    ...UserTipFields
+  }
+}
+    ${ew}`,eq=J.gql`
+    mutation UpdateUserTip($id: ID!, $title: String, $description: String, $content: String, $tags: [String!], $priority: Int, $externalUrl: String, $criteria: String, $ctaTrigger: String, $ctaLabel: String, $publishedAt: DateTime, $archived: Boolean) {
+  updateUserTip(
+    id: $id
+    title: $title
+    description: $description
+    content: $content
+    tags: $tags
+    priority: $priority
+    externalUrl: $externalUrl
+    criteria: $criteria
+    ctaTrigger: $ctaTrigger
+    ctaLabel: $ctaLabel
+    publishedAt: $publishedAt
+    archived: $archived
+  ) {
+    ...UserTipFields
+  }
+}
+    ${ew}`;var eF=e.i(775007),eG=e.i(222826),ez=e.i(609912),eQ=e.i(295231),eW=e.i(528326),eH=e.i(984119),eY=e.i(508454),eK=e.i(964228);let eZ={LanguageTemplates:C.default,TemplateReplCategories2Assign:function(){let[e,a]=(0,r.useState)(eo.TemplateRepls2OrderBy.Recent),{data:i,loading:l,error:n}=(0,S.useCluiTemplateReplCategories2Query)(),{templates:s,loading:o,error:d,loadMore:c,hasMore:p,setSearchInputValue:m,searchInputValue:g}=es({orderBy:e,promotionStatus:ef.TemplateRepls2PromotionStatus.Promoted,pageSize:20}),{targetRef:h}=(0,L.default)({onLoadMore:c,rootMargin:"0px 0px 300px 0px"});return d||n?(0,t.jsx)(M.View,{children:d||n?.message}):l||i?(0,t.jsxs)(M.View,{gap:32,children:[(0,t.jsx)(ex,{title:"Assign categories",description:"",searchInputValue:g,setSearchInputValue:m,orderBy:e,setOrderBy:a,showOrderBy:!0,variant:"higher"}),o||0!==s.length?null:(0,t.jsx)(M.View,{clsx:ev.default.emptyBanner,children:(0,t.jsx)(ej.StatusBanner,{icon:(0,t.jsx)(I.default,{}),text:`No Templates found.${""!==g?" Try another search.":""}`})}),l?(0,t.jsx)(M.View,{align:"center",justify:"center",py:16,children:(0,t.jsx)(u.default,{size:24})}):i&&i.templateCategories&&(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(M.View,{gap:16,children:s.map(e=>(0,t.jsx)(eT,{template:e,currentUser:i.currentUser??void 0,categories:i.templateCategories?.__typename==="TemplateCategoriesResults"?i.templateCategories.results:[]},e.id))}),(0,t.jsxs)(M.View,{align:"center",justify:"center",py:16,children:[o?(0,t.jsx)(u.default,{size:24}):p&&(0,t.jsx)(ec.IconButton,{tooltipBehavior:"hidden",alt:"Show more",onClick:c,children:(0,t.jsx)(w.default,{})}),(0,t.jsx)(M.View,{innerRef:h})]})]})]}):(0,t.jsx)(M.View,{children:"Could not load template categories"})},TemplateReplSubmissions:function(){let[e,a]=(0,r.useState)(eo.TemplateRepls2OrderBy.Recent),{data:i,loading:l,error:n}=(0,ee.useCluiTemplateReplSubmissionsQuery)(),{templates:s,loading:o,error:d,loadMore:c,hasMore:p,setSearchInputValue:m,searchInputValue:g}=es({orderBy:e,promotionStatus:ef.TemplateRepls2PromotionStatus.NotPromoted,pageSize:20}),{targetRef:h}=(0,L.default)({onLoadMore:c,rootMargin:"0px 0px 300px 0px"});return d||n?(0,t.jsx)(M.View,{children:d||n?.message}):l||i?(0,t.jsxs)(M.View,{gap:32,children:[(0,t.jsx)(ex,{title:"Template submissions",description:"",searchInputValue:g,setSearchInputValue:m,orderBy:e,setOrderBy:a,showOrderBy:!0,variant:"higher"}),o||0!==s.length?null:(0,t.jsx)(M.View,{clsx:e_.default.emptyBanner,children:(0,t.jsx)(ej.StatusBanner,{icon:(0,t.jsx)(I.default,{}),text:`No Templates found.${""!==g?" Try another search.":""}`})}),l?(0,t.jsx)(M.View,{align:"center",justify:"center",py:16,children:(0,t.jsx)(u.default,{size:24})}):s&&(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(M.View,{gap:16,children:s.map(e=>(0,t.jsx)(eR,{template:e,currentUser:i?.currentUser??void 0},e.id))}),(0,t.jsxs)(M.View,{align:"center",justify:"center",py:16,children:[o?(0,t.jsx)(u.default,{size:24}):p&&(0,t.jsx)(ec.IconButton,{tooltipBehavior:"hidden",alt:"Show more",onClick:c,children:(0,t.jsx)(w.default,{})}),(0,t.jsx)(M.View,{innerRef:h})]})]})]}):(0,t.jsx)(M.View,{children:"Could not load template submissions data"})},UserTipsManagementTable:e=>{var a;let i,[l,n]=(0,r.useState)(1),[s,o]=(0,r.useState)(!1),[d,c]=(0,r.useState)(!1),[p,g]=(0,r.useState)(null),h=(0,r.useRef)(null),x=(0,r.useRef)(null),{data:y,loading:j,error:v}=(a={variables:{after:(0,r.useMemo)(()=>{if(1!==l)return((l-1)*50).toString()},[l]),count:50,showArchived:s},fetchPolicy:"cache-and-network",notifyOnNetworkStatusChange:!0,ssr:!1},i={...eS,...a},et.useQuery(eU,i)),{createTip:b,updateTip:T,archiveTip:_,handleUnarchive:R,createLoading:C,updateLoading:S}=(()=>{let e,t,[a,{loading:i}]=(e={...e$,...void 0},f.useMutation(eN,e)),[l,{loading:n}]=(t={...e$,...void 0},f.useMutation(eq,t)),s=(0,r.useCallback)(async e=>await a({variables:{title:e.title,description:e.description,content:e.content||null,tags:e.tags?e.tags.split(",").map(e=>e.trim()).filter(Boolean):[],priority:e.priority?parseInt(e.priority,10):null,externalUrl:e.externalUrl||null,criteria:e.criteria||null,ctaTrigger:e.ctaTrigger||null,ctaLabel:e.ctaLabel||null,publishedAt:e.publishedAt||null},refetchQueries:["UserTipsManagementTable"]}),[a]),o=(0,r.useCallback)(async e=>{if(!e.id)throw Error("ID is required for updating a tip");return await l({variables:{id:e.id,title:e.title,description:e.description,content:e.content||null,tags:e.tags?e.tags.split(",").map(e=>e.trim()).filter(Boolean):[],priority:e.priority?parseInt(e.priority,10):null,externalUrl:e.externalUrl||null,criteria:e.criteria||null,ctaTrigger:e.ctaTrigger||null,ctaLabel:e.ctaLabel||null,publishedAt:e.publishedAt||null}})},[l]);return{createTip:s,updateTip:o,archiveTip:(0,r.useCallback)(async e=>await l({variables:{id:e,archived:!0}}),[l]),handleUnarchive:(0,r.useCallback)(e=>{e.id&&l({variables:{id:e.id,archived:!1},refetchQueries:["UserTipsManagementTable"]})},[l]),createLoading:i,updateLoading:n}})(),w=(0,r.useMemo)(()=>[...y?.userTips?.items||[]].sort((e,t)=>e.priority!==t.priority?e.priority-t.priority:new Date(e.timeCreated).getTime()-new Date(t.timeCreated).getTime()),[y]),U=(0,r.useMemo)(()=>y?.userTips?.pageInfo,[y]),I=(0,r.useCallback)(()=>{g(null),c(!0)},[]),L=(0,r.useCallback)(async()=>{if(h.current&&h.current.validateForm())try{await b(h.current.formValues),c(!1)}catch{}},[b]),O=(0,r.useCallback)(async()=>{if(x.current&&x.current.validateForm())try{await T(x.current.formValues),g(null)}catch{}},[T]),A=(0,r.useCallback)(()=>{g(null)},[]),E=[{key:"title",label:"Title",isRowHeader:!0},{key:"tags",label:"Tags"},{key:"timeCreated",label:"Created"},{key:"actions",label:"",alignment:"end"}];return v?(0,t.jsx)(M.View,{p:16,children:(0,t.jsxs)(q.Text,{color:"dimmer",children:["Error loading user tips: ",v.message]})}):(0,t.jsxs)(M.View,{p:16,children:[(0,t.jsxs)(M.View,{row:!0,align:"center",justify:"space-between",clsx:eK.default.header,children:[(0,t.jsxs)(M.View,{row:!0,align:"center",gap:16,children:[(0,t.jsx)(q.Text,{variant:"subheadDefault",children:"User Tips Management"}),(0,t.jsx)(M.View,{row:!0,align:"center",gap:8,children:(0,t.jsxs)(M.SpecializedView.label,{gap:4,row:!0,children:[(0,t.jsx)("input",{type:"checkbox",checked:s,onChange:e=>{o(e.target.checked),n(1)}}),(0,t.jsx)(q.Text,{children:"Show archived"})]})})]}),(0,t.jsx)($.Button,{text:"Create Tip",onClick:I,colorway:"primary",iconLeft:(0,t.jsx)(k.default,{})})]}),(0,t.jsx)(ez.IndexTable,{title:"User Tips",items:w,loading:j&&0===w.length,emptyState:(0,t.jsx)(eF.default,{title:j&&0===w.length?"Loading user tips...":"No user tips found",description:j&&0===w.length?"":"Get started by creating your first user tip",illustration:j&&0===w.length?(0,t.jsx)(u.default,{size:32,fill:B.tokens.foregroundDimmer}):(0,t.jsx)(ek.default,{size:32,fill:B.tokens.foregroundDimmer})}),columns:E,autoLayout:!0,children:e=>{var r;return(0,t.jsxs)(eY.TableRow,{id:e.id,columns:E,"data-archived":!!e.timeDeleted,clsx:eK.default.tableRow,children:[(0,t.jsx)(eH.TableCell,{children:(0,t.jsxs)(M.View,{children:[e.externalUrl?(0,t.jsx)("a",{href:e.externalUrl,target:"_blank",rel:"noopener noreferrer",style:{cursor:"pointer",textDecoration:"underline",color:"inherit"},children:e.title}):(0,t.jsx)(q.Text,{children:e.title}),e.description?(0,t.jsx)(q.Text,{variant:"small",color:"dimmer",children:e.description.length>100?`${e.description.slice(0,100)}...`:e.description}):null,e.ctaLabel||e.ctaTrigger?(0,t.jsxs)(M.View,{row:!0,gap:8,style:{marginTop:4},children:[e.ctaLabel?(0,t.jsxs)(q.Text,{variant:"small",color:"dimmer",children:["CTA: ",e.ctaLabel]}):null,e.ctaTrigger?(0,t.jsxs)(q.Text,{variant:"small",color:"dimmer",children:["Trigger: ",e.ctaTrigger]}):null]}):null]})}),(0,t.jsx)(eH.TableCell,{children:(0,t.jsx)(M.View,{row:!0,wrap:!0,gap:4,children:(e.tags||[]).map(e=>e?(0,t.jsx)(N.Pill,{text:e},e):null)})}),(0,t.jsx)(eH.TableCell,{children:(0,t.jsx)(q.Text,{children:e.timeCreated&&(r=e.timeCreated)?(0,eC.format)(new Date(r),"MM/dd/yy"):"-"})}),(0,t.jsx)(eH.TableCell,{children:(0,t.jsxs)(eQ.PopupMenu,{trigger:(0,t.jsx)(ec.IconButton,{alt:"Actions",size:24,children:(0,t.jsx)(eL.default,{})}),"aria-label":`Actions for ${e.title}`,children:[(0,t.jsx)(eQ.MenuItem,{label:"Edit",icon:(0,t.jsx)(eI.default,{}),onAction:()=>g(e)}),e.timeDeleted?(0,t.jsx)(eQ.MenuItem,{label:"Restore",icon:(0,t.jsx)(eO.default,{}),onAction:()=>R(e)}):(0,t.jsx)(eQ.MenuItem,{label:"Archive",icon:(0,t.jsx)(m.default,{}),onAction:()=>_(e.id)})]})})]},e.id)}}),U&&(U.hasNextPage||U.hasPreviousPage)?(0,t.jsx)(M.View,{clsx:eK.default.paginationContainer,children:(0,t.jsx)(eG.default,{currentPage:l-1,pageSize:50,totalItems:50*l+50*!!U.hasNextPage,goToPreviousPage:()=>n(e=>Math.max(1,e-1)),goToNextPage:()=>{U.hasNextPage&&n(e=>e+1)}})}):null,(0,t.jsxs)(eW.Modal,{isOpen:d,onRequestClose:()=>c(!1),maxWidth:600,children:[(0,t.jsx)(eV,{formRef:h}),(0,t.jsxs)(M.View,{row:!0,justify:"end",gap:8,p:16,children:[(0,t.jsx)($.Button,{text:"Cancel",onClick:()=>c(!1),colorway:"negative",disabled:C}),(0,t.jsx)($.Button,{text:C?"Creating...":"Create",onClick:L,colorway:"primary",disabled:C})]})]}),(0,t.jsxs)(eW.Modal,{isOpen:null!==p,onRequestClose:A,maxWidth:600,children:[(0,t.jsx)(eV,{initialTip:p,formRef:x}),(0,t.jsxs)(M.View,{row:!0,justify:"end",gap:8,p:16,children:[(0,t.jsx)($.Button,{text:"Cancel",onClick:A,colorway:"negative",disabled:S}),(0,t.jsx)($.Button,{text:S?"Updating...":"Update",onClick:O,colorway:"primary",disabled:S})]})]})]})},DeleteTipInteractionsForm:R.default};var eJ=e.i(174423),eX=e.i(53382),e0=e.i(908267);let e1=e=>{let a=(0,r.useMemo)(()=>e.columns.map(e=>({header:e.label,accessorKey:e.key})),[e.columns]),{getHeaderGroups:i,getRowModel:l,getState:n,getPageCount:s,previousPage:o,getCanPreviousPage:u,nextPage:d,getCanNextPage:c}=(0,eJ.useReactTable)({columns:a,data:e.rows,getCoreRowModel:(0,eX.getCoreRowModel)(),getPaginationRowModel:(0,eX.getPaginationRowModel)(),initialState:{pagination:{pageIndex:0,pageSize:20}}});return(0,t.jsxs)("div",{clsx:e0.default.root,children:[(0,t.jsxs)("table",{clsx:e0.default.table,children:[(0,t.jsx)("thead",{children:i().map(e=>(0,t.jsx)("tr",{children:e.headers.map(e=>(0,t.jsx)("th",{clsx:e0.default.cell,children:e.isPlaceholder?null:(0,eJ.flexRender)(e.column.columnDef.header,e.getContext())},e.id))},e.id))}),(0,t.jsx)("tbody",{children:l().rows.map(e=>(0,t.jsx)("tr",{children:e.getVisibleCells().map(e=>(0,t.jsx)("td",{clsx:e0.default.cell,children:(0,eJ.flexRender)(e.column.columnDef.cell,e.getContext())},e.id))},e.id))})]}),s()>1?(0,t.jsxs)("div",{clsx:e0.default.pagination,children:[(0,t.jsx)($.Button,{size:"small",onClick:()=>{o()},disabled:!u(),text:"Previous"}),(0,t.jsx)("div",{clsx:e0.default.pageIndicator,children:(0,t.jsxs)("div",{children:["Page"," ",(0,t.jsxs)("strong",{children:[n().pagination.pageIndex+1," of ",s()]})]})}),(0,t.jsx)($.Button,{size:"small",onClick:()=>{d()},disabled:!c(),text:"Next"})]}):null]})};var e2=e.i(167392),e8=e.i(416298),e6=e.i(813583);let e9=e=>(0,t.jsxs)("div",{clsx:[e6.default.icon,{[e6.default.success]:e.success,[e6.default.error]:e.error}],children:[(({error:e,success:r})=>e?(0,t.jsx)(e8.default,{}):r?(0,t.jsx)(P.default,{}):(0,t.jsx)("div",{clsx:e6.default.chevron,children:(0,t.jsx)(e2.default,{})}))(e)," "]});var e4=e.i(37048),e3=e.i(180617);let e7=e=>{let{output:r}=e,a="json"in r&&r.json?(0,t.jsx)(y.default,{json:r.json}):null;if("CluiErrorOutput"===r.__typename)return(0,t.jsxs)(e4.VStack,{wrap:"nowrap",spacing:1,align:"stretch",children:[(0,t.jsxs)(e4.HStack,{spacing:1,children:[(0,t.jsx)(e9,{error:!0}),(0,t.jsx)("div",{children:r.error})]}),a]});if("CluiSuccessOutput"===r.__typename)return(0,t.jsxs)(e4.VStack,{wrap:"nowrap",spacing:1,align:"stretch",children:[(0,t.jsxs)(e4.HStack,{spacing:1,children:[(0,t.jsx)(e9,{success:!0}),(0,t.jsx)("div",{children:r.message})]}),a]});if("CluiMarkdownOutput"===r.__typename)return(0,t.jsx)(e3.default,{children:r.markdown});if("CluiTableOutput"===r.__typename)return(0,t.jsx)(e1,{columns:r.columns,rows:r.rows});if("CluiComponentOutput"===r.__typename){let e=eZ[r.component];return e?(0,t.jsx)(e,{data:r.props}):(0,t.jsxs)(e4.HStack,{spacing:1,children:[(0,t.jsx)(e9,{}),(0,t.jsxs)("div",{children:["No component found for $",r.component]})]})}return(0,t.jsxs)(e4.HStack,{spacing:1,children:[(0,t.jsx)(e9,{}),(0,t.jsx)("div",{children:"no output"})]})},e5=e=>{let[a,i]=(0,r.useState)(null),l=(0,x.useApolloClient)(),n=(0,r.useMemo)(()=>(0,v.parseArgs)({args:a||e.args||{},command:e.command}),[e.args,e.command,a]),[s,{data:o,loading:u,error:d,called:c,reset:p}]=(0,f.useMutation)(e.doc,{fetchPolicy:"no-cache"});(0,r.useEffect)(()=>{c||n.missing.required||n.missing.optional&&!a||s({variables:n.variables}).then(async()=>{e.command.path.some(e=>"impersonate"===e)&&await (0,b.signOut)(l)})},[o,d,n,c,s,a,l,e.command.path]);let m=o?e.toOutput(o):null,g=m?.__typename==="CluiErrorOutput",h=(0,r.useCallback)(e=>{p(),i(e)},[p]);if(m&&!g)return(0,t.jsx)(e7,{output:m});if(!(n.missing.optional||n.missing.required||u||d||g||null!==a))return null;let R=null;return d?R=(0,t.jsx)(T.default,{error:d}):g&&m?.__typename==="CluiErrorOutput"&&(R=(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(ej.StatusBanner,{colorway:"negative",icon:(0,t.jsx)(j.default,{}),text:m.error}),m.json?(0,t.jsx)(y.default,{json:m.json}):null]})),(0,t.jsxs)(M.View,{gap:8,children:[(0,t.jsx)(_.default,{isLoading:u,command:e.command,parsedVariables:n.variables,onSubmit:h}),R]})};e.s(["default",0,e5],477743);let te=e=>{let[a,i]=(0,r.useState)(null),l=(0,r.useMemo)(()=>(0,v.parseArgs)({args:a||e.args||{},command:e.command}),[e.args,e.command,a]),[n,{data:s,loading:o,error:u,called:d}]=(0,er.useLazyQuery)(e.doc,{fetchPolicy:"network-only"});(0,r.useEffect)(()=>{d||l.missing.required||!a&&l.missing.optional||n({variables:l.variables})},[l,n,d,a]);let c=s?e.toOutput(s):null,p=c?.__typename==="CluiErrorOutput",m=(0,r.useCallback)(t=>{i(t);let r=(0,v.parseArgs)({args:t,command:e.command});r.missing.required||n({variables:r.variables})},[n,e.command]);if(c&&!p)return(0,t.jsx)(e7,{output:c});if(!(l.missing.optional||l.missing.required||o||u||p||null!==a))return null;let g=null;return u?g=(0,t.jsx)(T.default,{error:u}):p&&c?.__typename==="CluiErrorOutput"&&(g=(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(ej.StatusBanner,{colorway:"negative",icon:(0,t.jsx)(j.default,{}),text:c.error}),c.json?(0,t.jsx)(y.default,{json:c.json}):null]})),(0,t.jsxs)(M.View,{gap:8,children:[(0,t.jsx)(_.default,{isLoading:o,command:e.command,parsedVariables:l.variables,onSubmit:m}),g]})};e.s(["default",0,te],859194);var tt=e.i(228759);function tr({onRemove:e,children:r}){return(0,t.jsxs)(M.View,{gap:8,children:[(0,t.jsx)(M.View,{align:"end",children:(0,t.jsx)(ec.IconButton,{onClick:e,alt:"Remove",children:(0,t.jsx)(U.default,{})})}),(0,t.jsx)(ey.ShadesSurface,{clsx:tt.default.surfcae,p:16,br:4,children:r})]})}var ta=e.i(2001),ti=e.i(678852),tl=e.i(141738);let tn={admin:(0,t.jsx)(d.default,{}),staff:(0,t.jsx)(o.default,{}),account:(0,t.jsx)(c.default,{}),team:(0,t.jsx)(g.default,{}),extension:(0,t.jsx)(n.default,{}),moderator:(0,t.jsx)(s.default,{}),trash:(0,t.jsx)(m.default,{}),org:(0,t.jsx)(g.default,{}),bpo:(0,t.jsx)(g.default,{})},ts=(e,t)=>{let r=e;for(let e of t){if(null==r||"object"!=typeof r)return;r=r[e]}return r};e.s(["CluiIconMap",0,tn,"default",0,e=>{let[n,s]=(0,r.useState)([]);(0,r.useEffect)(()=>{n.length>0||window.scrollTo({top:0,left:0})},[n]);let o=(0,r.useCallback)(()=>{s([])},[]);(0,r.useEffect)(()=>{s([])},[e.value]);let d=function(e){let{data:n}=(0,i.useCurrentUserCluiQuery)({ssr:!1});return(0,r.useMemo)(()=>{let r;if(!n?.currentUser)return null;let i=JSON.parse(JSON.stringify(n.currentUser.clui));(0,h.forEach)(i,({command:e})=>{let t=e.path?.[e.path.length-1];e.path&&2===e.path.length&&t&&tn[t]&&(e.icon=tn[t])});let s=i.commands||{},o=(r=0,function({searchQuery:e,data:t,active:a,path:i}){if("group"===t.type)return null;let l=[];for(let e=1;e<i.length-1;e++){let t=i[e];"group"!==t.data.type&&l.push(t.data.label)}if(a&&(r=l.length),!e)return a?{score:1}:null;let n=e.replace(/^\s+/,"");if(!n)return a?{score:1}:null;let s=n.split(/\s+/),o=n.endsWith(" ");if(1===s.length&&!o){let e=ta.default.match(s[0],t.label);return e?{score:e.score,render:{ranges:e.ranges}}:null}let u=s.filter(Boolean),d=o?u:u.slice(0,-1),c=o?"":u[u.length-1],p=l.slice(r);if(a||d.length>p.length)return null;for(let e=0;e<d.length;e++)if(d[e]!==p[e])return null;if(!c)return d.length===p.length?{score:1}:null;let m=ta.default.match(c,t.label);return m?{score:m.score,render:{ranges:m.ranges}}:null}),u=function e(r,i){return Object.entries(r).map(([r,n])=>{let s=n.path&&2===n.path.length&&tn[r]?tn[r]:(0,t.jsx)(l.default,{}),o=n.description||"";if(n.commands&&Object.keys(n.commands).length>0){let t=e(n.commands,i);return{data:{type:"context",icon:s,label:r,description:o},match:i,commands:()=>t}}if("CluiOutput"===n.outputType){let e=n.query?te:e5,l=n.query||n.mutation;if(l){let u=null,d=n.path;return{data:{type:"output",icon:s,label:r,description:o,renderOutput:()=>(u||(u=(0,a.parse)(l)),(0,t.jsx)(e,{command:n,doc:u,toOutput:e=>ts(e,d)}))},match:i}}return{data:{type:"output",icon:s,label:r,description:o},match:i}}return{data:{type:"action",icon:s,label:r,description:o,run:()=>{}},match:i}})}(s,o),d={data:{type:"action",icon:(0,t.jsx)(p.default,{}),label:"clear",description:"Clears screen",run:()=>{(0,Y.track)(K.events.CLUI_COMMAND_SUBMITTED,{commandPath:"clear",commandType:"action"}),e()}},match:o};return{data:{type:"context",icon:(0,t.jsx)(l.default,{}),label:"CLUI",description:"Run a command"},commands:()=>[...u,d]}},[n,e])}(o),c=(0,r.useMemo)(()=>{if(!d)return null;if(!e.value)return{command:d};let t=function(e,t){if(!t)return[e];let r=t.trim().split(/\s+/),a=[e],i=e;for(let e of r){if(!i.commands)break;let t=i.commands({searchQuery:"",path:a,active:!0});if(t instanceof Promise)break;let r=t.find(t=>"group"!==t.data.type&&t.data.label===e);if(!r||"context"!==r.data.type)break;a.push(r),i=r}return a}(d,e.value);return{command:t.length>1?t:d}},[d,e.value]),m=(0,r.useCallback)(e=>{var r;if(!("output"===(r=e.data).type&&"renderOutput"in r))return;let a=e.path.slice(1).map(e=>"group"===e.data.type?e.data.key:e.data.label).filter(Boolean).join(" ");(0,Y.track)(K.events.CLUI_COMMAND_SUBMITTED,{commandPath:a,commandType:"output"});let i=e.data.renderOutput(),l=Math.random().toString()+n.length,o=(0,t.jsx)(tr,{onRemove:()=>{s(e=>e.filter(e=>e.key!==l))},children:i},l);s(e=>[{key:l,node:o},...e])},[n.length]),g=(0,r.useRef)(null),x=(0,r.useRef)(n.length);(0,r.useEffect)(()=>{c&&x.current>0&&0===n.length&&g.current?.(),x.current=n.length},[c,n.length]);let f=(0,r.useRef)(!1);return(0,r.useEffect)(()=>{c&&!f.current&&(f.current=!0,g.current?.())},[c]),(0,t.jsx)("div",{className:tl.default.root,children:c?(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(ti.CommandBar,{command:c.command,onSelect:m,focusRef:g,fullWidth:!0},e.value||""),(0,t.jsx)("div",{className:tl.default.output,children:n.map(e=>e.node)})]}):(0,t.jsx)("div",{className:tl.default.loading,children:(0,t.jsx)(u.default,{})})})},"getPath",0,ts],339487)},97678,e=>{e.v({root:"index-module__MurT_W__root"})},65910,e=>{e.v({iconLink:"InstallOnReplitFooter-module___Z-8zG__iconLink",textLink:"InstallOnReplitFooter-module___Z-8zG__textLink"})},132069,e=>{e.v({buttonLink:"NavItem-module__obNSla__buttonLink",centered:"NavItem-module__obNSla__centered"})},576592,789987,186894,e=>{"use strict";var t=e.i(276385),r=e.i(389959),a=e.i(151027),i=e.i(295621),l=e.i(725958),n=e.i(650401),s=e.i(195206),o=e.i(339487),u=e.i(384001),d=e.i(192458),c=e.i(477743),p=e.i(859194),m=e.i(61732);function g({command:e}){let a=e.query??e.mutation,i=(0,r.useMemo)(()=>a?(0,d.parse)(a):null,[a]);if(!i)return null;let l=e.query?p.default:c.default;return(0,t.jsx)(m.View,{p:8,gap:16,children:(0,t.jsx)(l,{command:e,doc:i,toOutput:t=>(0,o.getPath)(t,e.path)})})}function h(e){return(0,r.useMemo)(()=>({data:{type:"context",icon:(0,t.jsx)(s.default,{}),label:"Commands"},commands:()=>e?.commands?Object.entries(e.commands).map(([e,r])=>(function e(r,a,i){let l=0===i?o.CluiIconMap[r]??(0,t.jsx)(s.default,{}):(0,t.jsx)(s.default,{});return void 0!==a.commands&&Object.keys(a.commands).length>0?{match:u.matchLabel,data:{type:"context",label:r,description:a.description??"",icon:l},commands:t=>t.active||t.searchQuery?Object.entries(a.commands??{}).map(([t,r])=>e(t,r,i+1)):[]}:{match:u.matchLabel,data:{type:"context",label:r,description:a.description??"",icon:l,view:(0,t.jsx)(g,{command:a})},commands:()=>[]}})(e,r,0)):[]}),[e])}var x=e.i(407617),f=e.i(735362);function y(){let e=(0,l.useRouter)();return(0,r.useMemo)(()=>({data:{type:"context",icon:(0,t.jsx)(t.Fragment,{}),label:"Staff"},commands:()=>[{match:u.matchLabel,data:{type:"action",icon:(0,t.jsx)(f.default,{}),label:"Run Evaluations",description:"Open the evaluations page to batch test Agent",run:()=>{e.push("/evaluations")}}}]}),[e])}var j=e.i(345836),v=e.i(921125);function b(){let e=(0,l.useRouter)();return(0,r.useCallback)(t=>{let{href:r,as:a}=(0,v.replLinkProps)(t);e.push(r,a)},[e])}var T=e.i(678852),_=e.i(97678);function R(){let e=function(){let{data:e}=(0,n.useGlobalPersonalRecentReplsQuery)({variables:{count:j.RECENT_REPLS_SIDEBAR_MENU_COUNT},fetchPolicy:"cache-and-network",ssr:!1}),a=e?.recentRepls,[i]=(0,n.useGlobalPersonalSearchLazyQuery)(),l=b(),s=(0,r.useMemo)(()=>a?.length?{data:{type:"context",label:"Recent",icon:(0,t.jsx)(t.Fragment,{})},commands:e=>e.searchQuery?[]:a.map(t=>(0,x.toReplResult)(e.searchQuery,t,l))}:null,[a,l]),o=y(),u=e?.currentUser?.isStaff,d=h(e?.currentUser?.clui),c=(0,r.useMemo)(()=>({data:{type:"group",key:"search"},commands:async e=>{if(""===e.searchQuery.trim())return[];let t=await i({variables:{search:e.searchQuery}}),r=t.data?.currentUser?.replSearch;return r?r.map(t=>(0,x.toReplResult)(e.searchQuery,t,l)):[]}}),[i,l]);return(0,r.useMemo)(()=>({data:{type:"context",label:"Search Apps",description:"Search Apps",icon:(0,t.jsx)(t.Fragment,{})},commands:()=>[...s?[s]:[],c,d,...u?[o]:[]]}),[s,c,d,u,o])}();return(0,t.jsx)(T.CommandBar,{autoFocus:!0,command:e})}function C({orgId:e}){let a=function(e){let{data:a}=(0,n.useGlobalOrgRecentReplsQuery)({variables:{orgId:e,count:j.RECENT_REPLS_SIDEBAR_MENU_COUNT},fetchPolicy:"cache-and-network",ssr:!1}),i=a?.currentUser?.org.__typename==="Org"?a.currentUser.org:null,l=i?.recentRepls.items,s=i?.name,o=a?.currentUser?.isStaff,[u]=(0,n.useGlobalOrgSearchLazyQuery)(),d=b(),c=y(),p=h(a?.currentUser?.clui),m=(0,r.useMemo)(()=>({data:{type:"group",key:"search"},commands:async t=>{if(""===t.searchQuery.trim())return[];let r=await u({variables:{orgId:e,replsInput:{filters:{title:{search:t.searchQuery}}}}}),a=r.data?.currentUser?.org.__typename==="Org"?r.data.currentUser.org:null,i=a?.repls.__typename==="ReplConnection"?a.repls.items:null;return i?i.map(e=>(0,x.toReplResult)(t.searchQuery,e,d)):[]}}),[e,u,d]),g=(0,r.useMemo)(()=>l?.length?{data:{type:"context",label:"Recent",icon:(0,t.jsx)(t.Fragment,{})},commands:e=>e.searchQuery?[]:l.map(t=>(0,x.toReplResult)(e.searchQuery,t,d))}:null,[l,d]);return(0,r.useMemo)(()=>({data:{type:"context",label:"Search Apps",description:"Search Apps"+(s?` in ${s}`:""),icon:(0,t.jsx)(t.Fragment,{})},commands:()=>[...g?[g]:[],m,p,...o?[c]:[]]}),[g,m,p,s,o,c])}(e);return(0,t.jsx)(T.CommandBar,{autoFocus:!0,command:a})}let S=(0,i.defaultKeyCombo)({cmdOrCtrl:!0,key:"k"});e.s(["GlobalSearch",0,function(){let{orgId:e}=(0,a.useCurrentUserStoredOrgContext)();return(0,t.jsx)(m.View,{clsx:_.default.root,children:e?(0,t.jsx)(C,{orgId:e}):(0,t.jsx)(R,{})})},"useGloablSearchState",0,function(){var e;let[t,a]=(0,r.useState)(!1);return e=(0,r.useCallback)(()=>a(e=>!e),[]),(0,r.useEffect)(()=>{let t=t=>{(0,i.getKeyCombination)(t)===S&&e()};return document.addEventListener("keydown",t),()=>{document.removeEventListener("keydown",t)}},[e]),[t,a]}],576592);var w=e.i(840467),U=e.i(256758);e.i(214847);var I=e.i(864300),k=e.i(8047),L=e.i(813707),O=e.i(411966),A=e.i(86145),E=e.i(488299),P=e.i(773222);let M=()=>{let[e,a]=(0,r.useState)(!1),[i,l]=(0,O.usePerfToggle)(O.PERF_TOGGLE_KEYS.lagRadar),[n,s]=(0,O.usePerfToggle)(O.PERF_TOGGLE_KEYS.analyticsInspector),[o,u]=(0,O.usePerfToggle)(O.PERF_TOGGLE_KEYS.devBar);return(0,t.jsxs)(P.PopoverTrigger,{label:"Performance",isOpen:e,onOpenChange:a,children:[(0,t.jsx)(E.IconButton,{alt:"Performance",size:28,tooltipPlacement:"left-start",children:(0,t.jsx)(L.default,{})}),(0,t.jsxs)(m.View,{gap:4,p:8,children:[(0,t.jsxs)(m.View,{row:!0,gap:8,children:[(0,t.jsx)(A.Checkbox,{id:"lag-radar",name:"Lag Radar",checked:i,onChange:l}),(0,t.jsx)("label",{htmlFor:"lag-radar",children:"Lag Radar"})]}),(0,t.jsxs)(m.View,{row:!0,gap:8,children:[(0,t.jsx)(A.Checkbox,{id:"analytics-inspector",name:"Analytics Inspector",checked:n,onChange:s}),(0,t.jsx)("label",{htmlFor:"analytics-inspector",children:"Analytics Inspector"})]}),(0,t.jsxs)(m.View,{row:!0,gap:8,children:[(0,t.jsx)(A.Checkbox,{id:"dev-bar",name:"Dev bar",checked:o,onChange:u}),(0,t.jsx)("label",{htmlFor:"dev-bar",children:"Dev bar"})]})]})]})};var D=e.i(65910);e.s(["InstallOnReplitFooter",0,function({isStaffplorer:e}){let r=(0,I.useIntl)();return(0,t.jsxs)(m.View,{justify:"space-between",row:!0,pl:4,children:[(0,t.jsxs)(m.View,{row:!0,gap:2,align:"center",children:[(0,t.jsx)(k.Text,{color:"dimmest",variant:"small",children:r.formatMessage({id:"home.installReplitOn",defaultMessage:"Install Replit on"})}),(0,t.jsx)(w.default,{href:"/mobile",target:"_blank",clsx:D.default.iconLink,children:(0,t.jsx)(U.default,{})}),(0,t.jsxs)(m.View,{row:!0,gap:2,align:"center",children:[(0,t.jsx)(m.View,{px:2,children:(0,t.jsx)(k.Text,{color:"dimmest",variant:"small",children:"•"})}),(0,t.jsx)(w.default,{href:"https://docs.replit.com/updates",target:"_blank",clsx:D.default.textLink,children:r.formatMessage({id:"home.changelog",defaultMessage:"Changelog"})})]})]}),(0,t.jsx)(m.View,{pl:8,children:e?(0,t.jsx)(M,{}):void 0})]})}],789987);var B=e.i(415541),V=e.i(709485),$=e.i(419635),N=e.i(244945),q=e.i(132069);e.s(["NavItem",0,function(e){let r=(0,l.useRouter)(),i="function"==typeof e.active?e.active(r):e.active??!1,n=(0,a.getOrgTrackingContext)(e.orgId?{id:e.orgId}:void 0),s=e.disabled??!1,o=(0,t.jsx)($.ButtonLink,{clsx:[q.default.buttonLink,{[q.default.centered]:e.centered}],disabled:s,variant:e.variant??(i?void 0:"nofill"),onClick:t=>{var r;s?t.preventDefault():(e.onClick?.(t),r=e.label,(0,B.track)(V.events.NAV_ITEM_CLICK,{target:r,source:"sidebar",isWorkspace:!1,context:n}))},onMouseEnter:e.onMouseEnter,"aria-current":i?"page":void 0,"data-cy":e.dataCy,tabIndex:0,href:e.href,as:e.as,iconLeft:e.icon,text:e.label,iconRight:e.tag?(0,t.jsx)(m.View,{children:e.tag}):void 0});return(0,t.jsx)(m.View,{tag:"li",justify:"space-between",row:!0,grow:!0,shrink:!0,children:s&&e.disabledTooltipText?(0,t.jsx)(N.Tooltip,{tooltip:e.disabledTooltipText,placement:"right",children:(e,r)=>(0,t.jsx)("div",{ref:r,...e,style:{pointerEvents:"auto",flexGrow:1,flexShrink:1,minWidth:0},children:(0,t.jsx)("div",{style:{pointerEvents:"none"},children:o})})}):o})}],186894)},76298,e=>{e.v({pill:"navItems-module__vGHY-a__pill"})},477814,e=>{"use strict";var t=e.i(276385),r=e.i(182409),a=e.i(953436),i=e.i(943172);let l={self:e.i(76298).default.pill},n={as:"/~",href:"/home",icon:(0,t.jsx)(a.default,{})},s={href:"/repls",icon:(0,t.jsx)(i.default,{})},o={href:"/my-published-apps",icon:(0,t.jsx)(r.default,{})};e.s(["deploymentsItem",0,o,"homeItem",0,n,"navItemPillCss",0,l,"replsItem",0,s])},702210,908833,223481,e=>{"use strict";var t=e.i(276385),r=e.i(953436),a=e.i(61935),i=e.i(76112),l=e.i(943172),n=e.i(445807),s=e.i(730497);e.i(214847);var o=e.i(864300),u=e.i(448942),d=e.i(744006),c=e.i(477814);let p=e=>t=>t.pathname===e;e.s(["useGlobalSidebarNavItems",0,function(e,m,g=!1){let{sidebarItems:{homeItem:h,replsItem:x,deploymentsItem:f,usageItem:y,connectorsItem:j}}=function({org:e,isSubscribed:p=!1}={}){var m;let g,h,x,f,y=(0,o.useIntl)(),j=e?(0,u.orgLinks)({slug:e.slug}):void 0,v=(0,s.useFlag)({controlName:"flag-free-plan",default:!1}),b=v&&!p&&!e,T=(m=e?.id,h=(0,o.useIntl)(),f=!(x=(0,n.useUsageActionRequired)(m)).loading&&x.actionRequired,{as:"/usage",href:"/usage",label:h.formatMessage({id:"home.navUsageLabel",defaultMessage:"Usage"}),icon:(0,t.jsx)(i.default,{}),tag:f?(0,t.jsx)(d.Pill,{clsx:c.navItemPillCss.self,text:h.formatMessage({id:"home.actionRequired",defaultMessage:"Action required"}),colorway:"yellow"}):void 0}),_=y.formatMessage({id:"home.navHomeLabel",defaultMessage:"Home"}),R=j?{...j.home,label:_,icon:(0,t.jsx)(r.default,{})}:{...c.homeItem,label:_},C=j?{...j.repls,icon:(0,t.jsx)(l.default,{}),label:y.formatMessage({id:"home.navProjectsLabel",defaultMessage:"Projects"})}:{href:"/repls",label:y.formatMessage({id:"home.navMyProjects",defaultMessage:"My Projects"}),icon:(0,t.jsx)(l.default,{}),routerPath:"/repls"},S=y.formatMessage({id:"home.navPublishedProjects",defaultMessage:"Published Projects"}),w=j?{...c.deploymentsItem,...j.deployments,label:S}:{...c.deploymentsItem,label:S};return!v||p||e?j?g={...j.connectors,icon:(0,t.jsx)(a.default,{}),label:y.formatMessage({id:"home.navIntegrationsLabel",defaultMessage:"Integrations"})}:j||(g={href:"/integrations",as:"/integrations",label:y.formatMessage({id:"home.navIntegrationsLabel",defaultMessage:"Integrations"}),icon:(0,t.jsx)(a.default,{}),routerPath:"/integrations"}):g=void 0,{sidebarItems:{homeItem:R,replsItem:C,deploymentsItem:w,usageItem:b?void 0:T,connectorsItem:g}}}({org:e,isSubscribed:g});return{home:{...h,active:h.routerPath?p(h.routerPath):p(h.href.toString())},repls:{...x,active:x.routerPath?p(x.routerPath):p(x.href.toString())},deployments:f?{...f,active:f.routerPath?p(f.routerPath):p(f.href.toString())}:void 0,connectors:j?{...j,active:j.routerPath?p(j.routerPath):p(j.href.toString())}:void 0,usage:m&&y?{...y,active:p(y.href.toString())}:void 0}}],702210);var m=e.i(960933);let g=m.Type.Object({domains:m.Type.Optional(m.Type.Array(m.Type.String())),id:m.Type.Optional(m.Type.String({description:"A stable identifier for the artifact that persists across folder renames. When absent, the folder name is used as the artifact identity."})),integratedSkills:m.Type.Optional(m.Type.Array(m.Type.Object({name:m.Type.Optional(m.Type.String()),version:m.Type.Optional(m.Type.String())}))),kind:m.Type.Optional(m.Type.Union([m.Type.Literal("web"),m.Type.Literal("slides"),m.Type.Literal("video"),m.Type.Literal("mobile"),m.Type.Literal("automation"),m.Type.Literal("game"),m.Type.Literal("data-app"),m.Type.Literal("cli"),m.Type.Literal("vnc"),m.Type.Literal("api"),m.Type.Literal("design"),m.Type.Literal("custom")])),pageMetadata:m.Type.Optional(m.Type.Array(m.Type.Object({path:m.Type.String(),screenshotTimestamp:m.Type.Optional(m.Type.String()),screenshotUri:m.Type.Optional(m.Type.String())}))),previewDomain:m.Type.Optional(m.Type.String()),previewPath:m.Type.Optional(m.Type.String()),previewPort:m.Type.Optional(m.Type.Number({description:"The port that the workspace preview connects to. Only valid when router is port."})),router:m.Type.Optional(m.Type.Union([m.Type.Literal("port"),m.Type.Literal("path"),m.Type.Literal("domain"),m.Type.Literal("expo-domain")],{description:"The preview routing strategy. port (legacy), path, domain, or expo-domain."})),services:m.Type.Optional(m.Type.Array(m.Type.Object({development:m.Type.Object({run:m.Type.Union([m.Type.Object({args:m.Type.Array(m.Type.String()),env:m.Type.Optional(m.Type.Record(m.Type.String(),m.Type.String()))},{additionalProperties:!1}),m.Type.String(),m.Type.Array(m.Type.String())],{description:"The command to run the service during development."})},{description:"Configuration for running the service during development."}),ensurePreviewReachable:m.Type.Optional(m.Type.String({description:"Path to ensure is reachable before showing the preview."})),env:m.Type.Optional(m.Type.Record(m.Type.String(),m.Type.String())),localPort:m.Type.Number({description:"The port the service listens on."}),name:m.Type.String({description:"The service name, which becomes the workflow name for development."}),paths:m.Type.Optional(m.Type.Array(m.Type.String(),{description:"Path prefixes that will be routed to this service."})),production:m.Type.Optional(m.Type.Object({build:m.Type.Optional(m.Type.Union([m.Type.Object({args:m.Type.Array(m.Type.String()),env:m.Type.Optional(m.Type.Record(m.Type.String(),m.Type.String()))},{additionalProperties:!1}),m.Type.String(),m.Type.Array(m.Type.String())],{description:"Command to build the project for production."})),health:m.Type.Optional(m.Type.Object({liveness:m.Type.Optional(m.Type.Object({headers:m.Type.Optional(m.Type.Record(m.Type.String(),m.Type.String())),path:m.Type.Optional(m.Type.String({description:"The path for the check. For example, `/ready`. Defaults to `/`."}))})),startup:m.Type.Optional(m.Type.Object({headers:m.Type.Optional(m.Type.Record(m.Type.String(),m.Type.String())),path:m.Type.Optional(m.Type.String({description:"The path for the check. For example, `/ready`. Defaults to `/`."}))}))},{description:"Configuration for production healthchecks."})),publicDir:m.Type.Optional(m.Type.String({description:"Root directory for static file serving. Only valid when serve is 'static'."})),responseHeaders:m.Type.Optional(m.Type.Array(m.Type.Object({name:m.Type.Optional(m.Type.String({description:"The name of the header to add."})),path:m.Type.Optional(m.Type.String({description:"The pattern to apply the header to."})),value:m.Type.Optional(m.Type.String({description:"The value of the header to add."}))}),{description:"Headers to apply to responses for static serving. Only valid when serve is 'static'."})),rewrites:m.Type.Optional(m.Type.Array(m.Type.Object({from:m.Type.Optional(m.Type.String({description:"The pattern to rewrite."})),to:m.Type.Optional(m.Type.String({description:"The new pattern."}))}),{description:"URL rewrite rules for static serving (e.g. SPA fallback). Only valid when serve is 'static'."})),run:m.Type.Optional(m.Type.Union([m.Type.Object({args:m.Type.Array(m.Type.String()),env:m.Type.Optional(m.Type.Record(m.Type.String(),m.Type.String()))},{additionalProperties:!1}),m.Type.String(),m.Type.Array(m.Type.String())],{description:"Command to run the service in production."})),serve:m.Type.Optional(m.Type.Union([m.Type.Literal("static"),m.Type.Literal("proxy")],{default:"proxy",description:"How the service is served in production. 'proxy' (default) proxies to a running process. 'static' serves files directly from publicDir."}))},{description:"Configuration for building and running the service in production."}))}))),title:m.Type.Optional(m.Type.String()),version:m.Type.Optional(m.Type.String())},{$id:"Artifact"});e.s(["Artifact",0,g],908833);var h=e.i(105349);e.s(["validate",()=>h.default],223481)},566977,e=>{"use strict";var t=e.i(351623),r=e.i(319801),a=e.i(517414),i=e.i(566578),l=e.i(863815);let n=t.gql`
+    fragment ReplCardArtifact on ReplArtifact {
+  artifactId
+  title
+  kind
+  previewPath
+  latestScreenshotUri
+}
+    `;i.BuildStatusBadgeHostingDeploymentFragmentDoc,l.DeploymentLinkFragmentDoc;var s=e.i(272290);let o=t.gql`
+    fragment ReplCardRepl on Repl {
+  id
+  title
+  iconUrl
+  isPrivate
+  isStarred
+  isCurrentUserStarred
+  timeUpdated
+  lastOpened
+  latestAgentScreenshotUrl
+  ...ReplLinkRepl
+  ...ComponentsReplActions
+  artifacts {
+    ...ReplCardArtifact
+  }
+  user {
+    id
+    username
+    fullName
+    image
+  }
+  hostingDeployment {
+    __typename
+    ... on HostingDeployment {
+      id
+      ...DeploymentItem
+      latestBuildStatus
+      currentBuild {
+        id
+        status
+        timeCreated
+        artifacts {
+          ...HostingBuildArtifactFields
+        }
+        user {
+          id
+          displayName
+        }
+      }
+    }
+  }
+  authorizations {
+    star {
+      isAuthorized
+    }
+    viewFileContents {
+      isAuthorized
+    }
+    editFileContents {
+      isAuthorized
+      code
+      message
+    }
+  }
+}
+    ${r.ReplLinkReplFragmentDoc}
+${a.ComponentsReplActionsFragmentDoc}
+${n}
+${s.DeploymentItemFragmentDoc}
+${s.HostingBuildArtifactFieldsFragmentDoc}`;e.s(["ReplCardReplFragmentDoc",0,o],566977)},349525,e=>{e.v({content:"index-module__SJkCTa__content",footer:"index-module__SJkCTa__footer",header:"index-module__SJkCTa__header",hideWhenCollapsed:"index-module__SJkCTa__hideWhenCollapsed",isOpen:"index-module__SJkCTa__isOpen",planUsageMonitor:"index-module__SJkCTa__planUsageMonitor",root:"index-module__SJkCTa__root"})},330971,884188,e=>{"use strict";var t=e.i(276385),r=e.i(725958),a=e.i(389959),i=e.i(14154),l=e.i(923242),n=e.i(917255),s=e.i(336187),o=e.i(965097),u=e.i(40916),d=e.i(346781),c=e.i(255701),p=e.i(357253),m=e.i(76112),g=e.i(394572),h=e.i(908628),x=e.i(749556),f=e.i(334028),y=e.i(612343),j=e.i(761201),v=e.i(445807),b=e.i(897395),T=e.i(151027),_=e.i(908796),R=e.i(410458),C=e.i(856010);e.i(214847);var S=e.i(864300),w=e.i(776065),U=e.i(415541),I=e.i(709485),k=e.i(926233),L=e.i(33602),O=e.i(448942),A=e.i(416004),E=e.i(289038),P=e.i(127384),M=e.i(576592),D=e.i(789987),B=e.i(186894),V=e.i(765269),$=e.i(345836),N=e.i(111377),q=e.i(702210),F=e.i(480028),G=e.i(919073),z=e.i(643484),Q=e.i(488299),W=e.i(528326),H=e.i(744006),Y=e.i(8047),K=e.i(61732),Z=e.i(960933),J=e.i(862927),X=e.i(908833),ee=e.i(223481),et=e.i(351623),er=e.i(566977),ea=e.i(566578);let ei=et.gql`
+    fragment ReplsTableRepl on Repl {
+  ...ReplCardRepl
+  url
+  timeCreated
+  hostingDeployment {
+    __typename
+    ... on HostingDeployment {
+      ...BuildStatusBadgeHostingDeployment
+      currentBuild {
+        id
+        isPrivate
+      }
+    }
+  }
+}
+    ${er.ReplCardReplFragmentDoc}
+${ea.BuildStatusBadgeHostingDeploymentFragmentDoc}`,el=et.gql`
+    fragment ReplsGridRepl on Repl {
+  id
+  ...ReplsTableRepl
+}
+    ${ei}`,en=et.gql`
+    fragment ReplsViewRepl on Repl {
+  id
+  ...ReplsTableRepl
+  ...ReplsGridRepl
+}
+    ${ei}
+${el}`;var es=e.i(344480),eo=e.i(975473);let eu={},ed=et.gql`
+    query CurrentUserRepls($input: CurrentUserReplsInput!) {
+  currentUser {
+    id
+    repls(input: $input) {
+      __typename
+      ... on ReplConnection {
+        items {
+          ...ReplsViewRepl
+        }
+        pageInfo {
+          hasNextPage
+          nextCursor
+        }
+      }
+      ... on Error {
+        message
+      }
+    }
+  }
+}
+    ${en}`;var ec=e.i(569910),ep=e.i(320216);let em=[],eg=Z.Type.Union([Z.Type.Literal(_.CurrentUserReplsSortTypeEnum.CreationDate),Z.Type.Literal(_.CurrentUserReplsSortTypeEnum.LastOpened),Z.Type.Literal(_.CurrentUserReplsSortTypeEnum.LastUpdated),Z.Type.Literal(_.CurrentUserReplsSortTypeEnum.PublishedAt)]),eh=Z.Type.Union([Z.Type.Literal(_.CurrentUserReplsSortDirectionEnum.Ascending),Z.Type.Literal(_.CurrentUserReplsSortDirectionEnum.Descending)]),ex=Z.Type.Union([Z.Type.Literal(_.CurrentUserReplsDeploymentStatusEnum.Deployed),Z.Type.Literal(_.CurrentUserReplsDeploymentStatusEnum.Failed),Z.Type.Literal(_.CurrentUserReplsDeploymentStatusEnum.NotDeployed),Z.Type.Literal(_.CurrentUserReplsDeploymentStatusEnum.Success)]),ef=Z.Type.Union([Z.Type.Literal("grid"),Z.Type.Literal("table")]),ey=Z.Type.Union([Z.Type.Literal("__MULTIPLAYER_REPLS__"),Z.Type.String({pattern:"^__TEAM__\\d+__$"})]),ej={lastUpdated:_.CurrentUserReplsSortTypeEnum.LastOpened,createdAt:_.CurrentUserReplsSortTypeEnum.CreationDate,publishedAt:_.CurrentUserReplsSortTypeEnum.PublishedAt};function ev({sortType:e,sortDirection:t,defaultSortType:r=_.CurrentUserReplsSortTypeEnum.LastUpdated}){return{sortType:e??r,direction:t??_.CurrentUserReplsSortDirectionEnum.Descending,pinnedFirst:!0}}function eb({orgId:e,publishedOnly:t,sort:r,cursor:a,search:i,filters:l}){let n={},s=!1;for(let e of l)switch(e.type){case"publishedStatus":e.value&&(n.deploymentStatus=e.value,s=!0);break;case"creator":e.value.size>0&&(n.createdBy={userIds:Array.from(e.value)});break;case"folder":e.value&&(n.folderId=e.value);break;case"buildType":e.value&&(n.artifactKind=e.value);break;default:(0,ec.default)(e)}return!s&&t&&(n.deploymentStatus=_.CurrentUserReplsDeploymentStatusEnum.Deployed),{count:24,sort:r,cursor:a,...e?{orgId:e}:{},...i?{search:i}:{},...Object.keys(n).length>0?{filters:n}:{}}}function eT({orgId:e}){let t,r=(0,a.useRef)(!1),[i]=(t={...eu,...void 0},eo.useLazyQuery(ed,t));return(0,a.useCallback)(()=>{r.current||(r.current=!0,i({variables:{input:eb({orgId:e,publishedOnly:!1,sort:ev({sortType:void 0,sortDirection:void 0,defaultSortType:_.CurrentUserReplsSortTypeEnum.LastOpened}),cursor:void 0,search:void 0,filters:[]})}}))},[i,e])}e.s(["COLUMN_TO_SORT_TYPE",0,ej,"usePrewarmRepls",0,eT,"useReplsData",0,function({orgId:e,publishedOnly:t,sortType:r,sortDirection:i,debouncedSearch:l,filters:n}){var s;let o,{showError:u}=(0,ep.default)(),d=(0,S.useIntl)(),c=_.CurrentUserReplsSortTypeEnum.LastOpened,p=eb({orgId:e,publishedOnly:t,sort:ev({sortType:r,sortDirection:i,defaultSortType:c}),cursor:void 0,search:l||void 0,filters:n}),{data:m,previousData:g,loading:h,error:x,fetchMore:f}=(s={refetchWritePolicy:"overwrite",fetchPolicy:"cache-and-network",nextFetchPolicy:"cache-first",notifyOnNetworkStatusChange:!0,ssr:!1,variables:{input:p}},o={...eu,...s},es.useQuery(ed,o)),y=m?.currentUser?.repls?.__typename==="ReplConnection"?m.currentUser.repls:void 0,j=m?.currentUser?.repls?.__typename==="NotFoundError"||m?.currentUser?.repls?.__typename==="UserError",{search:v,...b}=p,T=JSON.stringify(b),R=(0,a.useRef)(null);j||x?R.current=null:y&&(R.current={nonSearchInputsKey:T,connection:y});let C=h&&R.current?.nonSearchInputsKey===T?R.current?.connection:void 0,w=y??C,U=w?.items??em,I=m?.currentUser?.id??g?.currentUser?.id,k=w?.pageInfo.hasNextPage??!1,L=x?.message,O=m?.currentUser?.repls?.__typename==="NotFoundError"||m?.currentUser?.repls?.__typename==="UserError"?m.currentUser.repls.message:void 0,A=(0,a.useCallback)(async()=>{if(h||!w?.pageInfo.nextCursor)return;let a=eb({orgId:e,publishedOnly:t,sort:ev({sortType:r,sortDirection:i,defaultSortType:c}),cursor:w.pageInfo.nextCursor,search:l||void 0,filters:n});await f({variables:{input:a},updateQuery:(e,{fetchMoreResult:t})=>{if(t.currentUser?.repls?.__typename!=="ReplConnection")return u(d.formatMessage({id:"home.couldNotLoadMore",defaultMessage:"Could not load more results - please refresh the page and try again"})),e;let r=[...e.currentUser?.repls?.__typename==="ReplConnection"?e.currentUser.repls.items:[],...t.currentUser.repls.items];return{...t,currentUser:{...t.currentUser,repls:{...t.currentUser.repls,items:r}}}}})},[h,f,e,t,r,i,c,l,n,w?.pageInfo.nextCursor,u,d]);return{items:U,loading:h,canLoadMore:k,onLoadMore:A,errorMessage:L??O,currentUserId:I}},"useReplsQueryParams",0,function(){let e=(0,w.useQueryParam)("sort","string"),t=(0,w.useQueryParam)("order","string"),r=(0,w.useQueryParam)("search","string"),i=(0,w.useQueryParam)("status","string"),l=(0,w.useQueryParam)("creator","string"),n=(0,w.useQueryParam)("view","string"),s=(0,w.useQueryParam)("folder","string"),o=(0,w.useQueryParam)("buildType","string");return(0,a.useMemo)(()=>{let a=J.Value.Check(eg,e)?e:void 0,u=J.Value.Check(eh,t)?t:void 0,d=J.Value.Check(ex,i)?i:void 0,c=new Set;l&&l.split(",").filter(Boolean).map(Number).filter(e=>!Number.isNaN(e)&&e>0).forEach(e=>c.add(e));let p=J.Value.Check(ef,n)?n:void 0;return{sortType:a,sortDirection:u,search:r,statusFilter:d,selectedCreators:c,view:p,folderFilter:s&&((0,ee.validate)(s)||J.Value.Check(ey,s))?s:void 0,buildTypeFilter:J.Value.Check(X.Artifact.properties.kind,o)?o:void 0}},[e,t,r,i,l,n,s,o])}],884188);var e_=e.i(349525);let eR=(0,F.cvarsFrom)("index.module.css",["--sidebar-width","--content-width","--sidebar-z-index","--header-height","--border-color"]);function eC({orgSlug:e}){let r=(0,E.useOrgGroupNavItems)({orgSlug:e});return(0,t.jsx)(K.View,{tag:"ul",gap:2,children:r.map(e=>(0,t.jsx)(B.NavItem,{...e,active:e.active??!1},`nav-item-${e.label}`))})}function eS(e){return e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||0!==e.button}let ew=({currentOrg:e,isUsingLegacyPersonalContext:a,isSubscribed:i=!1,isUnifiedPlansEnabled:n=!1})=>{let o=(0,S.useIntl)(),{home:d,repls:m,deployments:h,usage:x,connectors:f}=(0,q.useGlobalSidebarNavItems)(e,a,i),v=eT({orgId:e?.id}),b=(0,r.useRouter)(),_=(0,T.useIsCurrentOrgEnterprise)(),C=o.formatMessage({id:"home.navCreateSomethingNew",defaultMessage:"Create something new"}),{disableImport:L,disableIntegrations:A}=(0,R.default)(e?.id),E=o.formatMessage({id:"home.disabledByAdmin",defaultMessage:"Disabled by your enterprise admin"}),P=n&&_&&e?.authorizations.viewOrgAnalytics?.isAuthorized,M=e?(0,O.orgLinks)({slug:e.slug}).analytics:void 0,D=e?(0,O.orgLinks)({slug:e.slug}).groups:void 0,V=!e||(e.authorizations.viewOrgSecurity?.isAuthorized??!1),N=e?`/t/${e.slug}`:"/home",F=e?`/t/${e.slug}`:"/~",G=`${N}?${(0,k.settingsQueryString)("security")}`,z=`${F}?${(0,k.settingsQueryString)("security")}`,Q=`${N}?${(0,k.settingsQueryString)("promotionsReferrals")}`,W=`${F}?${(0,k.settingsQueryString)("promotionsReferrals")}`,H=`${N}?${k.SETTINGS_SHOW_PARAM}=true`,Y=`${F}?${k.SETTINGS_SHOW_PARAM}=true`;return(0,t.jsxs)(K.View,{gap:16,children:[(0,t.jsxs)(K.View,{gap:8,children:[(0,t.jsx)(B.NavItem,{active:!1,icon:(0,t.jsx)(u.default,{}),centered:!0,label:C,dataCy:"sidebar-new-repl-btn",variant:"outlined",href:{pathname:e?`/t/${e.slug}`:"/home",query:{create:!0}},as:e?`/t/${e.slug}`:"/~",onClick:()=>{(0,U.track)(I.events.OPEN_REPL_CREATION_PAGE,{source:"global sidebar",context:(0,T.getOrgTrackingContext)(e)})}}),(0,t.jsx)(B.NavItem,{active:!1,icon:(0,t.jsx)(g.default,{}),centered:!0,label:o.formatMessage({id:"home.navImportCodeOrDesign",defaultMessage:"Import code or design"}),dataCy:"sidebar-import-btn",variant:"outlined",disabled:L,disabledTooltipText:E,href:{pathname:"/import"},as:"/import",onClick:()=>{(0,U.track)(I.events.OPEN_IMPORT_PAGE,{source:"global sidebar",href:window.location.href,context:(0,T.getOrgTrackingContext)(e)})}})]}),(0,t.jsxs)(K.View,{tag:"ul","aria-label":"Pages",gap:2,children:[(0,t.jsx)(B.NavItem,{...d,active:d.active??!1}),(0,t.jsxs)($.RecentReplsPopover,{children:[(e,r)=>(0,t.jsx)(K.View,{grow:!0,shrink:!0,innerRef:r,...e,children:(0,t.jsx)(B.NavItem,{...m,active:m.active??!1,label:o.formatMessage(j.REPL_DISPLAY_NAME.plural),onMouseEnter:()=>v(),disableTooltip:!0})}),e?(0,t.jsx)($.OrgSidebarRecentRepls,{orgId:e.id}):(0,t.jsx)($.SidebarRecentRepls,{})]}),h?(0,t.jsx)(B.NavItem,{...h,active:h.active??!1}):null,f?(0,t.jsx)(B.NavItem,{...f,active:f.active??!1,disabled:A,disabledTooltipText:E}):null,x&&!n?(0,t.jsx)(B.NavItem,{...x,active:x.active??!1}):null,n&&_&&D?(0,t.jsx)(B.NavItem,{...D,label:o.formatMessage({id:"home.navGroupsLabel",defaultMessage:"Groups"}),icon:(0,t.jsx)(y.default,{}),active:eI(D.routerPath)}):null,P&&M?(0,t.jsx)(B.NavItem,{...M,label:o.formatMessage({id:"home.navAnalyticsLabel",defaultMessage:"Analytics"}),icon:(0,t.jsx)(l.default,{}),active:eI(M.routerPath)}):null,n&&V?(0,t.jsx)(B.NavItem,{label:o.formatMessage({id:"home.navSecurityLabel",defaultMessage:"Security"}),icon:(0,t.jsx)(p.default,{}),active:!1,href:G,as:z,onClick:e=>{eS(e)||(e.preventDefault(),(0,w.updatePathWithQueryParams)({router:b,params:(0,k.settingsQueryParams)("security")}))}}):null,n?(0,t.jsx)(B.NavItem,{label:o.formatMessage({id:"home.navPromotionsLabel",defaultMessage:"Promotions"}),icon:(0,t.jsx)(s.default,{}),active:!1,href:Q,as:W,onClick:e=>{eS(e)||(e.preventDefault(),(0,w.updatePathWithQueryParams)({router:b,params:(0,k.settingsQueryParams)("promotionsReferrals")}))}}):null,n?(0,t.jsx)(B.NavItem,{label:o.formatMessage({id:"home.navSettingsLabel",defaultMessage:"Settings"}),icon:(0,t.jsx)(c.default,{}),active:!1,href:H,as:Y,onClick:e=>{eS(e)||(e.preventDefault(),(0,w.updatePathWithQueryParams)({router:b,params:[{mode:"add",key:k.SETTINGS_SHOW_PARAM,value:"true"}]}))}}):null]})]})},eU=({currentOrg:e,isUsingLegacyPersonalContext:r})=>{let i=(0,S.useIntl)(),[l,n]=(0,a.useState)(!1),{home:s,repls:o}=(0,q.useGlobalSidebarNavItems)(e,r);return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsxs)(K.View,{gap:6,children:[(0,t.jsx)(z.Button,{variant:"outlined",colorway:"primary",text:i.formatMessage({id:"home.requestMemberSeat",defaultMessage:"Request a Member Seat"}),onClick:()=>n(!0),iconLeft:(0,t.jsx)(x.default,{})}),(0,t.jsxs)(K.View,{tag:"ul","aria-label":"Pages",gap:2,children:[(0,t.jsx)(B.NavItem,{...s,active:s.active??!1}),(0,t.jsx)(B.NavItem,{...o,active:o.active??!1,label:i.formatMessage({id:"home.filterAllProjects",defaultMessage:"All {noun}"},{noun:i.formatMessage(j.REPL_DISPLAY_NAME.plural)})})]})]}),(0,t.jsx)(A.default,{isOpen:l,orgId:e?.id,orgName:e?.name,onClose:()=>n(!1),onSuccess:()=>n(!1)})]})},eI=e=>t=>t.pathname===e,ek=({org:e})=>{let r=(0,S.useIntl)(),{slug:a}=e,i=(0,O.orgLinks)({slug:a}),n=e.authorizations.viewUsage.isAuthorized&&e.authorizations.viewSubscription.isAuthorized,s=e.authorizations.viewOrgAnalytics?.isAuthorized,o=e.authorizations.viewOrgSecurity?.isAuthorized;return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(K.View,{p:6,children:(0,t.jsx)(Y.Text,{variant:"small",color:"dimmest",height:"singleLine",children:r.formatMessage({id:"home.manageOrganization",defaultMessage:"Manage Organization"})})}),(0,t.jsxs)(K.View,{tag:"ul","aria-label":"Manage Workspace",gap:2,children:[(0,t.jsx)(B.NavItem,{...i.members,label:r.formatMessage({id:"home.navMembersLabel",defaultMessage:"Members"}),icon:(0,t.jsx)(f.default,{}),active:eI(i.members.routerPath)}),(0,t.jsx)(B.NavItem,{...i.groups,label:r.formatMessage({id:"home.navGroupsLabel",defaultMessage:"Groups"}),icon:(0,t.jsx)(y.default,{}),active:eI(i.groups.routerPath)}),n?(0,t.jsx)(eL,{...i.usage,orgId:e.id,active:eI(i.usage.routerPath)}):null,s?(0,t.jsx)(B.NavItem,{...i.analytics,label:r.formatMessage({id:"home.navAnalyticsLabel",defaultMessage:"Analytics"}),icon:(0,t.jsx)(l.default,{}),active:eI(i.analytics.routerPath)}):null,o?(0,t.jsx)(B.NavItem,{...i.security,label:r.formatMessage({id:"home.navSecurityLabel",defaultMessage:"Security"}),icon:(0,t.jsx)(p.default,{}),active:eI(i.security.routerPath)}):null,(0,t.jsx)(B.NavItem,{...i.profile,label:r.formatMessage({id:"home.navProfileLabel",defaultMessage:"Profile"}),icon:(0,t.jsx)(h.default,{}),active:eI(i.profile.routerPath)}),(0,t.jsx)(B.NavItem,{...i.settings,label:r.formatMessage({id:"home.navSettingsLabel",defaultMessage:"Settings"}),icon:(0,t.jsx)(c.default,{}),active:e=>e.pathname===i.settings.routerPath||e.pathname===`${i.settings.routerPath}/[[...tab]]`})]})]})},eL=e=>{let r=(0,S.useIntl)(),a=(0,v.useUsageActionRequired)(e.orgId),i=!a.loading&&a.actionRequired;return(0,t.jsx)(B.NavItem,{...e,icon:(0,t.jsx)(m.default,{}),tag:i?(0,t.jsx)(H.Pill,{text:r.formatMessage({id:"home.actionRequired",defaultMessage:"Action required"}),colorway:"yellow"}):void 0,label:r.formatMessage({id:"home.navUsageLabel",defaultMessage:"Usage"})})};function eO(e){let r=(0,S.useIntl)(),[a,i]=(0,M.useGloablSearchState)();return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(Q.IconButton,{...e,alt:r.formatMessage({id:"home.searchLabel",defaultMessage:"Search"}),size:28,onClick:()=>i(!0),children:(0,t.jsx)(d.default,{})}),(0,t.jsx)(W.Modal,{noPadding:!0,hideCloseButton:!0,isOpen:a,onRequestClose:()=>i(!1),children:(0,t.jsx)(M.GlobalSearch,{})})]})}e.s(["Sidebar",0,function(e){let a,l,s,u=(0,S.useIntl)(),d=(0,r.useRouter)(),{isOpen:c}=e,p={[eR.sidebarWidth]:P.SIDEBAR_WIDTH+"px",[eR.contentWidth]:P.SIDEBAR_WIDTH+"px",[eR.sidebarZIndex]:P.SIDEBAR_Z_INDEX.toString(),[eR.headerHeight]:P.APP_HEADER_HEIGHT+"px"},{currentUser:m}=e,{orgId:g,orgRole:h}=(0,T.useCurrentUserStoredOrgContext)(),x=void 0===g,f=!m.isSubscribed&&x,y=!g&&m.isSubscribed,j=h===_.SystemOrgGroupType.SystemViewers,{data:v,loading:R}=(0,i.useLayoutSidebarGetOrgQuery)({variables:{orgId:g??""},skip:!g}),w=v?.getOrg?.__typename==="Org"?v.getOrg:void 0,U=!!g&&R,I=(0,C.useIsUnifiedPlanEnabled)(x?{currentUser:m}:{org:w}),k=(0,C.useIsUnifiedPlanEnabledForAnyOrg)(m);return w?(a=w.name,l=w.image,s=w.id):(U?(a="",l=void 0):(a=m.firstName??m.username,l=m.image),s=void 0),(0,t.jsxs)(G.ShadesSurface,{border:{side:"right"},elevate:"1x",tag:"nav",clsx:[e_.default.root,{[e_.default.isOpen]:c}],style:p,children:[(0,t.jsx)(K.View,{clsx:e_.default.header,p:6,row:!0,gap:6,align:"center",justify:"end",children:(0,t.jsx)(eO,{})}),(0,t.jsxs)(K.View,{clsx:e_.default.content,px:6,grow:!0,shrink:!0,gap:16,children:[k?(0,t.jsx)(K.View,{clsx:e_.default.hideWhenCollapsed,children:(0,t.jsx)(b.OwnerPill,{ownerName:a,image:l,currentOrgId:s,isNewDesignEnabled:k,alignment:"start",stretch:!0})}):null,e.sidebarType===L.SidebarType.Index?(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(t.Fragment,{children:j&&w?(0,t.jsx)(eU,{currentOrg:w,isUsingLegacyPersonalContext:x}):(0,t.jsx)(ew,{currentOrg:w,isUsingLegacyPersonalContext:x,isSubscribed:m.isSubscribed,isUnifiedPlansEnabled:I})}),(0,t.jsx)(K.View,{clsx:e_.default.hideWhenCollapsed,children:I||x||!w?null:(0,t.jsx)(ek,{org:w})})]}):(0,t.jsx)(eC,{orgSlug:"string"==typeof d.query.orgSlug?d.query.orgSlug:w?.slug})]}),e.sidebarType===L.SidebarType.Index?(0,t.jsxs)(K.View,{p:12,gap:6,clsx:e_.default.footer,children:[(0,t.jsxs)(K.View,{clsx:e_.default.hideWhenCollapsed,tag:"ul",gap:2,children:[(0,t.jsx)(B.NavItem,{href:"https://learn.replit.com/",label:u.formatMessage({id:"home.navLearnLabel",defaultMessage:"Learn"}),icon:(0,t.jsx)(o.default,{}),active:!1}),(0,t.jsx)(B.NavItem,{href:"https://docs.replit.com",label:u.formatMessage({id:"home.navDocumentationLabel",defaultMessage:"Documentation"}),icon:(0,t.jsx)(n.default,{}),active:!1})]}),(0,t.jsxs)(K.View,{clsx:e_.default.hideWhenCollapsed,gap:6,children:[f?(0,t.jsx)(K.View,{clsx:e_.default.planUsageMonitor,children:(0,t.jsx)(V.default,{})}):null,y&&c?(0,t.jsx)(N.SidebarReferralButton,{}):null]}),(0,t.jsx)(K.View,{clsx:e_.default.hideWhenCollapsed,children:(0,t.jsx)(D.InstallOnReplitFooter,{isStaffplorer:m.isStaff&&m.isExplorer})})]}):null]})}],330971)}]);
+
+//# debugId=1b63c6cc-06eb-f239-797a-bcd263e60f28
+//# sourceMappingURL=0pehgvxq4_e_t.js.map
