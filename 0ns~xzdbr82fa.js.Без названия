@@ -1,0 +1,150 @@
+;!function(){try { var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:{},n=(new e.Error).stack;n&&((e._debugIds|| (e._debugIds={}))[n]="a703e325-2e73-7b6c-f6f7-fe31573db2c8")}catch(e){}}();
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,190545,e=>{"use strict";var t=e.i(276385),n=e.i(389959),o=e.i(593583),r=e.i(379778);let s=(0,n.forwardRef)(function({dataCy:e,...n},s){return(0,t.jsx)(o.Form,{...(0,r.useView)(n),ref:s,"data-cy":e})});e.s(["Form",0,s])},60337,e=>{e.v({decoratedInputInput:"Input-module__7pJrIG__decoratedInputInput",decoratedInputRoot:"Input-module__7pJrIG__decoratedInputRoot",input:"Input-module__7pJrIG__input",inputAutosize:"Input-module__7pJrIG__inputAutosize"})},528710,711486,e=>{"use strict";var t=e.i(276385),n=e.i(389959),o=e.i(964304),r=e.i(10425),s=e.i(983420),a=new Map;function i(e){var t=a.get(e);t&&t.destroy()}function c(e){var t=a.get(e);t&&t.update()}var l=null;"u"<typeof window?((l=function(e){return e}).destroy=function(e){return e},l.update=function(e){return e}):((l=function(e,t){return e&&Array.prototype.forEach.call(e.length?e:[e],function(e){return function(e){if(e&&e.nodeName&&"TEXTAREA"===e.nodeName&&!a.has(e)){var t,n=null,o=window.getComputedStyle(e),r=(t=e.value,function(){i({testForHeightReduction:""===t||!e.value.startsWith(t),restoreTextAlign:null}),t=e.value}),s=(function(t){e.removeEventListener("autosize:destroy",s),e.removeEventListener("autosize:update",c),e.removeEventListener("input",r),window.removeEventListener("resize",c),Object.keys(t).forEach(function(n){return e.style[n]=t[n]}),a.delete(e)}).bind(e,{height:e.style.height,resize:e.style.resize,textAlign:e.style.textAlign,overflowY:e.style.overflowY,overflowX:e.style.overflowX,wordWrap:e.style.wordWrap});e.addEventListener("autosize:destroy",s),e.addEventListener("autosize:update",c),e.addEventListener("input",r),window.addEventListener("resize",c),e.style.overflowX="hidden",e.style.wordWrap="break-word",a.set(e,{destroy:s,update:c}),c()}function i(t){var r,s,a=t.restoreTextAlign,c=void 0===a?null:a,l=t.testForHeightReduction,u=o.overflowY;if(0!==e.scrollHeight&&("vertical"===o.resize?e.style.resize="none":"both"===o.resize&&(e.style.resize="horizontal"),(void 0===l||l)&&(r=function(e){for(var t=[];e&&e.parentNode&&e.parentNode instanceof Element;)e.parentNode.scrollTop&&t.push([e.parentNode,e.parentNode.scrollTop]),e=e.parentNode;return function(){return t.forEach(function(e){var t=e[0],n=e[1];t.style.scrollBehavior="auto",t.scrollTop=n,t.style.scrollBehavior=null})}}(e),e.style.height=""),s="content-box"===o.boxSizing?e.scrollHeight-(parseFloat(o.paddingTop)+parseFloat(o.paddingBottom)):e.scrollHeight+parseFloat(o.borderTopWidth)+parseFloat(o.borderBottomWidth),"none"!==o.maxHeight&&s>parseFloat(o.maxHeight)?("hidden"===o.overflowY&&(e.style.overflow="scroll"),s=parseFloat(o.maxHeight)):"hidden"!==o.overflowY&&(e.style.overflow="hidden"),e.style.height=s+"px",c&&(e.style.textAlign=c),r&&r(),n!==s&&(e.dispatchEvent(new Event("autosize:resized",{bubbles:!0})),n=s),u!==o.overflow&&!c)){var d=o.textAlign;"hidden"===o.overflow&&(e.style.textAlign="start"===d?"end":"start"),i({restoreTextAlign:d,testForHeightReduction:!0})}}function c(){i({testForHeightReduction:!0,restoreTextAlign:null})}}(e)}),e}).destroy=function(e){return e&&Array.prototype.forEach.call(e.length?e:[e],i),e},l.update=function(e){return e&&Array.prototype.forEach.call(e.length?e:[e],c),e});var u=l;e.s(["default",0,u],711486);var d=e.i(208018),p=e.i(2664),m=e.i(406664),C=e.i(919073),g=e.i(60337);let f=(0,n.forwardRef)(({dataCy:e,style:n,...r},s)=>{let a=(0,m.useCreateInteractiveInput)();return(0,t.jsx)(o.Input,{...r,"data-cy":e,ref:s,clsx:[g.default.input,a.clsx],style:n?{...a.style,...n}:a.style})});f.displayName="Input";let y=(0,n.forwardRef)(({autoSize:e,dataCy:n,style:o,...s},a)=>{let i=(0,m.useCreateInteractiveInput)();return e?(0,t.jsx)(h,{...s,dataCy:n,style:o,ref:a}):(0,t.jsx)(r.TextArea,{...s,"data-cy":n,ref:a,clsx:[g.default.input,i.clsx],style:o?{...i.style,...o}:i.style})});y.displayName="MultiLineInput";let h=(0,n.forwardRef)(({dataCy:e,style:o,...s},a)=>{let{ref:i}=function(){let[e,t]=(0,n.useState)(null);return(0,d.default)(()=>{if(e&&e){let t=new MutationObserver(()=>{u.update(e)});return t.observe(e,{subtree:!0,childList:!0,characterData:!0}),u(e),requestAnimationFrame(()=>{u.update(e)}),()=>{u.destroy(e),t.disconnect()}}},[e]),{ref:t}}(),c=(0,m.useCreateInteractiveInput)(),l=(0,p.useMergeRefs)([a,i],{breadcrumb:"client/rui/Input.tsx"});return(0,t.jsx)(r.TextArea,{...s,ref:l,"data-cy":e,clsx:[g.default.input,g.default.inputAutosize,c.clsx],style:o?{...c.style,...o}:c.style})});h.displayName="MultiLineInputAutosize";let v=(0,n.forwardRef)(({iconLeft:e,iconRight:n,className:r,inputClassName:a,dataCy:i,...c},l)=>{let u=(0,m.useCreateInteractiveInput)();return(0,t.jsxs)(C.ShadesSurface,{clsx:[g.default.decoratedInputRoot,u.clsx,r],style:u.style,elevate:!1,children:[(0,t.jsx)(s.IconProvider,{size:16,children:e}),(0,t.jsx)(o.Input,{...c,"data-cy":i,ref:l,clsx:[g.default.input,g.default.decoratedInputInput,a]}),(0,t.jsx)(s.IconProvider,{size:16,children:n})]})});v.displayName="DecoratedInput";let x=(0,n.forwardRef)(({left:e,right:n,className:r,inputClassName:s,dataCy:a,...i},c)=>{let l=(0,m.useCreateInteractiveInput)();return(0,t.jsxs)(C.ShadesSurface,{clsx:[g.default.decoratedInputRoot,l.clsx,r],style:l.style,elevate:!1,children:[e,(0,t.jsx)(o.Input,{...i,"data-cy":a,ref:c,clsx:[g.default.input,g.default.decoratedInputInput,s]}),n]})});x.displayName="CustomDecoratedInput",e.s(["CustomDecoratedInput",0,x,"DecoratedInput",0,v,"Input",0,f,"MultiLineInput",0,y],528710)},33583,e=>{"use strict";var t=e.i(276385),n=e.i(389959),o=e.i(785240),r=e.i(932200),s=e.i(8047),a=e.i(61732);let i=(0,n.forwardRef)(function({variant:e="small",className:n,color:i,height:c,maxLines:l,multiline:u,dataCy:d,children:p,...m},C){let[{elementType:g,...f},y]=(0,r.useContextProps)(m,C,o.LabelContext);return(0,t.jsx)(s.Text,{variant:e,className:n,color:i,height:c,maxLines:l,multiline:u,dataCy:d,children:(0,t.jsx)(a.SpecializedView.label,{...f,ref:y,children:p})})});e.s(["Label",0,i])},845415,e=>{"use strict";var t=e.i(276385),n=e.i(389959),o=e.i(624071),r=e.i(756841),s=e.i(248033),a=e.i(932200),i=e.i(379778),c=e.i(8047);let l=(0,n.forwardRef)(function({dataCy:e,...n},o){return(0,t.jsx)(r.TextField,{...(0,i.useView)({gap:4}),...n,"data-cy":e,ref:o})}),u=(0,n.forwardRef)(function({variant:e="small",color:n="dimmer",...r},i){let l=(0,a.useSlottedContext)(s.TextContext,"description");return(0,t.jsx)(c.Text,{...(0,o.mergeProps)(r,{variant:e,color:n},l),ref:i})});e.s(["TextField",0,l,"TextFieldDescription",0,u])},335451,366541,e=>{"use strict";var t=e.i(351623),n=e.i(344480);e.i(975473);let o={},r=t.gql`
+    fragment ConnectorContextReplInfo on Repl {
+  id
+  title
+  iconUrl
+  url
+  timeCreated
+  user {
+    id
+    username
+    fullName
+    image
+  }
+}
+    `,s=t.gql`
+    fragment ConnectorContextConnectionInfo on OintConnection {
+  connectionId
+  connectorName
+  displayName
+  iconPath
+  status
+  type
+  environment
+  webhookProvider
+  repls {
+    ...ConnectorContextReplInfo
+  }
+  predefinedProvider {
+    id
+    displayName
+    description
+    baseUrl
+    iconPath
+  }
+}
+    ${r}`,a=t.gql`
+    fragment ConnectorContext on CurrentUserConnectorContext {
+  openIntClientToken
+  connectorWhitelist
+  connections {
+    ...ConnectorContextConnectionInfo
+  }
+  connectorConfigs {
+    id
+    type
+    connectorName
+    displayName
+    description
+    iconPath
+    webhookEvents {
+      name
+      model
+      description
+    }
+  }
+}
+    ${s}`,i=t.gql`
+    fragment OrgConnectorContext on OrgConnectorContext {
+  openIntClientToken
+  connectorWhitelist
+  connections {
+    ...ConnectorContextConnectionInfo
+  }
+  connectorConfigs {
+    id
+    type
+    connectorName
+    displayName
+    description
+    iconPath
+    webhookEvents {
+      name
+      model
+      description
+    }
+  }
+}
+    ${s}`,c=t.gql`
+    query GetConnectorContext {
+  currentUser {
+    ... on CurrentUser {
+      id
+      isSubscribed
+      connectorContext {
+        ...ConnectorContext
+      }
+    }
+  }
+}
+    ${a}`,l=t.gql`
+    query GetConnectorContextByOrg($orgId: String!) {
+  currentUser {
+    ... on CurrentUser {
+      id
+      isSubscribed
+      org(orgId: $orgId) {
+        __typename
+        ... on Org {
+          id
+          connectorContext {
+            ...OrgConnectorContext
+          }
+        }
+        ... on Error {
+          __typename
+          message
+        }
+      }
+    }
+  }
+}
+    ${i}`;e.s(["ConnectorContextConnectionInfoFragmentDoc",0,s,"ConnectorContextFragmentDoc",0,a,"ConnectorContextReplInfoFragmentDoc",0,r,"GetConnectorContextByOrgDocument",0,l,"GetConnectorContextDocument",0,c,"OrgConnectorContextFragmentDoc",0,i,"useGetConnectorContextByOrgQuery",0,function(e){let t={...o,...e};return n.useQuery(l,t)},"useGetConnectorContextQuery",0,function(e){let t={...o,...e};return n.useQuery(c,t)}],366541);var u=e.i(299020);let d={},p=t.gql`
+    query UserConnectorsPage {
+  currentUser {
+    id
+    __typename
+    isSubscribed
+    connectorContext {
+      __typename
+      ...ConnectorContext
+      ... on Error {
+        message
+      }
+    }
+  }
+}
+    ${a}`,m=t.gql`
+    mutation CreateConnection($input: CreateConnectionInput!) {
+  createConnection(input: $input) {
+    ... on CreateConnection {
+      connectionId
+    }
+    ... on Error {
+      message
+    }
+  }
+}
+    `,C=t.gql`
+    mutation DeleteConnection($input: DeleteConnectionInput!) {
+  deleteConnection(input: $input) {
+    ... on DeleteConnection {
+      success
+    }
+  }
+}
+    `;e.s(["UserConnectorsPageDocument",0,p,"useCreateConnectionMutation",0,function(e){let t={...d,...e};return u.useMutation(m,t)},"useDeleteConnectionMutation",0,function(e){let t={...d,...e};return u.useMutation(C,t)},"useUserConnectorsPageQuery",0,function(e){let t={...d,...e};return n.useQuery(p,t)}],335451)},829706,e=>{"use strict";var t=e.i(276385),n=e.i(917736),o=e.i(882848),r=e.i(995691),s=e.i(146432),a=e.i(142643),i=e.i(480028);let c=new Set(["FIGMA","CUSTOM_MCP"]),l=new Set(["BITBUCKET_SOURCE_CONTROL","GITHUB_SOURCE_CONTROL","GITLAB_SOURCE_CONTROL"]),u=new Set(a.APP_SCOPED_CONNECTORS.map(e=>e.toUpperCase().replace(/-/g,"_"))),d=new Set(["disconnected","error"]),p=new Set(["YOUTUBE"]),m=[{id:"replit-database",name:"Replit Database",type:"PostgreSQL",icon:(0,t.jsx)(n.default,{size:16,color:i.tokens.blueStronger}),link:"https://docs.replit.com/cloud-services/storage-and-databases/sql-database",pane:{type:"neon"}},{id:"replit-app-storage",name:"Replit App Storage",type:"Object Storage",icon:(0,t.jsx)(s.default,{size:16,color:i.tokens.greenStronger}),link:"https://docs.replit.com/cloud-services/storage-and-databases/object-storage",pane:{type:"objectStorage"}},{id:"replit-auth",name:"Replit Auth",type:"Authentication",icon:(0,t.jsx)(r.default,{size:16,color:i.tokens.orangeStronger}),link:"https://docs.replit.com/replit-workspace/replit-auth#replit-auth",pane:{type:"replitAuth"}},{id:"replit-domains",name:"Replit Domains",type:"Domains",icon:(0,t.jsx)(o.default,{size:16,color:i.tokens.tealStronger}),link:"https://docs.replit.com/cloud-services/deployments/domain-purchasing",pane:{type:"deployments"}}];m.map(e=>e.id),e.s(["APP_SCOPED_CONNECTORS_UPPER_SNAKE",0,u,"CONNECTOR_DESCRIPTIONS",0,{AGENTMAIL:"Send, receive, and reply to emails using the AgentMail email inbox API.",AMPLITUDE:"Query analytics data, manage event taxonomy, and trigger project runs in Amplitude",ASHBY:"Access job postings, candidates, and applications from your Ashby ATS",ASANA:"Read tasks and project data from Asana workspaces",SPROUTSOCIAL:"Manage social media profiles, posts, messages, and cases from Sprout Social",BITBUCKET:"Access Bitbucket repositories, users, and organizations from Replit",BITBUCKET_SOURCE_CONTROL:"Sync code to Bitbucket repositories from your Replit apps",GITHUB_SOURCE_CONTROL:"Sync code to GitHub repositories from your Replit apps",GITLAB_SOURCE_CONTROL:"Sync code to GitLab projects from your Replit apps",DATABRICKS_M2M:"Execute SQL queries and manage data workflows in Databricks using a service account",BIGQUERY:"Execute SQL queries on Google BigQuery datasets from your Replit apps",BOX:"Access Box files and folders from Replit",CALENDLY:"View Calendly events and event types",CONFLUENCE:"Read users and groups, create and edit content in Confluence spaces",CLICKUP:"Access tasks, projects, and workflows in ClickUp",DATABRICKS:"Execute SQL queries and manage data workflows in Databricks",DISCORD:"Access Discord guild information and user profiles",DROPBOX:"Access Dropbox files, content, and metadata",ELEVENLABS:"AI voice generation and text-to-speech",HEX:"Run data notebooks, manage projects, and trigger Hex project runs via API",OPENAI:"Access your own OpenAI API key instead of default Replit-managed AI integrations",FACEBOOK:"View Facebook profiles, posts, photos, and manage pages",GITHUB:"Access GitHub repositories, users, and organizations from your Replit apps",GOOGLE_CALENDAR:"Read and write Google Calendar events and settings",GOOGLE_DOCS:"Create, read, and edit Google Docs",GOOGLE_DRIVE:"Access and manage Google Drive files and folders",GOOGLE_MAIL:"Send, receive, and manage Gmail messages",GOOGLE_SHEET:"Read and write data in Google Sheets",GOOGLE_SLIDES:"Create, read, and edit Google Slides presentations",HUBSPOT:"Access HubSpot CRM objects, contacts, and deals from Replit",INSTAGRAM:"Manage Instagram business content, messages, and insights",JIRA:"View users and manage Jira work items and issues",LINEAR:"Create and manage Linear issues, comments, and schedules",MONDAY:"Access Monday.com boards and user information",MOBILE_MAPS:"Access mobile maps and locations from Replit",NOTION:"Read and write to Notion workspaces and pages",ONEDRIVE:"Access and manage OneDrive files and folders",OUTLOOK:"Send and receive emails, manage Outlook calendar events",PLAID:"Access Plaid connected bank accounts and transactions",POSTGRES:"Execute read-only SQL queries on PostgreSQL databases",RESEND:"Send transactional emails using the Resend API",REVENUECAT:"Monetize your mobile apps built on Replit",SALESFORCE:"Access Salesforce CRM data and perform operations via REST API",SEGMENT:"Manage Segment sources, destinations, and tracking plans via the Public API",SENDGRID:"Send transactional emails using the SendGrid API",SHAREPOINT:"Read, write, and manage SharePoint sites and documents",SLACK:"Send messages and interact with Slack workspaces",SLACK_AGENT:"Integrate Slack agent capabilities from Replit",SLACK_AGENT_BUILDER:"Build and manage custom Slack agents",STRIPE:"Connect to Stripe to enable seamless and secure payments for your apps",SNOWFLAKE:"Execute SQL queries on Snowflake data warehouses",SPOTIFY:"Access and manage Spotify playlists and libraries",TODOIST:"Read and write to your Todoist tasks and projects",TWILIO:"Send SMS messages and make voice calls using the Twilio API",YOUTUBE:"Upload and manage YouTube videos, channels, and analytics",ZENDESK:"Access Zendesk users and support tickets from Replit",FIGMA:"Allow Replit Agent to view and rapidly build your designs from Figma",CUSTOM_MCP:"Allows Replit Agent to access external MCP servers",WHOP:"Create payment plans, checkout configurations, and manage subscriptions via Whop",ZOOM:"Access Zoom meetings, users, settings, and webinars with admin privileges",WORKATO:"Trigger Workato recipes and call Workato APIs",X:"Access X posts, users, and search using the X API v2 with pay-per-usage pricing",MICROSOFT_FABRIC:"Access Microsoft Fabric workspaces and resources"},"DISCONNECTED_STATUSES",0,d,"MCP_CONNECTORS",0,c,"REPLIT_MANAGED_SERVICES",0,m,"VERSION_CONTROL_CONNECTORS",0,l,"buildConnectionManagementUrl",0,function(e,t,n){let o=`/integrations/${e.toLowerCase()}/apps/${t}`;return n?`/t/${n}${o}`:o},"isAppScopedConnector",0,e=>u.has(e),"isConnectionHealthy",0,e=>!d.has(e??""),"isHiddenUnlessConnected",0,e=>p.has(e),"isMCPConnector",0,e=>c.has(e),"toConnectorName",0,function(e){if(!e)return null;let t=e.toUpperCase();return/^[A-Z][A-Z0-9_]*$/.test(t)?t:null}])},246549,e=>{"use strict";var t=e.i(389959),n=e.i(335451),o=e.i(366541),r=e.i(829706),s=e.i(151027);let a={};e.s(["useConnectors",0,function(e){let i=e?.skip??!1,{orgId:c}=(0,s.useCurrentUserStoredOrgContext)(),l=!!c,{data:u,loading:d,error:p,refetch:m}=(0,o.useGetConnectorContextQuery)({skip:i||l,context:a}),{data:C,loading:g,error:f,refetch:y}=(0,o.useGetConnectorContextByOrgQuery)({variables:{orgId:c??""},skip:i||!l,context:a}),h=u?.currentUser?.__typename==="CurrentUser"?u?.currentUser?.connectorContext:null,v=C?.currentUser?.__typename==="CurrentUser"&&C?.currentUser?.org?.__typename==="Org"?C?.currentUser?.org?.connectorContext:null,x=l?v:h,S=l?f:p,I=l?g:d,O=l?y:m,[A,{loading:E}]=(0,n.useCreateConnectionMutation)(),b=(0,t.useCallback)(async e=>A({...e,refetchQueries:l?[{query:o.GetConnectorContextByOrgDocument,variables:{orgId:c??""}}]:[{query:o.GetConnectorContextDocument}]}),[A,l,c]),_=x&&(l?"OrgConnectorContext"===x.__typename:"CurrentUserConnectorContext"===x.__typename),w=l?C?.currentUser?.__typename==="CurrentUser"&&C.currentUser.isSubscribed:u?.currentUser?.__typename==="CurrentUser"&&u.currentUser.isSubscribed,R=(0,t.useMemo)(()=>{if(!_||"CurrentUserConnectorContext"!==x.__typename&&"OrgConnectorContext"!==x.__typename)return[];let e=[],t=x.connectorWhitelist??[],n=x.connections??[],o=x.connectorConfigs??[],s=n.filter(e=>(t.includes(e.connectorName)||r.MCP_CONNECTORS.has(e.connectorName))&&!r.APP_SCOPED_CONNECTORS_UPPER_SNAKE.has(e.connectorName)),a=new Set,i=s.filter(e=>r.MCP_CONNECTORS.has(e.connectorName)?(a.add(e.connectorName),!0):!a.has(e.connectorName)&&(a.add(e.connectorName),!0)),c=new Map;o.forEach(e=>{e.connectorName&&e.webhookEvents&&e.webhookEvents.length>0&&c.set(e.connectorName,e.webhookEvents)});let l=o.filter(e=>e.connectorName&&t.includes(e.connectorName)&&!a.has(e.connectorName)&&"CUSTOM_MCP"!==e.connectorName);return i.forEach(t=>{e.push({id:t.connectionId,displayName:t.displayName,iconPath:t.iconPath,connectorName:t.connectorName,connectorType:"connection",type:t.type,webhookEvents:c.get(t.connectorName)})}),l.forEach(t=>{t.connectorName&&e.push({id:t.id,displayName:t.displayName??"Untitled",iconPath:t.iconPath,connectorName:t.connectorName,connectorType:"connectorConfig",type:t.type,webhookEvents:c.get(t.connectorName)})}),e},[_,x]);return S||!_||"CurrentUserConnectorContext"!==x.__typename&&"OrgConnectorContext"!==x.__typename?{token:null,connections:[],connectorConfigs:[],connectorWhitelist:[],slashCommandConnectorItems:[],createConnection:b,loading:I,createConnectionLoading:E,error:S,refetch:O,isSubscribed:w??!1,isOrgContext:l}:{token:x.openIntClientToken,connections:x.connections??[],connectorConfigs:x.connectorConfigs??[],connectorWhitelist:x.connectorWhitelist??[],slashCommandConnectorItems:R,createConnection:b,loading:I,createConnectionLoading:E,error:S,refetch:O,isSubscribed:w??!1,isOrgContext:l}}])},283063,e=>{e.v({divider:"DividerH-module__AtpSyW__divider"})},903790,e=>{"use strict";var t=e.i(276385),n=e.i(8047),o=e.i(283063);e.s(["DividerH",0,function({className:e,style:r,color:s}){let a={color:n.textColorStyles[s??"default"],...r};return(0,t.jsx)("div",{clsx:[o.default.divider,e],style:a})}])},5620,e=>{"use strict";var t=e.i(389959),n=e.i(627871),o=e.i(285296);e.s(["default",0,function(){var e=t.useContext(o.Context);return(0,n.invariantIntlContext)(e),e}])},864300,e=>{"use strict";var t=e.i(5620);e.s(["useIntl",()=>t.default])},926684,e=>{"use strict";var t=e.i(276385),n=e.i(389959),o=e.i(429843);e.i(919073),e.i(8047),e.i(61732);let r=(0,n.createContext)(void 0),s={page:"unknown"};e.s(["TrackingHierarchyProvider",0,function({children:e,hierarchy:o}){let a=(0,n.useContext)(r)??s,i=(0,n.useMemo)(()=>({...a,...o}),[a,o]);return(0,t.jsx)(r.Provider,{value:i,children:e})},"useOptionalTrackingHierarchy",0,function(){return(0,n.useContext)(r)},"useTrackingHierarchy",0,function(){let e=(0,n.useContext)(r);if(!e){try{o.logger.warn("useTrackingHierarchy called without provider")}catch(e){}return s}return e}])},196178,e=>{"use strict";var t=e.i(389959);e.s(["useEffectOnce",0,function(e){let n=(0,t.useRef)(!1);(0,t.useEffect)(()=>{n.current||(n.current=!0,e())},[e])}])},955410,e=>{"use strict";var t=e.i(389959),n=e.i(196178),o=e.i(753451),r=e.i(415541),s=e.i(709485),a=e.i(926684);function i(){let e=(0,a.useTrackingHierarchy)(),n=(0,o.useIsInBonsaiWebview)();return{trackImpression:(0,t.useCallback)(t=>{let o={...e,...t,isBonsai:n};(0,r.track)(s.events.IMPRESSION,o)},[e,n])}}e.s(["useTrackClick",0,function(){let e=(0,a.useTrackingHierarchy)(),n=(0,o.useIsInBonsaiWebview)();return{trackClick:(0,t.useCallback)(t=>{let o=(0,r.getTrackV2PlanType)()??void 0,a={...e,...t,isBonsai:n,...o?{userPlanName:o}:{}};(0,r.track)(s.events.CLICK,a)},[e,n])}},"useTrackImpression",0,i,"useTrackImpressionOnce",0,function(e){let{trackImpression:t}=i();(0,n.useEffectOnce)(()=>{t(e)})}])},790281,e=>{e.v({background:"Switch-module__C40utW__background",button:"Switch-module__C40utW__button",label:"Switch-module__C40utW__label",svg:"Switch-module__C40utW__svg"})},327391,e=>{"use strict";e.i(90984);var t=e.i(276385),n=e.i(389959),o=e.i(497953),r=e.i(99906),s=e.i(138715),a=e.i(104394),i=e.i(330666),c=e.i(480028),l=e.i(8047),u=e.i(61732),d=e.i(790281);let p=u.SpecializedView.label;e.s(["Switch",0,({colorway:e="primary",dataCy:u,size:m="default",fillColor:C,focusRingColor:g,...f})=>{let y=c.colormap[e],h=(0,n.useRef)(null),v=(0,o.useToggleState)(f),{inputProps:x}=function(e,t,n){let{labelProps:o,inputProps:r,isSelected:s,isPressed:i,isDisabled:c,isReadOnly:l}=(0,a.useToggle)(e,t,n);return{labelProps:o,inputProps:{...r,role:"switch",checked:s},isSelected:s,isPressed:i,isDisabled:c,isReadOnly:l}}(f,v,h),{focusProps:S,isFocusVisible:I}=(0,r.useFocusRing)(f),{hoverProps:O,isHovered:A}=(0,s.useHover)(f),{isSelected:E}=v,b=f.isDisabled||!1,_=f.isReadOnly||!1,w=n.Children.count(f.children)>0;void 0!==f["aria-label"]||f["aria-labelledby"];let R="small"===m,T=R?26:38,N=R?16:24,k=R?8:12,P=R?12:16,L=T-1,U=N-1,D=T+2,M=N+2,G=k+1,j=(0,t.jsxs)("svg",{"aria-hidden":"true",...O,width:T,height:N,viewBox:`0 0 ${T} ${N}`,fill:"none",xmlns:"http://www.w3.org/2000/svg",overflow:I?"visible":"hidden",style:{cursor:b||_?"auto":"pointer",opacity:b?.4:1},className:d.default.svg,children:[(0,t.jsx)("rect",{x:"0",y:"0",width:T,height:N,rx:k,fill:C??(E?b||_?y.dimmer:y.default:c.tokens.interactiveBorder),className:d.default.background}),(0,t.jsx)("rect",{x:E?R?12:18:R?2:4,y:R?2:4,width:P,height:P,rx:R?6:8,fill:c.tokens.white,className:d.default.button}),(0,t.jsx)("rect",{x:"0.5",y:"0.5",width:L,height:U,rx:k,stroke:!A||b||_?"transparent":E?y.strongest:c.tokens.interactiveBorderHover,"data-switch-outline":!0}),(0,t.jsx)("rect",{x:"-1",y:"-1",stroke:I?g??(E?y.strongest:y.default):"transparent",width:D,height:M,rx:G,strokeWidth:"2"})]});return w?(0,t.jsxs)(p,{clsx:d.default.label,"data-cy":u,children:[(0,t.jsx)(i.VisuallyHidden,{children:(0,t.jsx)("input",{...x,...S,ref:h})}),j,(0,t.jsx)(l.Text,{multiline:!1,variant:R?"small":"text",children:f.children})]}):(0,t.jsxs)(p,{clsx:d.default.label,"data-cy":u,children:[(0,t.jsx)(i.VisuallyHidden,{children:(0,t.jsx)("input",{...x,...S,ref:h})}),j]})}],327391)},843400,e=>{e.v({modalContent:"EmbedModal-module__oAShma__modalContent",overlay:"EmbedModal-module__oAShma__overlay",overlayTopAligned:"EmbedModal-module__oAShma__overlayTopAligned"})},554370,e=>{"use strict";var t=e.i(276385),n=e.i(389959),o=e.i(486597),r=e.i(624071),s=e.i(342942),a=e.i(739261),i=e.i(969407),c=e.i(918542),l=e.i(691636),u=e.i(61732),d=e.i(843400);e.s(["EmbedModal",0,function({isOpen:e,onRequestClose:p,children:m,maxWidth:C=800,maxHeight:g,centered:f=!0,zIndex:y,className:h,portalContainer:v}){let x=(0,i.useIsSSR)(),S=(0,n.useRef)(null),I=(0,o.useOverlayTriggerState)({isOpen:e,onOpenChange:e=>{e||p()}}),{modalProps:O,underlayProps:A}=(0,c.useModalOverlay)({isDismissable:!0,isKeyboardDismissDisabled:!1,shouldCloseOnInteractOutside:e=>!(e.tagName.toLowerCase().includes("1password")||e.tagName.toLowerCase().includes("com-1password")||e.hasAttribute("data-op-target")||e.hasAttribute("data-op-id")||Array.from(e.attributes).some(e=>e.name.startsWith("data-1p-"))||e.className?.toString().includes("op-")||null!==e.closest('[class*="1password"]')||null!==e.closest('[class*="op-"]')||null!==e.closest("[data-op-target]"))},I,S),{dialogProps:E}=(0,a.useDialog)({"aria-label":"Embed content"},S);return((0,n.useEffect)(()=>{let t=t=>{"Escape"===t.key&&e&&p()};return document.addEventListener("keydown",t),()=>document.removeEventListener("keydown",t)},[e,p]),x||!e)?null:(0,t.jsx)(s.Overlay,{portalContainer:v??document.body,children:(0,t.jsx)("div",{...A,className:f?d.default.overlay:`${d.default.overlay} ${d.default.overlayTopAligned}`,style:{zIndex:y??l.DefaultModalZIndex},children:(0,t.jsx)("div",{...(0,r.mergeProps)(O,E),ref:S,className:`${d.default.modalContent} ${h||""}`,style:{maxWidth:C,maxHeight:g??"calc(100vh - 64px)"},children:(0,t.jsx)(u.View,{children:m})})})})}])}]);
+
+//# debugId=a703e325-2e73-7b6c-f6f7-fe31573db2c8
+//# sourceMappingURL=10~bjiw2zjs9f.js.map
